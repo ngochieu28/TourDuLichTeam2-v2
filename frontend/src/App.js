@@ -9,6 +9,7 @@ import TableTest from './conponents/TableTest';
 import User from './Page/Users';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
+import Booking from './Page/Booking/Booking';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path='product/:id' element={<ProductDetail />} />
           <Route path='user' element={<User />} />
         </Route>
+        <Route path='/booking' element={<Booking />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/test' element={<TableTest />} />
