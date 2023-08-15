@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, IconButton, Typography, Button, Menu, MenuItem, InputBase } from "@mui/material";
+import { AppBar, Toolbar, Button, Menu, MenuItem, InputBase } from "@mui/material";
 import { Search, AccountCircleOutlined } from "@mui/icons-material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
