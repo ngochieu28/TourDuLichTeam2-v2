@@ -9,7 +9,7 @@ import TableTest from './conponents/TableTest';
 import User from './Page/Users';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
-import Booking from './Page/Booking/Booking';
+import Booking from './Page/Booking/formBooking';
 
 
 function App() {

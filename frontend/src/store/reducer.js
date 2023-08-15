@@ -3,6 +3,7 @@ export const initialState = {
     list: [],
     toggleMenu: false,
     productEdit: null,
+    bookingEdit: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -36,6 +37,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 productEdit: action.payload
+            }
+        }
+        case "BOOKINGEDIT": {
+            return {
+                ...state,
+                bookingEdit: action.payload
             }
         }
         default: {

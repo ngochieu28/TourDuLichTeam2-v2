@@ -12,7 +12,6 @@ export const SET_LIST = (payload) => {
     }
 }
 
-
 export const TOGGLE_MENU = (payload) => {
     return {
         type: "OPEN",
@@ -30,6 +29,13 @@ export const CLOSE_MENU = (payload) => {
 export const PRODUCT_EDIT = (payload) => {
     return {
         typeof: "PRODUCTEDIT",
+        payload
+    }
+}
+
+export const BOOKING_EDIT = (payload) => {
+    return {
+        typeof: "BOOKINGEDIT",
         payload
     }
 }
