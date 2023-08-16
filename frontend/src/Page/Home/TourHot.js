@@ -10,7 +10,6 @@ export default function TourHot() {
 
     const getTourHot = async () => {
         const res = await tourApi.getTourHot()
-        console.log(res.data.content);
         setTourHots(res.data.content)
     }
 
@@ -28,7 +27,7 @@ export default function TourHot() {
                 {tourHots && tourHots.length > 0 && tourHots.map((item) => {
                     return (
                         <Grid item xs={4} key={item.maTour}>
-                            <Card>
+                            <Card className='card'>
                                 <div style={{ position: 'relative', height: '245px' }}>
                                     <img
                                         src={`http://192.168.1.163:4000/${item.image}`}

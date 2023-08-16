@@ -5,9 +5,28 @@ const tourApi = {
         const url = `tours?page=1&size=6&sort=luotQuanTam,desc`
         return axiosClient.get(url)
     },
-    getAllTour(page) {
-        const url = `/tours?page=${page}&size=9&sort=ngayKhoiHanh,desc`
-        return axiosClient.get(url)
+    getAllTour(page = 1, size = 9, sortField = 'ngayKhoiHanh', sortType = 'desc', searchNoiKhoiHanh = '', searchDiemDen = '', searchThoiGian = '') {
+        const url = "/tours";
+        const parameters = {
+            page,
+            size,
+            sort: `${sortField},${sortType}`
+        }
+
+        // searchNoiKhoiHanh
+        if (searchNoiKhoiHanh) {
+            parameters.searchNoiKhoiHanh = searchNoiKhoiHanh;
+        }
+        // searchDiemDen
+        if (searchDiemDen) {
+            parameters.searchDiemDen = searchDiemDen;
+        }
+        // searchThoiGian
+        if (searchThoiGian) {
+            parameters.searchThoiGian = searchThoiGian;
+        }
+
+        return axiosClient.get(`${url}`, { params: parameters });
     },
     getTourByMaTour(maTour) {
         const url = `/tours/${maTour}`

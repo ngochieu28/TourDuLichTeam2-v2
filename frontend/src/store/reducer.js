@@ -4,6 +4,9 @@ export const initialState = {
     toggleMenu: false,
     productEdit: null,
     bookingEdit: null,
+    searchNoiKhoiHanh: "",
+    searchDiemDen: "",
+    searchThoiGian: "",
 }
 
 const reducer = (state = initialState, action) => {
@@ -12,6 +15,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 data: action.payload
+            }
+        }
+        case "NOIKHOIHANH": {
+            return {
+                ...state,
+                searchNoiKhoiHanh: action.payload
+            }
+        }
+        case "DIEMDEN": {
+            return {
+                ...state,
+                searchDiemDen: action.payload
+            }
+        }
+        case "THOIGIAN": {
+            return {
+                ...state,
+                searchThoiGian: action.payload
             }
         }
 

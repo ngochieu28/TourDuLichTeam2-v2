@@ -4,6 +4,24 @@ export const SET_DATA = (payload) => {
         payload,
     }
 };
+export const SET_SEARCHNOIKHOIHANH = (payload) => {
+    return {
+        type: "NOIKHOIHANH",
+        payload,
+    }
+};
+export const SET_SEARCHDIEMDEN = (payload) => {
+    return {
+        type: "DIEMDEN",
+        payload,
+    }
+};
+export const SET_SEARCHTHOIGIAN = (payload) => {
+    return {
+        type: "THOIGIAN",
+        payload,
+    }
+};
 
 export const SET_LIST = (payload) => {
     return {

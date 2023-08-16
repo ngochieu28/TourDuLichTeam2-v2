@@ -4,21 +4,28 @@ import React, { useState, useEffect } from 'react'
 import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination, PaginationItem, PaginationLink } from '@mui/material';
 import { CreditCard } from '@mui/icons-material';
+import { AppConsumer } from '../../store';
 
 export default function DanhSachTour() {
+    const [state, dispatch] = AppConsumer();
     const [tours, setTours] = useState([]);
     const [totalSize, setTotalSize] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const getTourHot = async (page) => {
-        const res = await tourApi.getAllTour(page);
+    const getDanhSachTour = async (page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian) => {
+        const res = await tourApi.getAllTour(page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian);
         setTours(res.data.content);
         setTotalSize(res.data.totalElements);
     };
 
     useEffect(() => {
-        getTourHot(currentPage);
+        getDanhSachTour(currentPage);
     }, [currentPage]);
+
+    useEffect(() => {
+        console.log(state);
+        getDanhSachTour(1, 9, 'ngayKhoiHanh', 'desc', state.searchNoiKhoiHanh, state.searchDiemDen, state.searchThoiGian);
+    }, [state.searchDiemDen || state.searchNoiKhoiHanh || state.searchThoiGian]);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -38,7 +45,7 @@ export default function DanhSachTour() {
                     tours.map((item) => {
                         return (
                             <Grid item xs={4} key={item.maTour}>
-                                <Card>
+                                <Card className='card'>
                                     <div style={{ position: 'relative', height: '245px' }}>
                                         <img
                                             src={`http://192.168.1.163:4000/${item.image}`}
