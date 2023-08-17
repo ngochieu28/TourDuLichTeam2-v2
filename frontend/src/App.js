@@ -10,6 +10,7 @@ import User from './Page/Users';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
+import TourDetail from './Page/TourDetail';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/tourDetail/:maTour' element={<TourDetail />} />
         <Route path='/admin' element={<Admin />}>
           <Route index element={<AdminPage />} />
           <Route path='product' element={<Product />} />

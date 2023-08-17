@@ -2,9 +2,11 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from 'react'
 import tourApi from '../../api/tourApi'
-import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination, PaginationItem, PaginationLink } from '@mui/material';
+import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination } from '@mui/material';
 import { CreditCard } from '@mui/icons-material';
 import { AppConsumer } from '../../store';
+import { Link } from 'react-router-dom';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 
 export default function DanhSachTour() {
     const [state, dispatch] = AppConsumer();
@@ -69,7 +71,7 @@ export default function DanhSachTour() {
                                         <Typography>
                                             Mã Tour:
                                             <br />
-                                            <CreditCard /> <b>{item.maTour}</b>
+                                            <ConfirmationNumberOutlinedIcon style={{ fontSize: '18px' }} /> <b>{item.maTour}</b>
                                         </Typography>
                                         <Typography>
                                             Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
@@ -80,7 +82,7 @@ export default function DanhSachTour() {
 
                                         <CardActions>
                                             <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
-                                                <a href={`#${item.maTour}`}>Xem chi tiết</a>
+                                                <Link to={`/tourDetail/${item.maTour}`}>Xem chi tiết</Link>
                                             </Button>
                                             <Button variant="contained" color="secondary">
                                                 Đặt ngay

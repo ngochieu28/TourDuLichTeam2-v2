@@ -18,7 +18,6 @@ public class TourDetailDTO {
     private String uuDai ;
     private String noiKhoiHanh ;
     private String ngayKhoiHanh ;
-    private String diemDen ;
     private String diemNhan ;
     private Integer soCho ;
     private String lichTrinh;
@@ -141,14 +140,6 @@ public class TourDetailDTO {
 
     public void setNgayKhoiHanh(String ngayKhoiHanh) {
         this.ngayKhoiHanh = ngayKhoiHanh;
-    }
-
-    public String getDiemDen() {
-        return diemDen;
-    }
-
-    public void setDiemDen(String diemDen) {
-        this.diemDen = diemDen;
     }
 
     public String getDiemNhan() {

@@ -36,4 +36,9 @@ public class TourController {
     public ResponseEntity<?> getTourByMaTour(@PathVariable(name = "maTour") String maTour) {
         return new ResponseEntity<>(service.getTourByMaTour(maTour), HttpStatus.OK);
     }
+
+    @GetMapping(value = "detail/{maTour}")
+    public ResponseEntity<?> findTourDetailByMaTour(@PathVariable(name = "maTour") String maTour) {
+        return new ResponseEntity<>(service.getDetailTourByMaTour(maTour), HttpStatus.OK);
+    }
 }

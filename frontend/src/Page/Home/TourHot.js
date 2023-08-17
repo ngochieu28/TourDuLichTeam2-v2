@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { CreditCard } from '@mui/icons-material';
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 
 export default function TourHot() {
     const [tourHots, setTourHots] = useState([]);
@@ -52,7 +54,7 @@ export default function TourHot() {
                                     <Typography>
                                         Mã Tour:
                                         <br />
-                                        <CreditCard /> <b>{item.maTour}</b>
+                                        <ConfirmationNumberOutlinedIcon style={{ fontSize: '18px' }} /> <b>{item.maTour}</b>
                                     </Typography>
                                     <Typography>
                                         Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
@@ -63,7 +65,7 @@ export default function TourHot() {
 
                                     <CardActions >
                                         <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
-                                            <a href={`#${item.maTour}`}>Xem chi tiết</a>
+                                            <Link to={`/tourDetail/${item.maTour}`}>Xem chi tiết</Link>
                                         </Button>
                                         <Button variant="contained" color="secondary">
                                             Đặt ngay

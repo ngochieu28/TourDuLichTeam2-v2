@@ -24,7 +24,6 @@ public class Tour {
 	private String uuDai ;
 	private String noiKhoiHanh ;
 	private Date ngayKhoiHanh ;
-	private String diemDen ;
 	private String diemNhan ;
 	private Integer soCho ;
 	private String lichTrinh;
@@ -52,7 +51,6 @@ public class Tour {
 		this.uuDai = uuDai;
 		this.noiKhoiHanh = noiKhoiHanh;
 		this.ngayKhoiHanh = ngayKhoiHanh;
-		this.diemDen = diemDen;
 		this.diemNhan = diemNhan;
 		this.soCho = soCho;
 		this.lichTrinh = lichTrinh;
@@ -60,14 +58,6 @@ public class Tour {
 
 	public String getMaTour() {
 		return maTour;
-	}
-
-	public String getDiemDen() {
-		return diemDen;
-	}
-
-	public void setDiemDen(String diemDen) {
-		this.diemDen = diemDen;
 	}
 
 	public void setMaTour(String maTour) {
