@@ -20,7 +20,7 @@ public class TourDetailDTO {
     private String ngayKhoiHanh ;
     private String diemNhan ;
     private Integer soCho ;
-    private String lichTrinh;
+    private Long lichTrinh;
 
     public String getMaTour() {
         return maTour;
@@ -158,11 +158,11 @@ public class TourDetailDTO {
         this.soCho = soCho;
     }
 
-    public String getLichTrinh() {
+    public Long getLichTrinh() {
         return lichTrinh;
     }
 
-    public void setLichTrinh(String lichTrinh) {
+    public void setLichTrinh(Long lichTrinh) {
         this.lichTrinh = lichTrinh;
     }
 }

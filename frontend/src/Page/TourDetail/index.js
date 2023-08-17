@@ -6,7 +6,6 @@ import { Button, Grid, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import { useParams } from 'react-router-dom';
 import tourApi from '../../api/tourApi';
@@ -22,6 +21,7 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import { Link } from 'react-router-dom';
 
 export default function TourDetail() {
     const { maTour } = useParams();
@@ -39,25 +39,21 @@ export default function TourDetail() {
 
     // BreadCrumbs
     const BreadCrumb = () => {
-        function handleClick(event) {
-            event.preventDefault();
-            alert('You clicked a breadcrumb.');
-        }
+
         return (
-            <div role="presentation" onClick={handleClick}>
+            <div role="presentation" >
                 <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href="/">
+                    <Link underline="hover" color="inherit" to="/">
                         Home
                     </Link>
                     <Link
                         underline="hover"
                         color="inherit"
-                        href="/material-ui/getting-started/installation/"
+                        to="/"
                     >
                         Du lịch trong nước
                     </Link>
                     <Typography color="text.primary">{tours?.tenTour}</Typography>
-
                 </Breadcrumbs>
             </div>
 
@@ -69,8 +65,10 @@ export default function TourDetail() {
             <Header />
             <Container>
                 <BreadCrumb />
-                <br />
-                <div className='tour-detail'>
+            </Container>
+            <br />
+            <div className='tour-detail'>
+                <Container>
                     <div style={{ display: 'flex', alignItems: 'center', color: '#4d4aef' }}>
                         <ConfirmationNumberOutlinedIcon style={{ fontSize: '14px' }} />
                         <p style={{ fontSize: '14px', marginLeft: '5px' }}>{tours?.maTour}</p>
@@ -183,11 +181,12 @@ export default function TourDetail() {
                             </Grid>
                         </Grid>
                     </Grid>
-                </div>
-                <div className='lich-trinh-tour'>
-                    <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
-                </div>
-            </Container>
+                </Container>
+            </div>
+            <div className='lich-trinh-tour'>
+                <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
+            </div>
+
             <Footer />
         </>
     )

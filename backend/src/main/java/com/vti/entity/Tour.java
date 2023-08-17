@@ -26,7 +26,7 @@ public class Tour {
 	private Date ngayKhoiHanh ;
 	private String diemNhan ;
 	private Integer soCho ;
-	private String lichTrinh;
+	private Long lichTrinh;
 
 	@OneToMany(mappedBy = "tour")
 	private List<Booking> bookings;
@@ -35,7 +35,7 @@ public class Tour {
 
 	}
 
-	public Tour(String maTour, String tenTour, Integer giaTour, String image, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanh, String diemDen, String diemNhan, Integer soCho, String lichTrinh) {
+	public Tour(String maTour, String tenTour, Integer giaTour, String image, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanh, String diemNhan, Integer soCho, Long lichTrinh) {
 		this.maTour = maTour;
 		this.tenTour = tenTour;
 		this.giaTour = giaTour;
@@ -192,11 +192,11 @@ public class Tour {
 		this.soCho = soCho;
 	}
 
-	public String getLichTrinh() {
+	public Long getLichTrinh() {
 		return lichTrinh;
 	}
 
-	public void setLichTrinh(String lichTrinh) {
+	public void setLichTrinh(Long lichTrinh) {
 		this.lichTrinh = lichTrinh;
 	}
 }
