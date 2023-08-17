@@ -1,5 +1,6 @@
 import axiosClient from "./axiosClient";
 
+
 const tourApi = {
     getTourHot() {
         const url = `tours?page=1&size=6&sort=luotQuanTam,desc`
@@ -30,6 +31,10 @@ const tourApi = {
     },
     getTourByMaTour(maTour) {
         const url = `/tours/${maTour}`
+        return axiosClient.get(url)
+    },
+    getTourDetailByMaTour(maTour) {
+        const url = `/tours/detail/${maTour}`
         return axiosClient.get(url)
     },
 }
