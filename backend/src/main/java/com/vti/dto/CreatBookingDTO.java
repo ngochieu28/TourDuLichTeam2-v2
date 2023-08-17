@@ -1,6 +1,6 @@
 package com.vti.dto;
 
-public class BookingDTO {
+public class CreatBookingDTO {
     private int maBooking ;
 
     private String nameKH ;
@@ -56,6 +56,7 @@ public class BookingDTO {
     public String getTourId() {
         return tourId;
     }
+
     public void setTourId(String tourId) {
         this.tourId = tourId;
     }

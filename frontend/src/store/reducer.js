@@ -3,7 +3,7 @@ export const initialState = {
     list: [],
     toggleMenu: false,
     productEdit: null,
-    bookingEdit: null,
+    bookingEdit: "",
     searchNoiKhoiHanh: "",
     searchDiemDen: "",
     searchThoiGian: "",

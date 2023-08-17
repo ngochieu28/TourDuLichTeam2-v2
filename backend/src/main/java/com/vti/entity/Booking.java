@@ -1,38 +1,32 @@
 package com.vti.entity;
 
-
 import javax.persistence.*;
 
 @Entity
 @Table
 public class Booking {
     @Id
-    private String maBooking ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int maBooking ;
 
     private String nameKH ;
 
     private String emailKH ;
 
-    private int phoneNumber ;
+    private String phoneNumber ;
 
     private String diaChi ;
-
-    private String dateOfBirth ;
-
-    private int age ;
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
 
-    public Booking(String maBooking, String nameKH, String emailKH, int phoneNumber, String diaChi, String dateOfBirth, int age, Tour tour) {
+    public Booking(int maBooking, String nameKH, String emailKH, String phoneNumber, String diaChi, Tour tour) {
         this.maBooking = maBooking;
         this.nameKH = nameKH;
         this.emailKH = emailKH;
         this.phoneNumber = phoneNumber;
         this.diaChi = diaChi;
-        this.dateOfBirth = dateOfBirth;
-        this.age = age;
         this.tour = tour;
     }
 
@@ -40,11 +34,11 @@ public class Booking {
 
     }
 
-    public String getMaBooking() {
+    public int getMaBooking() {
         return maBooking;
     }
 
-    public void setMaBooking(String maBooking) {
+    public void setMaBooking(int maBooking) {
         this.maBooking = maBooking;
     }
 
@@ -64,11 +58,11 @@ public class Booking {
         this.emailKH = emailKH;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -78,22 +72,6 @@ public class Booking {
 
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
-    }
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public Tour getTour() {
@@ -112,8 +90,6 @@ public class Booking {
                 ", emailKH='" + emailKH + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", diaChi='" + diaChi + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", age=" + age +
                 ", tour=" + tour +
                 '}';
     }

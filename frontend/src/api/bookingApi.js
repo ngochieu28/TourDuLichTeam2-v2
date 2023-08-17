@@ -4,19 +4,19 @@ const bookingApi = {
 
     //get all
     getAll() {
-        const url = `/booking`
+        const url = `/bookings`
         return axiosClient.get(url)
     },
 
     //get by maBooking
     getBookingById(id) {
-        const url = `/booking/${id}`
+        const url = `/bookings/${id}`
         return axiosClient.get(url)
     },
 
     // tạo mới 
     creatBooking(data) {
-        const url = '/booking'
+        const url = `/bookings`
         return axiosClient.post(url, data)
     },
 }
