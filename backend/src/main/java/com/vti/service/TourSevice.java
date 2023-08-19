@@ -218,4 +218,12 @@ public class TourSevice implements ITourSevice{
             return tourDTO;
     }
 
+    @Override
+    public void updateSoChoTour(String maTour, Integer soChoDaDat) {
+        // Tìm kiếm tour theo mã tour
+        Tour tour = repository.findByMaTour(maTour);
+
+        tour.setSoCho(tour.getSoCho() - soChoDaDat);
+        repository.save(tour);
+    }
 }

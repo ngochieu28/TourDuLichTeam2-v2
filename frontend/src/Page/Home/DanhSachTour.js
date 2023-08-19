@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination } from '@mui/material';
 import { CreditCard } from '@mui/icons-material';
@@ -13,6 +13,9 @@ export default function DanhSachTour() {
     const [tours, setTours] = useState([]);
     const [totalSize, setTotalSize] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const danhSachTourRef = useRef(null);
+    const pageSize = 9;
+    const pageCount = Math.ceil(totalSize / pageSize);
 
     const getDanhSachTour = async (page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian) => {
         const res = await tourApi.getAllTour(page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian);
@@ -20,24 +23,30 @@ export default function DanhSachTour() {
         setTotalSize(res.data.totalElements);
     };
 
+    const scrollToTop = () => {
+        if (danhSachTourRef.current) {
+            danhSachTourRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     useEffect(() => {
         getDanhSachTour(currentPage);
+        scrollToTop();
     }, [currentPage]);
 
     useEffect(() => {
         console.log(state);
         getDanhSachTour(1, 9, 'ngayKhoiHanh', 'desc', state.searchNoiKhoiHanh, state.searchDiemDen, state.searchThoiGian);
+        scrollToTop();
     }, [state.searchDiemDen || state.searchNoiKhoiHanh || state.searchThoiGian]);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
     };
 
-    const pageSize = 9;
-    const pageCount = Math.ceil(totalSize / pageSize);
 
     return (
-        <div style={{ margin: '2rem 0' }}>
+        <div style={{ margin: '2rem 0' }} ref={danhSachTourRef} className='danh-sach-tour'>
             <Grid container spacing={2}>
                 <Grid item xs={12} style={{ textAlign: 'center' }}>
                     <h3>Danh sách tour du lịch trong nước</h3>

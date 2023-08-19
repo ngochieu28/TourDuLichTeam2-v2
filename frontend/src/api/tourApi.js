@@ -37,6 +37,10 @@ const tourApi = {
         const url = `/tours/detail/${maTour}`
         return axiosClient.get(url)
     },
+    updateSoChoTour(maTour, soChoDaDat) {
+        const url = `/product/${maTour}`
+        return axiosClient.put(url, soChoDaDat)
+    },
 }
 
 export default tourApi

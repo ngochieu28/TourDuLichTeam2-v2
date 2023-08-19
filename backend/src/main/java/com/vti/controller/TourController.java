@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vti.dto.GroupFormForUpdating;
 
 
 @CrossOrigin("*")
@@ -40,5 +43,15 @@ public class TourController {
     @GetMapping(value = "detail/{maTour}")
     public ResponseEntity<?> findTourDetailByMaTour(@PathVariable(name = "maTour") String maTour) {
         return new ResponseEntity<>(service.getDetailTourByMaTour(maTour), HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{maTour}")
+    public ResponseEntity<?> updateGroup(@PathVariable(name = "maTour") String maTour, @RequestBody Object requestBody) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.convertValue(requestBody, JsonNode.class);
+        Integer soChoDaDat = jsonNode.get("soChoDaDat").asInt();
+
+        service.updateSoChoTour(maTour, soChoDaDat);
+        return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
     }
 }

@@ -13,4 +13,5 @@ public interface ITourSevice {
     Page<TourDTO> getAllTour(Pageable pageable, TourFilter filter, String searchThoiGian, String searchNoiKhoiHanh, String searchDiemDen);
     TourDTO getTourByMaTour(String maTour);
     TourDetailDTO getDetailTourByMaTour(String maTour);
+    void updateSoChoTour(String maTour, Integer soChoDaDat);
 }
