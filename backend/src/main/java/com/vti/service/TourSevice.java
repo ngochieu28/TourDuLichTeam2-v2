@@ -134,6 +134,15 @@ public class TourSevice implements ITourSevice{
         String formattedGiaTour = decimalFormat.format(tour.getGiaTour());
         tourDTO.setGiaTour(formattedGiaTour);
 
+        String formattedGiaTreEm = decimalFormat.format(tour.getGiaTreEm());
+        tourDTO.setGiaTreEm(formattedGiaTreEm);
+
+        String formattedGiaTreNho = decimalFormat.format(tour.getGiaTreNho());
+        tourDTO.setGiaTreNho(formattedGiaTreNho);
+
+        String formattedGiaEmBe = decimalFormat.format(tour.getGiaEmBe());
+        tourDTO.setGiaEmBe(formattedGiaEmBe);
+
         return tourDTO;
     }
 
@@ -196,6 +205,15 @@ public class TourSevice implements ITourSevice{
         // Chuyển đổi giá thành định dạng mong muốn với dấu phân cách mỗi 3 số
         String formattedGiaTour = decimalFormat.format(tour.getGiaTour());
             tourDTO.setGiaTour(formattedGiaTour);
+
+        String formattedGiaTreEm = decimalFormat.format(tour.getGiaTreEm());
+        tourDTO.setGiaTreEm(formattedGiaTreEm);
+
+        String formattedGiaTreNho = decimalFormat.format(tour.getGiaTreNho());
+        tourDTO.setGiaTreNho(formattedGiaTreNho);
+
+        String formattedGiaEmBe = decimalFormat.format(tour.getGiaEmBe());
+        tourDTO.setGiaEmBe(formattedGiaEmBe);
 
             return tourDTO;
     }

@@ -6,6 +6,9 @@ public class TourDetailDTO {
     private String maTour ;
     private String tenTour ;
     private String giaTour ;
+    private String giaTreEm;
+    private String giaTreNho;
+    private String giaEmBe;
     private String image ;
     private String image2 ;
     private String image3 ;
@@ -24,6 +27,30 @@ public class TourDetailDTO {
     private String diemNhan ;
     private Integer soCho ;
     private String lichTrinh;
+
+    public String getGiaTreEm() {
+        return giaTreEm;
+    }
+
+    public void setGiaTreEm(String giaTreEm) {
+        this.giaTreEm = giaTreEm;
+    }
+
+    public String getGiaTreNho() {
+        return giaTreNho;
+    }
+
+    public void setGiaTreNho(String giaTreNho) {
+        this.giaTreNho = giaTreNho;
+    }
+
+    public String getGiaEmBe() {
+        return giaEmBe;
+    }
+
+    public void setGiaEmBe(String giaEmBe) {
+        this.giaEmBe = giaEmBe;
+    }
 
     public String getImage2() {
         return image2;

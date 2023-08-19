@@ -1,5 +1,6 @@
 .App {
-  /* background-color: #f9f9f9; */
+  color: '#4d4aef';
+  background-color: #fff;
 }
 
 .App-logo {
@@ -194,4 +195,10 @@ footer.footer ul li {
 
 .tour-detail {
   background-color: #f9f9f9 !important;
+}
+
+.lich-trinh-tour {
+  margin: 2rem 0;
+  border-radius: 15px !important;
+  padding: 2rem;
 }

@@ -6,12 +6,39 @@ public class TourDTO {
     private String maTour ;
     private String tenTour ;
     private String giaTour ;
+    private String giaTreEm;
+    private String giaTreNho;
+    private String giaEmBe;
     private String image ;
     private Integer luotQuanTam ;
     private String thoiGian ;
     private String noiKhoiHanh ;
     private Integer soCho ;
     private String ngayKhoiHanh ;
+
+    public String getGiaTreEm() {
+        return giaTreEm;
+    }
+
+    public void setGiaTreEm(String giaTreEm) {
+        this.giaTreEm = giaTreEm;
+    }
+
+    public String getGiaTreNho() {
+        return giaTreNho;
+    }
+
+    public void setGiaTreNho(String giaTreNho) {
+        this.giaTreNho = giaTreNho;
+    }
+
+    public String getGiaEmBe() {
+        return giaEmBe;
+    }
+
+    public void setGiaEmBe(String giaEmBe) {
+        this.giaEmBe = giaEmBe;
+    }
 
     public String getMaTour() {
         return maTour;

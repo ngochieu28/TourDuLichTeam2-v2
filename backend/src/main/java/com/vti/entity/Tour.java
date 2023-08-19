@@ -12,6 +12,9 @@ public class Tour {
 	private String maTour ;
 	private String tenTour ;
 	private Integer giaTour ;
+	private Integer giaTreEm;
+	private Integer giaTreNho;
+	private Integer giaEmBe;
 	private String image ;
 	private String image2 ;
 	private String image3 ;
@@ -40,29 +43,28 @@ public class Tour {
 
 	}
 
-	public Tour(String maTour, String tenTour, Integer giaTour, String image, String image2, String image3, String image4, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanh, String diemNhan, Integer soCho, String lichTrinh, List<Booking> bookings) {
-		this.maTour = maTour;
-		this.tenTour = tenTour;
-		this.giaTour = giaTour;
-		this.image = image;
-		this.image2 = image2;
-		this.image3 = image3;
-		this.image4 = image4;
-		this.luotQuanTam = luotQuanTam;
-		this.thoiGian = thoiGian;
-		this.phuongTienDiChuyen = phuongTienDiChuyen;
-		this.diemThamQuan = diemThamQuan;
-		this.amThuc = amThuc;
-		this.khachSan = khachSan;
-		this.thoiGianLyTuong = thoiGianLyTuong;
-		this.doiTuongThichHop = doiTuongThichHop;
-		this.uuDai = uuDai;
-		this.noiKhoiHanh = noiKhoiHanh;
-		this.ngayKhoiHanh = ngayKhoiHanh;
-		this.diemNhan = diemNhan;
-		this.soCho = soCho;
-		this.lichTrinh = lichTrinh;
-		this.bookings = bookings;
+	public Integer getGiaTreEm() {
+		return giaTour - (giaTour * 25 / 100);
+	}
+
+	public void setGiaTreEm(Integer giaTreEm) {
+		this.giaTreEm = giaTreEm;
+	}
+
+	public Integer getGiaTreNho() {
+		return giaTour - (giaTour * 50 / 100);
+	}
+
+	public void setGiaTreNho(Integer giaTreNho) {
+		this.giaTreNho = giaTreNho;
+	}
+
+	public Integer getGiaEmBe() {
+		return giaTour - (giaTour * 90 / 100);
+	}
+
+	public void setGiaEmBe(Integer giaEmBe) {
+		this.giaEmBe = giaEmBe;
 	}
 
 	public String getMaTour() {

@@ -2,7 +2,7 @@
 import Header from '../../conponents/Navbar'
 import Footer from '../../conponents/Footer';
 import Container from '@mui/material/Container';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -210,12 +210,16 @@ export default function TourDetail() {
                     </Grid>
                 </Container>
             </div>
-            <div className='lich-trinh-tour'>
+            <div >
                 <Container>
-                    <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
-                    {lichTrinh}
+                    <Card variant="outlined" className='lich-trinh-tour'>
+                        <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
+                        <div dangerouslySetInnerHTML={{ __html: tours?.lichTrinh }} />
+                    </Card>
                 </Container>
             </div>
+
+
 
             <Footer />
         </>
