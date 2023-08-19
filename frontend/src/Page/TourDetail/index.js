@@ -2,7 +2,6 @@
 import Header from '../../conponents/Navbar'
 import Footer from '../../conponents/Footer';
 import Container from '@mui/material/Container';
-import { Button, Grid, Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -23,6 +22,8 @@ import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
+import { Button, Menu, MenuItem, Grid, Card } from "@mui/material";
+import ThongTinLuuY from './ThongTinLuuY';
 
 function stripHtmlTags(htmlString) {
     const div = document.createElement('div');
@@ -32,7 +33,7 @@ function stripHtmlTags(htmlString) {
 
 export default function TourDetail() {
     const { maTour } = useParams();
-
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [tours, setTours] = useState();
 
     const lichTrinh = stripHtmlTags(tours?.lichTrinh);
@@ -69,6 +70,14 @@ export default function TourDetail() {
 
         )
     }
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <>
@@ -211,15 +220,16 @@ export default function TourDetail() {
                     </Grid>
                 </Container>
             </div>
-            <div >
-                <Container>
+            <Container>
+                <div >
                     <Card variant="outlined" className='lich-trinh-tour'>
                         <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
                         <div dangerouslySetInnerHTML={{ __html: tours?.lichTrinh }} />
                     </Card>
-                </Container>
-            </div>
+                </div>
+                <ThongTinLuuY />
 
+            </Container >
 
 
             <Footer />

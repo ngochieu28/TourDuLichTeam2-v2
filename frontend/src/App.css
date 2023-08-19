@@ -3,6 +3,10 @@
   background-color: #fff;
 }
 
+h4 {
+  margin: 0;
+}
+
 a {
   color: '#4d4aef';
   text-decoration: none;
@@ -206,4 +210,11 @@ footer.footer ul li {
   margin: 2rem 0;
   border-radius: 15px !important;
   padding: 2rem;
+}
+
+.luy-y {
+  background-color: #f9f9f9 !important;
+  width: 100%;
+  height: 100%;
+  justify-content: left !important;
 }

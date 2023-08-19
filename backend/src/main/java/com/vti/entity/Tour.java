@@ -44,7 +44,7 @@ public class Tour {
 	}
 
 	public Integer getGiaTreEm() {
-		return giaTour - (giaTour * 25 / 100);
+		return giaTour - (giaTour * 50 / 100);
 	}
 
 	public void setGiaTreEm(Integer giaTreEm) {
@@ -52,7 +52,7 @@ public class Tour {
 	}
 
 	public Integer getGiaTreNho() {
-		return giaTour - (giaTour * 50 / 100);
+		return giaTour - (giaTour * 75 / 100);
 	}
 
 	public void setGiaTreNho(Integer giaTreNho) {
