@@ -6,6 +6,7 @@ import { Card, CardContent, Typography, CardActions, Button, Grid } from '@mui/m
 import { Link } from 'react-router-dom';
 import { CreditCard } from '@mui/icons-material';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import { srcImg } from '../../util/srcImg';
 
 export default function TourHot() {
     const [tourHots, setTourHots] = useState([]);
@@ -32,7 +33,7 @@ export default function TourHot() {
                             <Card className='card'>
                                 <div style={{ position: 'relative', height: '245px' }}>
                                     <img
-                                        src={` http://192.168.0.101:4000/${item.image}`}
+                                        src={`${srcImg}/${item.image}`}
                                         alt="Card image cap"
                                         style={{ position: 'relative', width: '100%', height: '100%' }}
                                     />

@@ -7,6 +7,7 @@ import { CreditCard } from '@mui/icons-material';
 import { AppConsumer } from '../../store';
 import { Link } from 'react-router-dom';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
+import { srcImg } from '../../util/srcImg';
 
 export default function DanhSachTour() {
     const [state, dispatch] = AppConsumer();
@@ -59,7 +60,7 @@ export default function DanhSachTour() {
                                 <Card className='card'>
                                     <div style={{ position: 'relative', height: '245px' }}>
                                         <img
-                                            src={`http://192.168.0.101:4000/${item.image}`}
+                                            src={`${srcImg}/${item.image}`}
                                             alt="Card image cap"
                                             style={{ position: 'relative', width: '100%', height: '100%' }}
                                         />

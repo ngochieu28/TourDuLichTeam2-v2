@@ -3,6 +3,11 @@
   background-color: #fff;
 }
 
+a {
+  color: '#4d4aef';
+  text-decoration: none;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
