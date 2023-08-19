@@ -7,6 +7,9 @@ public class TourDetailDTO {
     private String tenTour ;
     private String giaTour ;
     private String image ;
+    private String image2 ;
+    private String image3 ;
+    private String image4 ;
     private Integer luotQuanTam ;
     private String thoiGian ;
     private String phuongTienDiChuyen	 ;
@@ -20,7 +23,31 @@ public class TourDetailDTO {
     private String ngayKhoiHanh ;
     private String diemNhan ;
     private Integer soCho ;
-    private Long lichTrinh;
+    private String lichTrinh;
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public String getImage3() {
+        return image3;
+    }
+
+    public void setImage3(String image3) {
+        this.image3 = image3;
+    }
+
+    public String getImage4() {
+        return image4;
+    }
+
+    public void setImage4(String image4) {
+        this.image4 = image4;
+    }
 
     public String getMaTour() {
         return maTour;
@@ -158,11 +185,11 @@ public class TourDetailDTO {
         this.soCho = soCho;
     }
 
-    public Long getLichTrinh() {
+    public String getLichTrinh() {
         return lichTrinh;
     }
 
-    public void setLichTrinh(Long lichTrinh) {
+    public void setLichTrinh(String lichTrinh) {
         this.lichTrinh = lichTrinh;
     }
 }

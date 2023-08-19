@@ -13,6 +13,9 @@ public class Tour {
 	private String tenTour ;
 	private Integer giaTour ;
 	private String image ;
+	private String image2 ;
+	private String image3 ;
+	private String image4 ;
 	private Integer luotQuanTam ;
 	private String thoiGian ;
 	private String phuongTienDiChuyen	 ;
@@ -26,7 +29,9 @@ public class Tour {
 	private Date ngayKhoiHanh ;
 	private String diemNhan ;
 	private Integer soCho ;
-	private Long lichTrinh;
+
+	@Column( columnDefinition = "TEXT")
+	private String lichTrinh;
 
 	@OneToMany(mappedBy = "tour")
 	private List<Booking> bookings;
@@ -35,11 +40,14 @@ public class Tour {
 
 	}
 
-	public Tour(String maTour, String tenTour, Integer giaTour, String image, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanh, String diemNhan, Integer soCho, Long lichTrinh) {
+	public Tour(String maTour, String tenTour, Integer giaTour, String image, String image2, String image3, String image4, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanh, String diemNhan, Integer soCho, String lichTrinh, List<Booking> bookings) {
 		this.maTour = maTour;
 		this.tenTour = tenTour;
 		this.giaTour = giaTour;
 		this.image = image;
+		this.image2 = image2;
+		this.image3 = image3;
+		this.image4 = image4;
 		this.luotQuanTam = luotQuanTam;
 		this.thoiGian = thoiGian;
 		this.phuongTienDiChuyen = phuongTienDiChuyen;
@@ -54,6 +62,7 @@ public class Tour {
 		this.diemNhan = diemNhan;
 		this.soCho = soCho;
 		this.lichTrinh = lichTrinh;
+		this.bookings = bookings;
 	}
 
 	public String getMaTour() {
@@ -86,6 +95,30 @@ public class Tour {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getImage2() {
+		return image2;
+	}
+
+	public void setImage2(String image2) {
+		this.image2 = image2;
+	}
+
+	public String getImage3() {
+		return image3;
+	}
+
+	public void setImage3(String image3) {
+		this.image3 = image3;
+	}
+
+	public String getImage4() {
+		return image4;
+	}
+
+	public void setImage4(String image4) {
+		this.image4 = image4;
 	}
 
 	public Integer getLuotQuanTam() {
@@ -192,11 +225,19 @@ public class Tour {
 		this.soCho = soCho;
 	}
 
-	public Long getLichTrinh() {
+	public String getLichTrinh() {
 		return lichTrinh;
 	}
 
-	public void setLichTrinh(Long lichTrinh) {
+	public void setLichTrinh(String lichTrinh) {
 		this.lichTrinh = lichTrinh;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 }

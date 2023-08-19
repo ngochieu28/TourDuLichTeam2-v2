@@ -171,6 +171,9 @@ public class TourSevice implements ITourSevice{
             tourDTO.setMaTour(tour.getMaTour());
             tourDTO.setTenTour(tour.getTenTour());
             tourDTO.setImage(tour.getImage());
+            tourDTO.setImage2(tour.getImage2());
+            tourDTO.setImage3(tour.getImage3());
+            tourDTO.setImage4(tour.getImage4());
             tourDTO.setLuotQuanTam(tour.getLuotQuanTam());
             tourDTO.setThoiGian(tour.getThoiGian());
             tourDTO.setPhuongTienDiChuyen(tour.getPhuongTienDiChuyen());

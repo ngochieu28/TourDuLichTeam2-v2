@@ -1,8 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import Header from '../../conponents/Navbar'
 import Footer from '../../conponents/Footer';
 import Container from '@mui/material/Container';
-import { Button, Grid, Box } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -23,10 +23,18 @@ import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link } from 'react-router-dom';
 
+function stripHtmlTags(htmlString) {
+    const div = document.createElement('div');
+    div.innerHTML = htmlString;
+    return div.textContent || div.innerText || '';
+}
+
 export default function TourDetail() {
     const { maTour } = useParams();
 
     const [tours, setTours] = useState();
+
+    const lichTrinh = stripHtmlTags(tours?.lichTrinh);
 
     const getTourDetail = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
@@ -35,6 +43,7 @@ export default function TourDetail() {
 
     useEffect(() => {
         getTourDetail()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [maTour]);
 
     // BreadCrumbs
@@ -103,26 +112,42 @@ export default function TourDetail() {
                         </Grid>
                     </Grid>
                     <Grid container spacing={1}>
-                        <Grid item xs={7}>
-                            <img src="https://media.travel.com.vn/tour/tfd_220222114550_377471.jpg" style={{ width: '100%', borderRadius: '10px' }} />
+                        <Grid item xs={7} >
+                            <img
+                                src={`http://192.168.1.163:4000/${tours?.image}`}
+                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                                alt="Image 1"
+                            />
                         </Grid>
-                        <Grid item xs={5}>
-                            <Grid container spacing={1}>
-                                <Grid item xs={6}>
-                                    <img src="https://media.travel.com.vn/tour/tfd_220222114847_374645.jpg" style={{ width: '100%', borderRadius: '10px' }} />
+                        <Grid item xs={5} >
+                            <Grid container spacing={1} >
+                                <Grid item xs={6} >
+                                    <img
+                                        src={`http://192.168.1.163:4000/${tours?.image2}`}
+                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                                        alt="Image 2"
+                                    />
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <img src="https://media.travel.com.vn/tour/tfd_220222115020_726066.jpg" style={{ width: '100%', borderRadius: '10px' }} />
+                                <Grid item xs={6} >
+                                    <img
+                                        src={`http://192.168.1.163:4000/${tours?.image3}`}
+                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                                        alt="Image 3"
+                                    />
                                 </Grid>
                             </Grid>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <img src="https://media.travel.com.vn/destination/dc_200914_BA%20NA%20HILL%20(1)_1.jpg" style={{ width: '100%', borderRadius: '10px' }} />
+                            <Grid container >
+                                <Grid item xs={12} >
+                                    <img
+                                        src={`http://192.168.1.163:4000/${tours?.image4}`}
+                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                                        alt="Image 4"
+                                    />
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={4}>
+                    <Grid container spacing={4} style={{ margin: '0' }}>
                         <Grid item xs='5'>
                             <div style={{ backgroundColor: 'white', marginBottom: '20px', borderRadius: '10px', padding: '20px' }}>
                                 <p>Khởi hành: {tours?.ngayKhoiHanh}</p>
@@ -130,11 +155,13 @@ export default function TourDetail() {
                                 <p>Nơi khởi hành: {tours?.noiKhoiHanh}</p>
                                 <p>Số chỗ còn nhận: {tours?.soCho}</p>
                             </div>
-                            <p>Quý khách cần hỗ trợ?</p>
-                            <Button variant="contained" startIcon={<LocalPhoneOutlinedIcon />} style={{ height: '50px', margin: '5px' }}>
-                                Gọi điện miễn phí
-                            </Button>
-                            <Button variant="outlined" color='inherit' style={{ height: '50px', margin: '5px' }}>Gửi yêu cầu hỗ trợ</Button>
+                            <div>
+                                <p>Quý khách cần hỗ trợ?</p>
+                                <Button variant="contained" startIcon={<LocalPhoneOutlinedIcon />} style={{ height: '50px', margin: '5px' }}>
+                                    Gọi điện miễn phí
+                                </Button>
+                                <Button variant="outlined" color='inherit' style={{ height: '50px', margin: '5px' }}>Gửi yêu cầu hỗ trợ</Button>
+                            </div>
                         </Grid>
                         <Grid item xs='7'>
                             <Grid container spacing={1}>
@@ -184,7 +211,10 @@ export default function TourDetail() {
                 </Container>
             </div>
             <div className='lich-trinh-tour'>
-                <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
+                <Container>
+                    <h2 style={{ textAlign: 'center' }}>Lịch trình</h2>
+                    {lichTrinh}
+                </Container>
             </div>
 
             <Footer />
