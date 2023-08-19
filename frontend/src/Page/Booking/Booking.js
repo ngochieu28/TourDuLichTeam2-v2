@@ -1,5 +1,6 @@
 import React from 'react'
 import FormBooking from './formBooking';
+import AvataTour from './AvataTour';
 
 const Booking = () => {
 

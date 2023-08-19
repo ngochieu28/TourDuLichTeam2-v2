@@ -102,7 +102,7 @@ export default function TourDetail() {
                                         <p>/khách</p>
                                         <div style={{ marginLeft: '10px' }}>
                                             <Button variant="contained" color="error" startIcon={<AddShoppingCartIcon />} style={{ height: '50px', width: '100%', margin: '5px' }}>
-                                                Đặt ngay
+                                                <Link to={`/booking/${tours?.maTour}`}>Đặt ngay</Link>
                                             </Button><br />
                                             <Button variant="outlined" color='inherit' style={{ height: '50px', width: '100%', margin: '5px' }}>Liên hệ tư vấn</Button>
                                         </div>
@@ -114,7 +114,7 @@ export default function TourDetail() {
                     <Grid container spacing={1}>
                         <Grid item xs={7} >
                             <img
-                                src={`http://192.168.1.163:4000/${tours?.image}`}
+                                src={`http://192.168.0.101:4000/${tours?.image}`}
                                 style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                 alt="Image 1"
                             />
@@ -123,14 +123,14 @@ export default function TourDetail() {
                             <Grid container spacing={1} >
                                 <Grid item xs={6} >
                                     <img
-                                        src={`http://192.168.1.163:4000/${tours?.image2}`}
+                                        src={`http://192.168.0.101:4000/${tours?.image2}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 2"
                                     />
                                 </Grid>
                                 <Grid item xs={6} >
                                     <img
-                                        src={`http://192.168.1.163:4000/${tours?.image3}`}
+                                        src={`http://192.168.0.101:4000/${tours?.image3}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 3"
                                     />
@@ -139,7 +139,7 @@ export default function TourDetail() {
                             <Grid container >
                                 <Grid item xs={12} >
                                     <img
-                                        src={`http://192.168.1.163:4000/${tours?.image4}`}
+                                        src={`http://192.168.0.101:4000/${tours?.image4}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 4"
                                     />

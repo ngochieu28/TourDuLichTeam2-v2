@@ -11,6 +11,7 @@ import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
 import TourDetail from './Page/TourDetail';
+import ThanhToan from './Page/ThanhToan';
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
           <Route path='product/:id' element={<ProductDetail />} />
           <Route path='user' element={<User />} />
         </Route>
-        <Route path='/booking' element={<Booking />} />
+        <Route path='/booking/:maTour' element={<Booking />} />
+        <Route path='/thanhToan' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/test' element={<TableTest />} />

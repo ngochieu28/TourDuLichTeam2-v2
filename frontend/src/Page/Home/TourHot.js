@@ -32,7 +32,7 @@ export default function TourHot() {
                             <Card className='card'>
                                 <div style={{ position: 'relative', height: '245px' }}>
                                     <img
-                                        src={` http://192.168.1.163:4000/${item.image}`}
+                                        src={` http://192.168.0.101:4000/${item.image}`}
                                         alt="Card image cap"
                                         style={{ position: 'relative', width: '100%', height: '100%' }}
                                     />

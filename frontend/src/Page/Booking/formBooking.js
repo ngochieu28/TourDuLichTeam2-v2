@@ -1,17 +1,20 @@
 import React from 'react'
+import tourApi from '../../api/tourApi';
+import Footer from '../../conponents/Footer';
+import AvataTour from './AvataTour';
 import { useState, useEffect } from 'react';
-import { useForm, Controller, useFieldArray } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
     Grid, TextField, Box, Typography, Card, CardActionArea, CardMedia, CardContent, Button, ButtonGroup, Divider
 } from '@mui/material';
 
+
 const FormBooking = () => {
     const [state, dispatch] = AppConsumer();
-    const navigate = useNavigate();
 
     const [count, setCount] = useState(1);
     const [childCount, setChildCount] = useState(0)
@@ -42,12 +45,30 @@ const FormBooking = () => {
 
     }, [state.data])
 
+
+    // avatar Tour
+
+    const { maTour } = useParams();
+
+    const [tours, setTours] = useState();
+
+    const getTourDetail2 = async () => {
+        const res = await tourApi.getTourDetailByMaTour(maTour);
+        setTours(res.data);
+    };
+
+    useEffect(() => {
+        getTourDetail2()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [maTour]);
+
     // call Api
     const addNewBooking = async (data) => {
         let res = await bookingApi.creatBooking(data)
             .then((data))
     }
 
+    // button
     const onSubmit = (data) => {
         addNewBooking(data)
     }
@@ -100,23 +121,8 @@ const FormBooking = () => {
         <div>
             <form onSubmit={handleSubmit(onSubmit)} >
                 <Box pl={25} pr={10}>
-                    <Card sx={{ maxWidth: 345 }}>
-                        <CardActionArea>
-                            <CardMedia
-                                component="img"
-                                height="140"
-                                image="#"
-                                alt="#"
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    tên tour
-                                </Typography>
-
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                    <Typography variant="h5" display="flex" my={1}>Thông Tin Chuyến Đi</Typography>
+                    <Typography variant="h3" display="flex" my={1}>Thông Tin Chuyến Đi</Typography>
+                    <AvataTour />
                     <Typography variant="h6" display="flex" my={1}>Thông tin liên lạc</Typography>
                     <Box border="1px solid gray" backgroundColor='#eeeeee' >
                         <Grid container spacing={5} my={1} >
@@ -260,10 +266,19 @@ const FormBooking = () => {
                     </Grid>
                 </Box>
                 {/* Thanh toán tóm tắt chuyến đi   */}
+                <Grid item xs={2} pl={25} pr={10} my={5}>
+                    <h2>Tóm tắt chuyến đi</h2>
+                    <img
+                        src={`http://192.168.0.101:4000/${tours?.image}`}
+                        style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
+                        alt="Image 1"
+                    />
+                    <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px' }}>
+                        <h2>{tours?.tenTour}</h2>
+                    </div>
+                </Grid>
+
                 <Box pl={25} pr={10} my={5} >
-                    <Grid container spacing={5} my={1} >
-                        <Typography variant="h6">Tóm tắt chuyến đi</Typography>
-                    </Grid>
                     <Grid container spacing={5} my={1} display="flex" >
                         <Typography variant="h6" mx={20}>Hành Khách</Typography>
                         <Diversity3Icon />
@@ -290,10 +305,12 @@ const FormBooking = () => {
                         <Typography variant="body1" mx={20}>Tổng cộng </Typography>
                         <Typography variant="body1">{tongGia} đ </Typography>
                     </Grid>
-                    <Button variant="contained" type='submit'>{onSubmit} Đặt ngay</Button>
+                    <Button variant="contained" type='submit'>{onSubmit}
+                        <Link to={`/thanhToan`}>Đặt ngay</Link>
+                    </Button>
                 </Box>
-
             </form>
+            <Footer />
         </div>
     )
 }
