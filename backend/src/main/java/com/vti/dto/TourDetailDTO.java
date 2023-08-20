@@ -36,6 +36,10 @@ public class TourDetailDTO {
         return giaTourString;
     }
 
+    public Integer getGiaTour() {
+        return giaTour;
+    }
+
     public void setGiaTourString(String giaTourString) {
         this.giaTourString = giaTourString;
     }
