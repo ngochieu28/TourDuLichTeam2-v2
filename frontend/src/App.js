@@ -5,21 +5,23 @@ import Login from './Page/Login';
 import SignUp from './Page/Sigin'
 import Admin from './Page/Admin';
 import Product from './Page/Product';
-import TableTest from './conponents/TableTest';
 import User from './Page/Users';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
 import TourDetail from './Page/TourDetail';
 import ScrollToTop from './util/ScrollToTop';
-import LoginTest from './Page//Login/test';
-
+import Page500 from './Page/auth/Page500';
+import Page404 from './Page/auth/Page404';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
   const location = useLocation();
   return (
     <div className="App">
+      <ToastContainer />
       <ScrollToTop key={location.key} />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -31,9 +33,10 @@ function App() {
           <Route path='user' element={<User />} />
         </Route>
         <Route path='/booking' element={<Booking />} />
-        <Route path='/login' element={<LoginTest />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
-        <Route path='/test' element={<TableTest />} />
+        <Route path='/page500' element={<Page500 />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </div>
   );

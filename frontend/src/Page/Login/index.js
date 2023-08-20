@@ -1,56 +1,51 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
+import React, { useState } from "react";
+import { Button, Card, CardContent, FormGroup, Typography, Box, Grid, FormControlLabel, Checkbox } from "@mui/material";
+import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-material-ui";
+import * as Yup from "yup";
+import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Avatar from '@mui/material/Avatar';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import UserApi from '../../api/UserApi';
+import storage from '../../Storage/Storage'
+import LoginApi from '../../api/LoginApi'
 import { useNavigate } from 'react-router-dom';
-import { Link as LinkRouter } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
-
-export default function SignInSide() {
-
+const SignUp = () => {
+    const [open, setOpen] = React.useState(false);
+    const [email, setEmail] = useState("");
+    const [isDisableResendButton, setDisableResendButton] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-        fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: data.get('email'),
-                password: data.get('password')
-            })
-        })
-            .then((result) => {
-                if (result.ok === true) {
-                    navigate("/")
-                }
-            })
-            .catch(error => {
-                console.error('Đăng nhập không thành công:', error);
-            })
+    const resendEmailToActiveAccount = async () => {
+        setDisableResendButton(true);
+        await UserApi.resendEmailToActiveAccount(email);
+        setDisableResendButton(false);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
     };
+    // rememberMe
+    const [checkedRememberMe, setCheckedRememberMe] = React.useState(storage.isRememberMe());
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
@@ -83,55 +78,174 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <LinkRouter to="/signUp" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </LinkRouter>
-                                </Grid>
-                            </Grid>
-                        </Box>
+                        <Formik
+                            initialValues={{
+                                username: "",
+                                password: "",
+                            }}
+                            validationSchema={Yup.object({
+                                username: Yup.string()
+                                    .min(6, "Must be between 6 and 50 characters")
+                                    .max(50, "Must be between 6 and 50 characters")
+                                    .required("Required"),
+                                password: Yup.string()
+                                    .min(6, "Must be between 6 and 50 characters")
+                                    .max(50, "Must be between 6 and 50 characters")
+                                    .required("Required"),
+                            })}
+                            onSubmit={
+                                async (values) => {
+                                    try {
+                                        // call api
+                                        const result = await LoginApi.login(
+                                            values.username,
+                                            values.password
+                                        );
+
+                                        // check user active
+                                        if (result.token === null || result.token === undefined) {
+                                            setEmail(result.email);
+                                            setOpen(true);
+
+                                        } else {
+                                            // set remember me
+                                            storage.setRememberMe(checkedRememberMe);
+
+                                            // save token & UserInfo to storage
+                                            storage.setToken(result.token);
+                                            storage.setUserInfo(
+                                                result.userName,
+                                                result.email,
+                                                result.firstName,
+                                                result.lastName,
+                                                result.role,
+                                                result.status);
+
+                                            // save token & UserInfo to redux
+
+                                            // redirect to home page
+                                            navigate('/');
+                                        }
+
+                                    } catch (error) {
+                                        if (error.status === 401) {
+                                            // show error notification
+                                            toast.error('Login Fail! Wrong Username or Password!');
+                                        } else {
+                                            // redirect page error server
+                                            navigate('/page500');
+                                        }
+                                    }
+                                }
+                            }
+                        >
+                            {({ isSubmitting }) => (
+                                <Card>
+                                    <CardContent>
+                                        <div className="m-sm-4">
+                                            <Form>
+                                                <Grid container spacing={2}>
+
+                                                    <Grid item xs={12} >
+                                                        <FormGroup>
+                                                            <Field
+                                                                label="Username"
+                                                                type="text"
+                                                                name="username"
+                                                                placeholder="Enter your username"
+                                                                component={TextField}
+                                                                fullWidth
+                                                            />
+                                                        </FormGroup>
+                                                    </Grid>
+
+                                                    <Grid item xs={12} >
+                                                        <FormGroup>
+                                                            <Field
+                                                                label="Password"
+                                                                type="password"
+                                                                name="password"
+                                                                placeholder="Enter password"
+                                                                component={TextField}
+                                                                fullWidth
+                                                            />
+                                                        </FormGroup>
+                                                    </Grid>
+                                                    <Grid item xs={12} >
+                                                        <FormControlLabel
+                                                            control={<Checkbox value="remember" color="primary" />}
+                                                            label="Remember me"
+                                                            value={checkedRememberMe}
+                                                            onChange={() => setCheckedRememberMe(!checkedRememberMe)}
+                                                        />
+                                                    </Grid>
+
+                                                    <Grid item xs={12} >
+                                                        <div className="text-center mt-3">
+                                                            <Button
+                                                                type="submit"
+                                                                color="primary"
+                                                                variant="contained"
+                                                                size="large"
+                                                                disabled={isSubmitting}
+                                                                style={{ width: '100%' }}
+                                                            >
+                                                                Sign In
+                                                            </Button>
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </Form>
+                                        </div>
+                                    </CardContent>
+                                    <Grid container>
+                                        <Grid item xs>
+                                            <Link href="#" variant="body2">
+
+                                            </Link>
+                                        </Grid>
+                                        <Grid item>
+                                            <Link to="/signUp" variant="body2">
+                                                {"Don't have an account? Sign Up"}
+                                            </Link>
+                                        </Grid>
+                                    </Grid>
+                                </Card>
+                            )}
+                        </Formik>
                     </Box>
+                    <Dialog
+                        fullScreen={fullScreen}
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="responsive-dialog-title"
+                    >
+                        <DialogTitle id="responsive-dialog-title">
+                            {"Bạn cần kích hoạt tài khoản của mình"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                <p className="mb-0">
+                                    Tài khoản của bạn chưa kích hoạt.
+                                </p>
+                                <p className="mb-0">
+                                    Vui lòng kiểm tra email của bạn (<b>{email}</b>) để gửi tài khoản đang hoạt động.
+                                </p>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={resendEmailToActiveAccount} disabled={isDisableResendButton}>
+                                Resend
+                            </Button>
+                            <Button color="primary" onClick={() => handleClose()}>
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Grid>
-            </Grid>
-        </ThemeProvider>
+            </Grid >
+        </>
     );
-}
+};
+
+export default SignUp;
