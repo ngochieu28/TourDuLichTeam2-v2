@@ -5,10 +5,14 @@ import java.util.Date;
 public class TourDetailDTO {
     private String maTour ;
     private String tenTour ;
-    private String giaTour ;
-    private String giaTreEm;
-    private String giaTreNho;
-    private String giaEmBe;
+    private String giaTourString ;
+    private String giaTreEmString;
+    private String giaTreNhoString;
+    private String giaEmBeString;
+    private Integer giaTour ;
+    private Integer giaTreEm;
+    private Integer giaTreNho;
+    private Integer giaEmBe;
     private String image ;
     private String image2 ;
     private String image3 ;
@@ -28,27 +32,63 @@ public class TourDetailDTO {
     private Integer soCho ;
     private String lichTrinh;
 
-    public String getGiaTreEm() {
+    public String getGiaTourString() {
+        return giaTourString;
+    }
+
+    public void setGiaTourString(String giaTourString) {
+        this.giaTourString = giaTourString;
+    }
+
+    public String getGiaTreEmString() {
+        return giaTreEmString;
+    }
+
+    public void setGiaTreEmString(String giaTreEmString) {
+        this.giaTreEmString = giaTreEmString;
+    }
+
+    public String getGiaTreNhoString() {
+        return giaTreNhoString;
+    }
+
+    public void setGiaTreNhoString(String giaTreNhoString) {
+        this.giaTreNhoString = giaTreNhoString;
+    }
+
+    public String getGiaEmBeString() {
+        return giaEmBeString;
+    }
+
+    public void setGiaEmBeString(String giaEmBeString) {
+        this.giaEmBeString = giaEmBeString;
+    }
+
+    public void setGiaTour(Integer giaTour) {
+        this.giaTour = giaTour;
+    }
+
+    public Integer getGiaTreEm() {
         return giaTreEm;
     }
 
-    public void setGiaTreEm(String giaTreEm) {
+    public void setGiaTreEm(Integer giaTreEm) {
         this.giaTreEm = giaTreEm;
     }
 
-    public String getGiaTreNho() {
+    public Integer getGiaTreNho() {
         return giaTreNho;
     }
 
-    public void setGiaTreNho(String giaTreNho) {
+    public void setGiaTreNho(Integer giaTreNho) {
         this.giaTreNho = giaTreNho;
     }
 
-    public String getGiaEmBe() {
+    public Integer getGiaEmBe() {
         return giaEmBe;
     }
 
-    public void setGiaEmBe(String giaEmBe) {
+    public void setGiaEmBe(Integer giaEmBe) {
         this.giaEmBe = giaEmBe;
     }
 
@@ -90,14 +130,6 @@ public class TourDetailDTO {
 
     public void setTenTour(String tenTour) {
         this.tenTour = tenTour;
-    }
-
-    public String getGiaTour() {
-        return giaTour;
-    }
-
-    public void setGiaTour(String giaTour) {
-        this.giaTour = giaTour;
     }
 
     public String getImage() {

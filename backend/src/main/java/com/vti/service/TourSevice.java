@@ -196,6 +196,10 @@ public class TourSevice implements ITourSevice{
             tourDTO.setDiemNhan(tour.getDiemNhan());
             tourDTO.setSoCho(tour.getSoCho());
             tourDTO.setLichTrinh(tour.getLichTrinh());
+            tourDTO.setGiaTour(tour.getGiaTour());
+            tourDTO.setGiaEmBe(tour.getGiaEmBe());
+            tourDTO.setGiaTreNho(tour.getGiaTreNho());
+            tourDTO.setGiaTreEm(tour.getGiaTreEm());
 
         // Chuyển đổi ngày thành định dạng mong muốn
         Date date = tour.getNgayKhoiHanh();
@@ -204,16 +208,16 @@ public class TourSevice implements ITourSevice{
 
         // Chuyển đổi giá thành định dạng mong muốn với dấu phân cách mỗi 3 số
         String formattedGiaTour = decimalFormat.format(tour.getGiaTour());
-            tourDTO.setGiaTour(formattedGiaTour);
+            tourDTO.setGiaTourString(formattedGiaTour);
 
         String formattedGiaTreEm = decimalFormat.format(tour.getGiaTreEm());
-        tourDTO.setGiaTreEm(formattedGiaTreEm);
+        tourDTO.setGiaTreEmString(formattedGiaTreEm);
 
         String formattedGiaTreNho = decimalFormat.format(tour.getGiaTreNho());
-        tourDTO.setGiaTreNho(formattedGiaTreNho);
+        tourDTO.setGiaTreNhoString(formattedGiaTreNho);
 
         String formattedGiaEmBe = decimalFormat.format(tour.getGiaEmBe());
-        tourDTO.setGiaEmBe(formattedGiaEmBe);
+        tourDTO.setGiaEmBeString(formattedGiaEmBe);
 
             return tourDTO;
     }
