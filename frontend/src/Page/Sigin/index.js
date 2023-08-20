@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card, CardContent, FormGroup, Typography, Modal, Box, Grid } from "@mui/material";
+import { Button, Card, CardContent, FormGroup, Typography, Box, Grid } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
@@ -72,22 +72,21 @@ const SignUp = () => {
                                 .min(6, "Must be between 6 and 50 characters")
                                 .max(50, "Must be between 6 and 50 characters")
                                 .required("Required")
-                                // .test(
-                                //     'checkExistsUsername',
-                                //     'This username is already registered.',
-                                //     async (username) => {
-                                //         const isExists = await UserApi.existsByUsername(username);
-                                //         return !isExists;
-                                //     }
-                                // ),
+                                .test(
+                                    'checkExistsUsername',
+                                    'This username is already registered.',
+                                    async (username) => {
+                                        const isExists = await UserApi.existsByUsername(username);
+                                        return !isExists.data;
+                                    }
+                                ),
                             email: Yup.string()
                                 .email("Invalid email address")
                                 .required("Required")
-                                // .test('checkExistsEmail', 'This email is already registered.', async email => {
-                                //     // call api
-                                //     const isExists = await UserApi.existsByEmail(email);
-                                //     return !isExists;
-                                // }),
+                                .test('checkExistsEmail', 'This email is already registered.', async (email) => {
+                                    const isExists = await UserApi.existsByEmail(email);
+                                    return !isExists.data;
+                                }),
                             password: Yup.string()
                                 .min(6, "Must be between 6 and 50 characters")
                                 .max(50, "Must be between 6 and 50 characters")
@@ -110,7 +109,9 @@ const SignUp = () => {
 
                                     // message
                                     setEmail(values.email);
-                                    setEmail(values.email);
+
+                                    // mở modal
+                                    setOpen(true)
 
                                 } catch (error) {
                                     // redirect page error server

@@ -12,6 +12,7 @@ import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
 import TourDetail from './Page/TourDetail';
 import ScrollToTop from './util/ScrollToTop';
+import LoginTest from './Page//Login/test';
 
 
 
@@ -30,7 +31,7 @@ function App() {
           <Route path='user' element={<User />} />
         </Route>
         <Route path='/booking' element={<Booking />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<LoginTest />} />
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/test' element={<TableTest />} />
       </Routes>
