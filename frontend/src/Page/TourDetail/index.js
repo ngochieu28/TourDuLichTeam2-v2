@@ -22,21 +22,15 @@ import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
-import { Button, Menu, MenuItem, Grid, Card } from "@mui/material";
+import { Button, Grid, Card } from "@mui/material";
 import ThongTinLuuY from './ThongTinLuuY';
 
-function stripHtmlTags(htmlString) {
-    const div = document.createElement('div');
-    div.innerHTML = htmlString;
-    return div.textContent || div.innerText || '';
-}
+
 
 export default function TourDetail() {
     const { maTour } = useParams();
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [tours, setTours] = useState();
 
-    const lichTrinh = stripHtmlTags(tours?.lichTrinh);
 
     const getTourDetail = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
@@ -70,14 +64,6 @@ export default function TourDetail() {
 
         )
     }
-
-    const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
 
     return (
         <>

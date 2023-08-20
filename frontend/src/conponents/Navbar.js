@@ -2,6 +2,7 @@ import React from "react";
 import { AppBar, Toolbar, Button, Menu, MenuItem, InputBase } from "@mui/material";
 import { Search, AccountCircleOutlined } from "@mui/icons-material";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Link } from 'react-router-dom';
 
 const NavbarComponent = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -17,20 +18,8 @@ const NavbarComponent = (props) => {
     return (
         <AppBar color="inherit" position="static">
             <Toolbar>
-                <img src="https://travel.com.vn/Content/Theme/images/logo.webp" alt="logo" className="mr-2" />
-
+                <Link to="/"><img src="https://travel.com.vn/Content/Theme/images/logo.webp" alt="logo" className="mr-2" /></Link>
                 <Button color="inherit" className="mr-2" onClick={handleMenuOpen}> Du lịch <ArrowDropDownIcon /></Button>
-                <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                    <MenuItem>
-                        Profile
-                    </MenuItem>
-                    <MenuItem>
-                        Analytics
-                    </MenuItem>
-                    <MenuItem >Settings & Privacy</MenuItem>
-                    <MenuItem>Help</MenuItem>
-                    <MenuItem>Sign out</MenuItem>
-                </Menu>
                 <Button color="inherit" className="mr-2">Vietravel MICE</Button>
                 <Button color="inherit" className="mr-2" onClick={handleMenuOpen}>Vận chuyển <ArrowDropDownIcon /></Button>
                 <Button color="inherit" className="mr-2" onClick={handleMenuOpen}>Tin tức <ArrowDropDownIcon /></Button>
@@ -50,6 +39,17 @@ const NavbarComponent = (props) => {
                     <AccountCircleOutlined sx={{ ml: 2, fontSize: 32 }} onClick={handleMenuOpen}></AccountCircleOutlined>
                 </div>
             </Toolbar>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                <MenuItem>
+                    Profile
+                </MenuItem>
+                <MenuItem>
+                    Analytics
+                </MenuItem>
+                <MenuItem >Settings & Privacy</MenuItem>
+                <MenuItem>Help</MenuItem>
+                <Link to="/login"> <MenuItem>Sign out</MenuItem></Link>
+            </Menu>
         </AppBar>
     );
 };
