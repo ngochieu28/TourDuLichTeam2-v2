@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import tourApi from '../../api/tourApi';
 import { Grid, Box } from '@mui/material';
+import { srcImg } from '../../util/srcImg';
 
 export default function AvataTour() {
     const { maTour } = useParams();
@@ -24,7 +25,7 @@ export default function AvataTour() {
                 <Box>
                     <Grid item xs={3} >
                         <img
-                            src={`http://192.168.0.101:4000/${tours?.image}`}
+                            src={`${srcImg}/${tours?.image}`}
                             style={{ height: '70%', width: '70%', objectFit: 'cover', borderRadius: '10px' }}
                             alt="Image 1"
                         />

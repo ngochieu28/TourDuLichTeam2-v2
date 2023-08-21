@@ -7,6 +7,7 @@ import {
     Grid, Box, Typography, TextField, Radio, RadioGroup, FormControlLabel
 
 } from '@mui/material';
+import { srcImg } from '../../util/srcImg';
 
 export default function ThanhToan() {
 
@@ -131,7 +132,7 @@ export default function ThanhToan() {
                     <Grid item xs={2} pl={25} pr={10} my={5}>
                         <h2>Tóm tắt chuyến đi</h2>
                         <img
-                            src={`http://192.168.0.101:4000/${tours?.image}`}
+                            src={`${srcImg}/${tours?.image}`}
                             style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
                             alt="Image 1"
                         />
