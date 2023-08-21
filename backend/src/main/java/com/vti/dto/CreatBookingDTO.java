@@ -1,5 +1,12 @@
 package com.vti.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreatBookingDTO {
     private int maBooking ;
 
@@ -13,51 +20,5 @@ public class CreatBookingDTO {
 
     private String tourId ;
 
-    public int getMaBooking() {
-        return maBooking;
-    }
 
-    public void setMaBooking(int maBooking) {
-        this.maBooking = maBooking;
-    }
-
-    public String getNameKH() {
-        return nameKH;
-    }
-
-    public void setNameKH(String nameKH) {
-        this.nameKH = nameKH;
-    }
-
-    public String getEmailKH() {
-        return emailKH;
-    }
-
-    public void setEmailKH(String emailKH) {
-        this.emailKH = emailKH;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
-    }
-
-    public String getTourId() {
-        return tourId;
-    }
-
-    public void setTourId(String tourId) {
-        this.tourId = tourId;
-    }
 }

@@ -21,28 +21,24 @@ export default function AvataTour() {
 
     return (
         <div>
-            <Box display="flex">
-                <Box>
-                    <Grid item xs={3} >
-                        <img
-                            src={`${srcImg}/${tours?.image}`}
-                            style={{ height: '70%', width: '70%', objectFit: 'cover', borderRadius: '10px' }}
-                            alt="Image 1"
-                        />
-                    </Grid>
-                </Box>
-                <Box>
-                    <Grid item xs='5'>
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px', marginBottom: '20px' }}>
-                            <h2>{tours?.tenTour}</h2>
-                            <h2>Khởi hành: {tours?.ngayKhoiHanh}</h2>
-                            <h2>Thời gian: {tours?.thoiGian}</h2>
-                            <h2>Nơi khởi hành: {tours?.noiKhoiHanh}</h2>
-                            <h2>Số chỗ còn nhận: {tours?.soCho}</h2>
-                        </div>
-                    </Grid>
-                </Box>
-            </Box>
+            <Grid container >
+                <Grid item xs='6' >
+                    <img
+                        src={`${srcImg}/${tours?.image}`}
+                        style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                        alt="Image 1"
+                    />
+                </Grid>
+                <Grid item xs='6'>
+                    <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px', marginBottom: '20px' }}>
+                        <h2>{tours?.tenTour}</h2>
+                        <h2>Khởi hành: {tours?.ngayKhoiHanh}</h2>
+                        <h2>Thời gian: {tours?.thoiGian}</h2>
+                        <h2>Nơi khởi hành: {tours?.noiKhoiHanh}</h2>
+                        <h2>Số chỗ còn nhận: {tours?.soCho}</h2>
+                    </div>
+                </Grid>
+            </Grid>
         </div>
     )
 }

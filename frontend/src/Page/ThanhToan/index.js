@@ -4,15 +4,18 @@ import Footer from '../../conponents/Footer'
 import tourApi from '../../api/tourApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-    Grid, Box, Typography, TextField, Radio, RadioGroup, FormControlLabel
-
+    Grid, Box, Typography, TextField, Radio, RadioGroup, FormControlLabel,
+    Divider, Button
 } from '@mui/material';
 import { srcImg } from '../../util/srcImg';
+import FormBooking from '../Booking/formBooking';
+import Diversity3Icon from '@mui/icons-material/Diversity3';
 
 export default function ThanhToan() {
 
     const [selectedMethod, setSelectedMethod] = useState('');
     const [tours, setTours] = useState();
+    const { count, setCount } = FormBooking();
 
     // avatar Tour
     const { maTour } = useParams();
@@ -97,6 +100,7 @@ export default function ThanhToan() {
     return (
         <div>
             <Header2 />
+
             <Box display="flex" spacing={5} my={1} item xs={8} pl={30} pr={10}>
                 <Box flexDirection="column" mx={5} >
                     <h3>1. Nhập thông tin </h3>
@@ -104,7 +108,7 @@ export default function ThanhToan() {
                 <h3>2. Thanh toán </h3>
             </Box>
             <hr />
-            <Box display="flex">
+            <Box display="flex" >
                 <Box spacing={5} item xs={8} pl={20} pr={10}>
                     <Typography variant="h5" my={3}>Thanh toán</Typography>
                     <Typography variant="h6" my={3}>Các hình thức thanh toán</Typography>
@@ -127,24 +131,77 @@ export default function ThanhToan() {
                     border="1px solid #ccc"
                     borderRadius={4}
                     padding={2}
-                    width={400}
+                // width={400}
                 >
-                    <Grid item xs={2} pl={25} pr={10} my={5}>
-                        <h2>Tóm tắt chuyến đi</h2>
-                        <img
-                            src={`${srcImg}/${tours?.image}`}
-                            style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
-                            alt="Image 1"
-                        />
-                        <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px' }}>
-                            <h2>{tours?.tenTour}</h2>
-                        </div>
+                    <Grid container>
+                        <Grid >
+                            <h2>Tóm tắt chuyến đi</h2>
+                            <img
+                                src={`${srcImg}/${tours?.image}`}
+                                style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
+                                alt="Image 1"
+                            />
+                            <img
+                                src={`${srcImg}/${tours?.image}`}
+                                style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
+                                alt="Image 3"
+                            />
+                            <div style={{ backgroundColor: 'white', borderRadius: '10px', }}>
+                                <h3>{tours?.tenTour}</h3>
+                            </div>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={5} my={1} display="flex" >
+                        <Grid >
+                            <Typography variant="h6" mx={20}>Hành Khách</Typography>
+                        </Grid>
+                        <Diversity3Icon />
+                        <Typography variant="body1">{count?.countFull}</Typography>
                     </Grid>
 
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid>
+                            <Typography variant="body1" mx={20}>Người lớn</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={1}>{count?.count} x {tours?.giaTour} đ</Typography>
+                    </Grid>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid >
+                            <Typography variant="body1" mx={20}>Trẻ em</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={4}>{count?.childCount} x {tours?.giaTreEm} đ</Typography>
+                    </Grid>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={3.3}>{count?.treNho} x {tours?.giaTreNho} đ</Typography>
+                    </Grid>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Em bé </Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={4.4}>{count?.emBe} x {tours?.giaEmBe} đ</Typography>
+                    </Grid>
+                    <Divider sx={{ margin: '16px 0' }} />
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Tổng cộng </Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={3.3}>{count?.tongGia} đ </Typography>
+                    </Grid>
+                    <Grid spacing={5} my={5} mx={30}>
+                        <Button variant="contained" type='submit' >
+                            {/* {onSubmit} */}
+                            Đặt ngay
+                        </Button>
+                    </Grid>
                 </Box>
             </Box>
-
-
 
             <Footer />
         </div >

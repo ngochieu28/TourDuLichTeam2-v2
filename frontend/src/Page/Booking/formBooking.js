@@ -9,6 +9,7 @@ import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useParams, useNavigate } from 'react-router-dom';
+import { srcImg } from '../../util/srcImg';
 import {
     Grid, TextField, Box, Typography,
     Button, ButtonGroup, Divider,
@@ -30,9 +31,6 @@ const FormBooking = () => {
     const soCho = (tours?.soCho);
 
     const countFull = count + childCount + treNho + emBe;
-    if (countFull > soCho) {
-        alert("số chỗ còn lại là" + soCho)
-    }
 
     const giaNguoiLon1 = count * giaNguoiLon
     const giaTreEm1 = childCount * giaTreEm
@@ -66,7 +64,7 @@ const FormBooking = () => {
 
     const getTourDetail2 = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
-        setTours(res.data);
+        setTours(res);
     };
 
     useEffect(() => {
@@ -88,7 +86,11 @@ const FormBooking = () => {
 
     //// check tăng giảm
     const increaseAdultCount = () => {
-        setCount(count + 1);
+        if (countFull == tours?.soCho) {
+            alert("Số chỗ còn lại là" + tours?.soCho)
+        } else {
+            setCount(count + 1);
+        }
     };
 
     const decreaseAdultCount = () => {
@@ -100,7 +102,11 @@ const FormBooking = () => {
     };
 
     const increaseChildCount = () => {
-        setChildCount(childCount + 1);
+        if (countFull == tours?.soCho) {
+            alert("Số chỗ còn lại là" + tours?.soCho)
+        } else {
+            setChildCount(childCount + 1);
+        }
     };
 
     const decreaseChildCount = () => {
@@ -110,7 +116,11 @@ const FormBooking = () => {
     };
 
     const increaseTreNho = () => {
-        setTreNho(treNho + 1);
+        if (countFull == tours?.soCho) {
+            alert("Số chỗ còn lại là" + tours?.soCho)
+        } else {
+            setTreNho(treNho + 1);
+        }
     };
 
     const decreaseTreNho = () => {
@@ -120,7 +130,11 @@ const FormBooking = () => {
     };
 
     const increaseEmbe = () => {
-        setEmBe(emBe + 1);
+        if (countFull == tours?.soCho) {
+            alert("Số chỗ còn lại là" + tours?.soCho)
+        } else {
+            setEmBe(emBe + 1);
+        }
     };
 
     const decreaseEmbe = () => {
@@ -204,20 +218,18 @@ const FormBooking = () => {
                     <Typography variant="h6" display="flex" >HÀNH KHÁCH</Typography>
                     <Box border="1px solid gray" backgroundColor='#eeeeee'>
                         <Grid container spacing={5} my={1} item xs={12}>
-                            <Grid item xs={4}>
-                                <Box display="flex">
-                                    <Box flexDirection="column" mx={5} >
-                                        <Typography variant="body1">Người lớn</Typography>
-                                        <Typography variant="body2">lớn hơn 12 tuổi</Typography>
-                                    </Box>
-                                    <ButtonGroup>
-                                        <Button onClick={decreaseAdultCount}>-</Button>
-                                        <Button disabled>{count}</Button>
-                                        <Button onClick={increaseAdultCount}>+</Button>
-                                    </ButtonGroup>
+                            <Grid item xs="4" display="flex">
+                                <Box flexDirection="column" mx={5} >
+                                    <Typography variant="body1">Người lớn</Typography>
+                                    <Typography variant="body2">lớn hơn 12 tuổi</Typography>
                                 </Box>
+                                <ButtonGroup>
+                                    <Button onClick={decreaseAdultCount}>-</Button>
+                                    <Button disabled>{count}</Button>
+                                    <Button onClick={increaseAdultCount}>+</Button>
+                                </ButtonGroup>
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs="4">
                                 <Box display="flex">
                                     <Box flexDirection="column" mx={5} >
                                         <Typography variant="body1">Trẻ em</Typography>
@@ -265,18 +277,18 @@ const FormBooking = () => {
                 </Box>
 
                 <Box pl={25} pr={10} my={5}>
-                    <Grid container spacing={5} my={1}>
-                        <Grid item xs={8} my={2} >
-                            <Box display="flex">
-                                <Box flexDirection="column" mx={4.5} >
-                                    <Typography variant="body1">. Người lớn sinh trước ngày 12/08/2011</Typography>
-                                    <Typography variant="body1">. Trẻ nhỏ sinh từ 13/08/2018 đến 12/08/2021</Typography>
-                                </Box>
-                                <Box flexDirection="column" mx={4.5} >
-                                    <Typography variant="body1">. Trẻ em sinh từ 13/08/2011 đến 12/08/2018</Typography>
-                                    <Typography variant="body1">. Em bé sinh từ 13/08/2021 đến 14/08/2023</Typography>
-                                </Box>
-                            </Box>
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid item xs='6'  >
+                            <Typography variant="body1">. Người lớn sinh trước ngày 12/08/2011</Typography>
+                        </Grid>
+                        <Grid item xs='6'  >
+                            <Typography variant="body1">. Trẻ nhỏ sinh từ 13/08/2018 đến 12/08/2021</Typography>
+                        </Grid>
+                        <Grid item xs='6'  >
+                            <Typography variant="body1">. Trẻ em sinh từ 13/08/2011 đến 12/08/2018</Typography>
+                        </Grid>
+                        <Grid item xs='6'  >
+                            <Typography variant="body1">. Em bé sinh từ 13/08/2021 đến 14/08/2023</Typography>
                         </Grid>
                     </Grid>
                 </Box>
@@ -284,7 +296,7 @@ const FormBooking = () => {
                 <Grid item xs={2} pl={25} pr={10} my={5}>
                     <h2>Tóm tắt chuyến đi</h2>
                     <img
-                        src={`http://192.168.0.101:4000/${tours?.image}`}
+                        src={`${srcImg}/${tours?.image}`}
                         style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
                         alt="Image 1"
                     />
@@ -295,38 +307,57 @@ const FormBooking = () => {
 
                 <Box pl={25} pr={10} my={5} >
                     <Grid container spacing={5} my={1} display="flex" >
-                        <Typography variant="h6" mx={20}>Hành Khách</Typography>
+                        <Grid >
+                            <Typography variant="h6" mx={20}>Hành Khách</Typography>
+                        </Grid>
                         <Diversity3Icon />
                         <Typography variant="body1">{countFull}</Typography>
                     </Grid>
-                    <Grid container spacing={5} my={2} display="flex" >
-                        <Typography variant="body1" mx={20}>Người lớn</Typography>
-                        <Typography variant="body1">{count} x {tours?.giaTour} đ</Typography>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid>
+                            <Typography variant="body1" mx={20}>Người lớn</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={1}>{count} x {tours?.giaTour} đ</Typography>
                     </Grid>
-                    <Grid container spacing={5} my={2} display="flex" >
-                        <Typography variant="body1" mx={20}>Trẻ em</Typography>
-                        <Typography variant="body1">{childCount} x {tours?.giaTreEm} đ</Typography>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid >
+                            <Typography variant="body1" mx={20}>Trẻ em</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={4}>{childCount} x {tours?.giaTreEm} đ</Typography>
                     </Grid>
-                    <Grid container spacing={5} my={2} display="flex" >
-                        <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
-                        <Typography variant="body1">{treNho} x {tours?.giaTreNho} đ</Typography>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={3.3}>{treNho} x {tours?.giaTreNho} đ</Typography>
                     </Grid>
-                    <Grid container spacing={5} my={2} display="flex" >
-                        <Typography variant="body1" mx={20}>Em bé </Typography>
-                        <Typography variant="body1">{emBe} x {tours?.giaEmBe} đ</Typography>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Em bé </Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={4.4}>{emBe} x {tours?.giaEmBe} đ</Typography>
                     </Grid>
                     <Divider sx={{ margin: '16px 0' }} />
-                    <Grid container spacing={5} my={2} display="flex" >
-                        <Typography variant="body1" mx={20}>Tổng cộng </Typography>
-                        <Typography variant="body1">{tongGia} đ </Typography>
+
+                    <Grid container spacing={5} my={1} display="flex">
+                        <Grid  >
+                            <Typography variant="body1" mx={20}>Tổng cộng </Typography>
+                        </Grid>
+                        <Typography variant="body1" mx={3.3}>{tongGia} đ </Typography>
                     </Grid>
-                    <Button variant="contained" type='submit'>{onSubmit}
-                        Đặt ngay
-                    </Button>
+                    <Grid spacing={5} my={5} mx={30}>
+                        <Button variant="contained" type='submit' >{onSubmit}
+                            Đặt ngay
+                        </Button>
+                    </Grid>
                 </Box>
             </form>
             <Footer />
-        </div>
+        </div >
     )
 }
 export default FormBooking;

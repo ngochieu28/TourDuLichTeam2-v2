@@ -40,7 +40,7 @@ public class Database {
                     admin.setRoles(roles);
                     userRepository.save(admin);
                 }else {
-                    User admin = userRepository.findByEmail("zeno@gmail.com");
+                    User admin = userRepository.findByEmail("hanhhanoi1999@gmail.com");
                     admin.setPassword(encoder.encode("123456"));
                     userRepository.save(admin);
                 }
