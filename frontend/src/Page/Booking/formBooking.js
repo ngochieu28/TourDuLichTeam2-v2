@@ -1,4 +1,5 @@
 import React from 'react'
+import Header1 from '../../conponents/Navbar'
 import tourApi from '../../api/tourApi';
 import Footer from '../../conponents/Footer';
 import AvataTour from './AvataTour';
@@ -7,29 +8,43 @@ import { useForm, Controller } from 'react-hook-form'
 import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
-    Grid, TextField, Box, Typography, Card, CardActionArea, CardMedia, CardContent, Button, ButtonGroup, Divider
+    Grid, TextField, Box, Typography,
+    Button, ButtonGroup, Divider,
 } from '@mui/material';
-
 
 const FormBooking = () => {
     const [state, dispatch] = AppConsumer();
+    const [tours, setTours] = useState();
 
     const [count, setCount] = useState(1);
     const [childCount, setChildCount] = useState(0)
     const [treNho, setTreNho] = useState(0)
     const [emBe, setEmBe] = useState(0)
 
+    const giaNguoiLon = (tours?.giaTour);
+    const giaTreEm = (tours?.giaTreEm);
+    const giaTreNho = (tours?.giaTreNho);
+    const giaEmBe = (tours?.giaEmBe);
+    const soCho = (tours?.soCho);
+
     const countFull = count + childCount + treNho + emBe;
-    const giaNguoiLon = count * 800000
-    const giaTreEm = childCount * 500000
-    const giaTreNho = treNho * 350000
-    const giaEmBe = emBe * 100000
-    const tongGia = giaNguoiLon + giaTreEm + giaTreNho + giaEmBe
+    if (countFull > soCho) {
+        alert("số chỗ còn lại là" + soCho)
+    }
+
+    const giaNguoiLon1 = count * giaNguoiLon
+    const giaTreEm1 = childCount * giaTreEm
+    const giaTreNho1 = treNho * giaTreNho
+    const giaEmBe1 = emBe * giaEmBe
+    const tongGia = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
+
+    const navigate = useNavigate();
 
     const { handleSubmit, control, reset, setValue, formState: { errors } } = useForm({
         defaultValues: {
+            tourId: "",
             nameKH: "",
             emailKH: "",
             phoneNumber: "",
@@ -38,6 +53,7 @@ const FormBooking = () => {
     });
 
     useEffect(() => {
+        setValue("tourId", maTour)
         setValue("nameKH", state.data.nameKH)
         setValue("emailKH", state.data.emailKH)
         setValue("phoneNumber", state.data.phoneNumber)
@@ -45,12 +61,8 @@ const FormBooking = () => {
 
     }, [state.data])
 
-
     // avatar Tour
-
     const { maTour } = useParams();
-
-    const [tours, setTours] = useState();
 
     const getTourDetail2 = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
@@ -71,8 +83,8 @@ const FormBooking = () => {
     // button
     const onSubmit = (data) => {
         addNewBooking(data)
+        navigate(`/thanhToan/${maTour}`)
     }
-
 
     //// check tăng giảm
     const increaseAdultCount = () => {
@@ -119,6 +131,7 @@ const FormBooking = () => {
 
     return (
         <div>
+            <Header1 />
             <form onSubmit={handleSubmit(onSubmit)} >
                 <Box pl={25} pr={10}>
                     <Typography variant="h3" display="flex" my={1}>Thông Tin Chuyến Đi</Typography>
@@ -126,7 +139,7 @@ const FormBooking = () => {
                     <Typography variant="h6" display="flex" my={1}>Thông tin liên lạc</Typography>
                     <Box border="1px solid gray" backgroundColor='#eeeeee' >
                         <Grid container spacing={5} my={1} >
-                            <Grid item xs={3} >
+                            <Grid item xs={4} >
                                 <Box pl={2} pr={5} >
                                     <Controller name="nameKH" control={control} render={({ field }) => (
                                         <TextField
@@ -139,7 +152,7 @@ const FormBooking = () => {
                                     )} />
                                 </Box>
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={4}>
                                 <Box pl={2} pr={5}>
                                     <Controller name="emailKH" control={control} render={({ field }) => (
                                         <TextField
@@ -148,6 +161,7 @@ const FormBooking = () => {
                                             fullWidth
                                             helperText={errors.emailKH && errors.emailKH.message}
                                             error={!!errors.emailKH}
+                                            type='email'
                                         />
                                     )} />
                                 </Box>
@@ -155,7 +169,7 @@ const FormBooking = () => {
                         </Grid>
 
                         <Grid container spacing={5}>
-                            <Grid item xs={3} my={4}>
+                            <Grid item xs={4} my={4}>
                                 <Box pl={2} pr={5}>
                                     <Controller name="phoneNumber" control={control} render={({ field }) => (
                                         <TextField
@@ -164,11 +178,12 @@ const FormBooking = () => {
                                             fullWidth
                                             helperText={errors.phoneNumber && errors.phoneNumber.message}
                                             error={!!errors.phoneNumber}
+                                            type='number'
                                         />
                                     )} />
                                 </Box>
                             </Grid>
-                            <Grid item xs={3} my={4}>
+                            <Grid item xs={4} my={4}>
                                 <Box pl={2} pr={5}>
                                     <Controller name="diaChi" control={control} render={({ field }) => (
                                         <TextField
@@ -188,7 +203,7 @@ const FormBooking = () => {
                 <Box pl={25} pr={10} my={5}>
                     <Typography variant="h6" display="flex" >HÀNH KHÁCH</Typography>
                     <Box border="1px solid gray" backgroundColor='#eeeeee'>
-                        <Grid container spacing={5} my={1} item xs={8}>
+                        <Grid container spacing={5} my={1} item xs={12}>
                             <Grid item xs={4}>
                                 <Box display="flex">
                                     <Box flexDirection="column" mx={5} >
@@ -217,7 +232,7 @@ const FormBooking = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid container spacing={5} item xs={8}>
+                        <Grid container spacing={5} item xs={12}>
                             <Grid item xs={4} my={4}>
                                 <Box display="flex">
                                     <Box flexDirection="column" mx={7} >
@@ -286,19 +301,19 @@ const FormBooking = () => {
                     </Grid>
                     <Grid container spacing={5} my={2} display="flex" >
                         <Typography variant="body1" mx={20}>Người lớn</Typography>
-                        <Typography variant="body1">{count} x 800.000 đ</Typography>
+                        <Typography variant="body1">{count} x {tours?.giaTour} đ</Typography>
                     </Grid>
                     <Grid container spacing={5} my={2} display="flex" >
                         <Typography variant="body1" mx={20}>Trẻ em</Typography>
-                        <Typography variant="body1">{childCount} x 500.000 đ</Typography>
+                        <Typography variant="body1">{childCount} x {tours?.giaTreEm} đ</Typography>
                     </Grid>
                     <Grid container spacing={5} my={2} display="flex" >
                         <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
-                        <Typography variant="body1">{treNho} x 350.000 đ</Typography>
+                        <Typography variant="body1">{treNho} x {tours?.giaTreNho} đ</Typography>
                     </Grid>
                     <Grid container spacing={5} my={2} display="flex" >
                         <Typography variant="body1" mx={20}>Em bé </Typography>
-                        <Typography variant="body1">{emBe} x 100.000 đ</Typography>
+                        <Typography variant="body1">{emBe} x {tours?.giaEmBe} đ</Typography>
                     </Grid>
                     <Divider sx={{ margin: '16px 0' }} />
                     <Grid container spacing={5} my={2} display="flex" >
@@ -306,7 +321,7 @@ const FormBooking = () => {
                         <Typography variant="body1">{tongGia} đ </Typography>
                     </Grid>
                     <Button variant="contained" type='submit'>{onSubmit}
-                        <Link to={`/thanhToan`}>Đặt ngay</Link>
+                        Đặt ngay
                     </Button>
                 </Box>
             </form>

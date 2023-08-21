@@ -11,12 +11,12 @@ import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
 import TourDetail from './Page/TourDetail';
 import ScrollToTop from './util/ScrollToTop';
-import Page500 from './Page/auth/Page500';
-import Page404 from './Page/auth/Page404';
+import ThanhToan from './Page/ThanhToan';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import ResetPassword from './Page/auth/ResetPassword';
 import NewPassword from './Page/auth/NewPassword';
+import Page404 from './Page/auth/Page404';
+import Page500 from './Page/auth/Page500';
 
 function App() {
   const location = useLocation();
@@ -34,7 +34,8 @@ function App() {
           <Route path='product/:id' element={<ProductDetail />} />
           <Route path='user' element={<User />} />
         </Route>
-        <Route path='/booking' element={<Booking />} />
+        <Route path='/booking/:maTour' element={<Booking />} />
+        <Route path='/thanhToan/:maTour' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/auth/new-password/:token' element={<NewPassword />} />
