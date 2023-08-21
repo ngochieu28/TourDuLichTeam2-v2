@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const SignUp = () => {
+const Login = () => {
     const [open, setOpen] = React.useState(false);
     const [email, setEmail] = useState("");
     const [isDisableResendButton, setDisableResendButton] = useState(false);
@@ -130,7 +130,7 @@ const SignUp = () => {
                                     } catch (error) {
                                         if (error.status === 401) {
                                             // show error notification
-                                            toast.error('Login Fail! Wrong Username or Password!');
+                                            toast.error('Wrong Username or Password!');
                                         } else {
                                             // redirect page error server
                                             navigate('/page500');
@@ -200,8 +200,8 @@ const SignUp = () => {
                                     </CardContent>
                                     <Grid container>
                                         <Grid item xs>
-                                            <Link href="#" variant="body2">
-
+                                            <Link to="/resetpassword" variant="body2">
+                                                {"Forgot password?"}
                                             </Link>
                                         </Grid>
                                         <Grid item>
@@ -248,4 +248,4 @@ const SignUp = () => {
     );
 };
 
-export default SignUp;
+export default Login;
