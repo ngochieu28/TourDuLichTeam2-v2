@@ -10,7 +10,7 @@ export default function AvataTour() {
 
     const getTourDetail2 = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
-        setTours(res.data);
+        setTours(res);
     };
 
     useEffect(() => {

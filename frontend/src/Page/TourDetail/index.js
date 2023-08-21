@@ -34,7 +34,7 @@ export default function TourDetail() {
 
     const getTourDetail = async () => {
         const res = await tourApi.getTourDetailByMaTour(maTour);
-        setTours(res.data);
+        setTours(res);
     };
 
     useEffect(() => {
@@ -94,7 +94,7 @@ export default function TourDetail() {
                             <Grid container justifyContent="flex-end">
                                 <Grid item xs='8'>
                                     <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                                        <h2 style={{ margin: '0', color: 'red' }}>{tours?.giaTour}đ</h2>
+                                        <h2 style={{ margin: '0', color: 'red' }}>{tours?.giaTourString}đ</h2>
                                         <p>/khách</p>
                                         <div style={{ marginLeft: '10px' }}>
                                             <Button variant="contained" color="error" startIcon={<AddShoppingCartIcon />} style={{ height: '50px', width: '100%', margin: '5px' }}>

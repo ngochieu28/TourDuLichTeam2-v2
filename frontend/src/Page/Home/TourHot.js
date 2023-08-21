@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { CreditCard } from '@mui/icons-material';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import { srcImg } from '../../util/srcImg';
 
@@ -13,12 +12,11 @@ export default function TourHot() {
 
     const getTourHot = async () => {
         const res = await tourApi.getTourHot()
-        setTourHots(res.data.content)
+        setTourHots(res.content)
     }
 
     useEffect(() => {
         getTourHot()
-
     }, [])
 
     return (

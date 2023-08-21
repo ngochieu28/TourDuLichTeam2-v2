@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useRef } from 'react';
 import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination } from '@mui/material';
-import { CreditCard } from '@mui/icons-material';
 import { AppConsumer } from '../../store';
 import { Link } from 'react-router-dom';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
@@ -20,8 +21,8 @@ export default function DanhSachTour() {
 
     const getDanhSachTour = async (page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian) => {
         const res = await tourApi.getAllTour(page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian);
-        setTours(res.data.content);
-        setTotalSize(res.data.totalElements);
+        setTours(res.content);
+        setTotalSize(res.totalElements);
     };
 
     const scrollToTop = () => {
