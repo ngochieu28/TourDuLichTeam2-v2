@@ -1,19 +1,23 @@
 package com.vti.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Formula;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "`User`")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -51,6 +55,14 @@ public class User implements Serializable {
 	@Column(name = "avatarUrl")
 	private String avatarUrl;
 
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+
 	public User(String userName, String email, String password, String firstName, String lastName) {
 		this.userName = userName;
 		this.email = email;
@@ -58,60 +70,4 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
-	public User() {
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public UserStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(UserStatus status) {
-		this.status = status;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public String getAvatarUrl() {
-		return avatarUrl;
-	}
-
-	public void setAvatarUrl(String avatarUrl) {
-		this.avatarUrl = avatarUrl;
-	}
-
 }

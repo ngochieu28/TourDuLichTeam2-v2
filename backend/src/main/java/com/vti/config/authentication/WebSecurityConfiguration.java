@@ -41,6 +41,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/v1/groups").permitAll()
 		.antMatchers("/api/v1/tours/**").permitAll()
 		.antMatchers("/api/v1/bookings/**").permitAll()
+		.antMatchers("/api/FileUpload/files/**").permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.httpBasic()
