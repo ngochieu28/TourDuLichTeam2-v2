@@ -245,7 +245,7 @@ const Footer = () => (
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/ggp.webp" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/ggp.webp" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                                 <li>
@@ -255,7 +255,7 @@ const Footer = () => (
                                 </li>
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/image42.webp" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/image42.webp" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                             </ul>
@@ -264,7 +264,7 @@ const Footer = () => (
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/aps.webp" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/aps.webp" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                                 <li>
@@ -274,7 +274,7 @@ const Footer = () => (
                                 </li>
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/image43.webp" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/image43.webp" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                             </ul>
@@ -411,7 +411,7 @@ const Footer = () => (
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/image39.webp" alt="Chứng nhận 1" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/image39.webp" alt="Chứng nhận 1" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                                 <li>
@@ -421,73 +421,11 @@ const Footer = () => (
                                 </li>
                                 <li>
                                     <span className="text-muted" href="#">
-                                        <img src="https://travel.com.vn/Content/Theme/images/image40.webp" alt="Chứng nhận 2" />
+                                        <img src="https://travel.com.vn/Content/Theme/images/image40.webp" alt="Chứng nhận 2" style={{ width: '100%', objectFit: 'cover' }} />
                                     </span>
                                 </li>
                             </ul>
                         </div>
-                        {/* <div>
-              <h4><a href="#" style={{ textDecoration: 'none' }}>Chấp nhận thanh toán</a></h4>
-              <Grid container>
-                <Grid xs="4">
-                  <ul className="list-unstyled">
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/image41.webp" alt="Chấp nhận thanh toán 1" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/mtc.webp" alt="Chấp nhận thanh toán 2" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/shopeepay.webp" alt="Chấp nhận thanh toán 3" />
-                      </span>
-                    </li>
-                  </ul>
-                </Grid >
-                <Grid xs="4">
-                  <ul className="list-unstyled">
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/vnpay_qr1_1.webp" alt="Chấp nhận thanh toán 1" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/jcb.webp" alt="Chấp nhận thanh toán 2" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-
-                      </span>
-                    </li>
-                  </ul>
-                </Grid >
-                <Grid xs="4">
-                  <ul className="list-unstyled">
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/vs.webp" alt="Chấp nhận thanh toán 1" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/vrvs.webp" alt="Chấp nhận thanh toán 2" />
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <span className="text-muted" href="#">
-                        <img src="https://travel.com.vn/Content/Theme/images/msb.webp" alt="Chấp nhận thanh toán 3" />
-                      </span>
-                    </li>
-                  </ul>
-                </Grid >
-              </Grid >
-            </div> */}
                     </div>
                 </Grid >
 

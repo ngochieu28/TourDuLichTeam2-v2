@@ -5,7 +5,6 @@ import Login from './Page/auth/Login';
 import SignUp from './Page/auth/SignUp';
 import Admin from './Page/Admin';
 import Product from './Page/Product';
-import User from './Page/Users';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
 import Booking from './Page/Booking/formBooking';
@@ -17,6 +16,8 @@ import ResetPassword from './Page/auth/ResetPassword';
 import NewPassword from './Page/auth/NewPassword';
 import Page404 from './Page/auth/Page404';
 import Page500 from './Page/auth/Page500';
+import LoginAdmin from './Page/auth/LoginAdmin';
+import QuanLyTour from './Page/Admin/QuanLyTour';
 
 function App() {
   const location = useLocation();
@@ -31,11 +32,12 @@ function App() {
           <Route index element={<AdminPage />} />
           <Route path='product' element={<Product />} />
           <Route path='product/:id' element={<ProductDetail />} />
-          <Route path='user' element={<User />} />
+          <Route path='quan-ly-tour' element={<QuanLyTour />} />
         </Route>
         <Route path='/booking/:maTour' element={<Booking />} />
         <Route path='/thanhToan/:maTour' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/loginAdmin' element={<LoginAdmin />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/auth/new-password/:token' element={<NewPassword />} />
         <Route path='/signUp' element={<SignUp />} />

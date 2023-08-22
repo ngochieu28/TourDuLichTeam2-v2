@@ -6,9 +6,12 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { AccountCircleOutlined } from "@mui/icons-material";
 
@@ -124,7 +127,7 @@ function ResponsiveAppBar() {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Link to={'/login'} ><AccountCircleOutlined sx={{ ml: 2, fontSize: 32 }} /></Link>
+                            <AccountCircleOutlined sx={{ ml: 2, fontSize: 32 }} />
                         </IconButton>
                     </Tooltip>
                     <Menu
