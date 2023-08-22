@@ -176,8 +176,8 @@ export default function ThanhToan() {
                                         <Typography variant="body1" mx={1}>{booking?.phoneNumber} </Typography>
                                         <Typography variant="body1" mx={1}>{booking?.diaChi} </Typography>
                                     </Grid>
-                                    <Grid >
-                                        <Typography variant="h6" mx={20}>Hành Khách</Typography>
+                                    <Grid pl={18}>
+                                        <Typography variant="h6" >Hành Khách</Typography>
                                     </Grid>
                                     <Diversity3Icon />
                                     <Typography variant="body1">{count?.countFull}</Typography>

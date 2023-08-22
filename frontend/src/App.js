@@ -7,7 +7,7 @@ import Admin from './Page/Admin';
 import Product from './Page/Product';
 import AdminPage from './Page/Admin/AdminPage';
 import ProductDetail from './Page/Product/ProductDetail';
-import Booking from './Page/Booking/formBooking';
+import Booking from './Page/Booking/Booking';
 import TourDetail from './Page/TourDetail';
 import ScrollToTop from './util/ScrollToTop';
 import ThanhToan from './Page/ThanhToan';
@@ -18,6 +18,7 @@ import Page404 from './Page/auth/Page404';
 import Page500 from './Page/auth/Page500';
 import LoginAdmin from './Page/auth/LoginAdmin';
 import QuanLyTour from './Page/Admin/QuanLyTour/QuanLyTour';
+import Test from './Test/Test';
 
 function App() {
   const location = useLocation();
@@ -35,7 +36,7 @@ function App() {
           <Route path='quan-ly-tour' element={<QuanLyTour />} />
         </Route>
         <Route path='/booking/:maTour' element={<Booking />} />
-        <Route path='/thanhToan/:maTour' element={<ThanhToan />} />
+        <Route path='/thanhToan/:maTour/:maBooking' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
         <Route path='/loginAdmin' element={<LoginAdmin />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
@@ -43,6 +44,7 @@ function App() {
         <Route path='/signUp' element={<SignUp />} />
         <Route path='/page500' element={<Page500 />} />
         <Route path="*" element={<Page404 />} />
+        <Route path='/test' element={<Test />} />
       </Routes>
     </div>
   );
