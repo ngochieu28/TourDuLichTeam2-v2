@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface BookingRepository extends JpaRepository<Booking, String>, JpaSpecificationExecutor<Booking> {
 
-    Booking findByMaBooking(String maBooking);
+    Booking findByMaBooking(int maBooking);
 
 }

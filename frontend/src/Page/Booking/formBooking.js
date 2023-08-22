@@ -1,14 +1,12 @@
 import React from 'react'
-import Header1 from '../../conponents/Navbar'
 import tourApi from '../../api/tourApi';
-import Footer from '../../conponents/Footer';
 import AvataTour from './AvataTour';
 import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form'
 import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
 import {
     Grid, TextField, Box, Typography,
@@ -19,6 +17,10 @@ const FormBooking = () => {
     const [state, dispatch] = AppConsumer();
     const [tours, setTours] = useState();
 
+    // lấy id 
+    const [maBooking, setmaBooking] = useState();
+
+    // đếm Sl và tính giá tiền
     const [count, setCount] = useState(1);
     const [childCount, setChildCount] = useState(0)
     const [treNho, setTreNho] = useState(0)
@@ -28,7 +30,6 @@ const FormBooking = () => {
     const giaTreEm = (tours?.giaTreEm);
     const giaTreNho = (tours?.giaTreNho);
     const giaEmBe = (tours?.giaEmBe);
-    const soCho = (tours?.soCho);
 
     const countFull = count + childCount + treNho + emBe;
 
@@ -67,6 +68,7 @@ const FormBooking = () => {
         setTours(res);
     };
 
+
     useEffect(() => {
         getTourDetail2()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,13 +77,14 @@ const FormBooking = () => {
     // call Api
     const addNewBooking = async (data) => {
         let res = await bookingApi.creatBooking(data)
-            .then((data))
+        console.log(res);
+        setmaBooking(res)
     }
 
     // button
     const onSubmit = (data) => {
         addNewBooking(data)
-        navigate(`/thanhToan/${maTour}`)
+        navigate(`/thanhToan/${maTour}/${maBooking}`)
     }
 
     //// check tăng giảm
@@ -145,16 +148,19 @@ const FormBooking = () => {
 
     return (
         <div>
-            <Header1 />
-            <form onSubmit={handleSubmit(onSubmit)} >
-                <Box pl={25} pr={10}>
-                    <Typography variant="h3" display="flex" my={1}>Thông Tin Chuyến Đi</Typography>
-                    <AvataTour />
-                    <Typography variant="h6" display="flex" my={1}>Thông tin liên lạc</Typography>
-                    <Box border="1px solid gray" backgroundColor='#eeeeee' >
-                        <Grid container spacing={5} my={1} >
-                            <Grid item xs={4} >
-                                <Box pl={2} pr={5} >
+            <Grid container >
+                <form onSubmit={handleSubmit(onSubmit)} >
+                    <Grid item xs='12'>
+                        <Typography variant="h3" my={1}>Thông Tin Chuyến Đi</Typography>
+                        <AvataTour />
+                        <Typography variant="h4" my={1}>Thông tin liên lạc</Typography>
+                    </Grid>
+
+                    {/* điền thông tin đăng ký  */}
+                    <Grid item xs='12' display='flex'>
+                        <Grid item xs='8' >
+                            <Grid container spacing={2} my={1} >
+                                <Grid item xs="6" >
                                     <Controller name="nameKH" control={control} render={({ field }) => (
                                         <TextField
                                             label="Họ và tên "
@@ -164,10 +170,8 @@ const FormBooking = () => {
                                             error={!!errors.nameKH}
                                         />
                                     )} />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Box pl={2} pr={5}>
+                                </Grid>
+                                <Grid item xs="6">
                                     <Controller name="emailKH" control={control} render={({ field }) => (
                                         <TextField
                                             label="Email"
@@ -178,13 +182,11 @@ const FormBooking = () => {
                                             type='email'
                                         />
                                     )} />
-                                </Box>
+                                </Grid>
                             </Grid>
-                        </Grid>
 
-                        <Grid container spacing={5}>
-                            <Grid item xs={4} my={4}>
-                                <Box pl={2} pr={5}>
+                            <Grid container spacing={2}>
+                                <Grid item xs="6" my={4} >
                                     <Controller name="phoneNumber" control={control} render={({ field }) => (
                                         <TextField
                                             label="Số điện thoại"
@@ -195,10 +197,8 @@ const FormBooking = () => {
                                             type='number'
                                         />
                                     )} />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} my={4}>
-                                <Box pl={2} pr={5}>
+                                </Grid>
+                                <Grid item xs="6" my={4}>
                                     <Controller name="diaChi" control={control} render={({ field }) => (
                                         <TextField
                                             label="Địa chỉ"
@@ -208,155 +208,156 @@ const FormBooking = () => {
                                             error={!!errors.diaChi}
                                         />
                                     )} />
-                                </Box>
+                                </Grid>
+                            </Grid>
+
+                            {/* số lượng  */}
+                            <Typography variant="h4" display="flex" >HÀNH KHÁCH</Typography>
+                            <Grid item xs="12" my={5}>
+                                <Grid display="flex">
+                                    <Grid item xs="6" display="flex">
+                                        <Box flexDirection="column" mx={5} >
+                                            <Typography variant="h5">Người lớn</Typography>
+                                            <Typography variant="h5">lớn hơn 12 tuổi</Typography>
+                                        </Box>
+                                        <ButtonGroup>
+                                            <Button onClick={decreaseAdultCount}>-</Button>
+                                            <Button disabled>{count}</Button>
+                                            <Button onClick={increaseAdultCount}>+</Button>
+                                        </ButtonGroup>
+                                    </Grid>
+                                    <Grid item xs="6">
+                                        <Box display="flex">
+                                            <Box flexDirection="column" mx={5} >
+                                                <Typography variant="h5">Trẻ em</Typography>
+                                                <Typography variant="h5">5-11 tuổi</Typography>
+                                            </Box>
+                                            <ButtonGroup>
+                                                <Button onClick={decreaseChildCount}>-</Button>
+                                                <Button disabled>{childCount}</Button>
+                                                <Button onClick={increaseChildCount}>+</Button>
+                                            </ButtonGroup>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                                <Grid display="flex">
+                                    <Grid item xs="6" my={4}>
+                                        <Box display="flex">
+                                            <Box flexDirection="column" mx={8.3} >
+                                                <Typography variant="h5">Trẻ nhỏ</Typography>
+                                                <Typography variant="h5">từ 2-4 tuổi</Typography>
+                                            </Box>
+                                            <ButtonGroup>
+                                                <Button onClick={decreaseTreNho}>-</Button>
+                                                <Button disabled>{treNho}</Button>
+                                                <Button onClick={increaseTreNho}>+</Button>
+                                            </ButtonGroup>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs="6" my={4} >
+                                        <Box display="flex">
+                                            <Box flexDirection="column" mx={3.8} >
+                                                <Typography variant="h5">Em bé</Typography>
+                                                <Typography variant="h5">từ 0-2 tuổi</Typography>
+                                            </Box>
+                                            <ButtonGroup>
+                                                <Button onClick={decreaseEmbe}>-</Button>
+                                                <Button disabled>{emBe}</Button>
+                                                <Button onClick={increaseEmbe}>+</Button>
+                                            </ButtonGroup>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+
+                            {/* thông báo độ tuổi  */}
+                            <Grid item xs='12'>
+                                <Grid display="flex">
+                                    <Grid item xs='6'  >
+                                        <Typography variant="body1">. Người lớn sinh trước ngày 12/08/2011</Typography>
+                                    </Grid>
+                                    <Grid item xs='6'  >
+                                        <Typography variant="body1">. Trẻ nhỏ sinh từ 13/08/2018 đến 12/08/2021</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid display="flex">
+                                    <Grid item xs='6'  >
+                                        <Typography variant="body1">. Trẻ em sinh từ 13/08/2011 đến 12/08/2018</Typography>
+                                    </Grid>
+                                    <Grid item xs='6'  >
+                                        <Typography variant="body1">. Em bé sinh từ 13/08/2021 đến 14/08/2023</Typography>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Box>
-                </Box>
 
-                <Box pl={25} pr={10} my={5}>
-                    <Typography variant="h6" display="flex" >HÀNH KHÁCH</Typography>
-                    <Box border="1px solid gray" backgroundColor='#eeeeee'>
-                        <Grid container spacing={5} my={1} item xs={12}>
-                            <Grid item xs="4" display="flex">
-                                <Box flexDirection="column" mx={5} >
-                                    <Typography variant="body1">Người lớn</Typography>
-                                    <Typography variant="body2">lớn hơn 12 tuổi</Typography>
-                                </Box>
-                                <ButtonGroup>
-                                    <Button onClick={decreaseAdultCount}>-</Button>
-                                    <Button disabled>{count}</Button>
-                                    <Button onClick={increaseAdultCount}>+</Button>
-                                </ButtonGroup>
+                        {/* Thanh toán tóm tắt chuyến đi   */}
+                        <Grid item xs="4" pl={5}>
+                            <Grid item xs='12'>
+                                <h2>Tóm tắt chuyến đi</h2>
+                                <img
+                                    src={`${srcImg}/${tours?.image}`}
+                                    style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
+                                    alt="Image 1"
+                                />
+                                <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px' }}>
+                                    <h2>{tours?.tenTour}</h2>
+                                </div>
                             </Grid>
-                            <Grid item xs="4">
-                                <Box display="flex">
-                                    <Box flexDirection="column" mx={5} >
-                                        <Typography variant="body1">Trẻ em</Typography>
-                                        <Typography variant="body2">5-11 tuổi</Typography>
-                                    </Box>
-                                    <ButtonGroup>
-                                        <Button onClick={decreaseChildCount}>-</Button>
-                                        <Button disabled>{childCount}</Button>
-                                        <Button onClick={increaseChildCount}>+</Button>
-                                    </ButtonGroup>
-                                </Box>
+
+                            <Grid display="flex" pl={3}>
+                                <Typography variant="h6" >Hành Khách</Typography>
+                                <Grid pl={10}>
+                                    <Diversity3Icon />
+                                </Grid>
+                                <Typography variant="body1">{countFull}</Typography>
+                            </Grid>
+
+                            <Grid display="flex" pl={3} my={3}>
+                                <Typography variant="body1">Người lớn</Typography>
+                                <Grid pl={10}>
+                                    <Typography variant="body1" >{count} x {tours?.giaTour} đ</Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid my={3} pl={3} display="flex">
+                                <Typography variant="body1">Trẻ em</Typography>
+                                <Grid pl={13}>
+                                    <Typography variant="body1" >{childCount} x {tours?.giaTreEm} đ</Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid my={3} pl={3} display="flex">
+                                <Typography variant="body1" >Trẻ nhỏ</Typography>
+                                <Grid pl={12.4}>
+                                    <Typography variant="body1">{treNho} x {tours?.giaTreNho} đ</Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid my={3} pl={3} display="flex">
+                                <Typography variant="body1" >Em bé </Typography>
+                                <Grid pl={14.3}>
+                                    <Typography variant="body1" >{emBe} x {tours?.giaEmBe} đ</Typography>
+                                </Grid>
+                            </Grid>
+                            <Divider sx={{ margin: '16px 0' }} />
+
+                            <Grid my={3} pl={3} display="flex">
+                                <Typography variant="body1" >Tổng cộng </Typography>
+                                <Grid pl={13} >
+                                    <Typography variant="body1" >{tongGia} đ </Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid my={5} pl={3}>
+                                <Button variant="contained" type='submit' >{onSubmit}
+                                    Đặt ngay
+                                </Button>
                             </Grid>
                         </Grid>
-
-                        <Grid container spacing={5} item xs={12}>
-                            <Grid item xs={4} my={4}>
-                                <Box display="flex">
-                                    <Box flexDirection="column" mx={7} >
-                                        <Typography variant="body1">Trẻ nhỏ</Typography>
-                                        <Typography variant="body2">từ 2-4 tuổi</Typography>
-                                    </Box>
-                                    <ButtonGroup>
-                                        <Button onClick={decreaseTreNho}>-</Button>
-                                        <Button disabled>{treNho}</Button>
-                                        <Button onClick={increaseTreNho}>+</Button>
-                                    </ButtonGroup>
-
-                                </Box>
-                            </Grid>
-                            <Grid item xs={4} my={4} >
-                                <Box display="flex">
-                                    <Box flexDirection="column" mx={4.5} >
-                                        <Typography variant="body1">Em bé</Typography>
-                                        <Typography variant="body2">từ 0-2 tuổi</Typography>
-                                    </Box>
-                                    <ButtonGroup>
-                                        <Button onClick={decreaseEmbe}>-</Button>
-                                        <Button disabled>{emBe}</Button>
-                                        <Button onClick={increaseEmbe}>+</Button>
-                                    </ButtonGroup>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Box>
-
-                <Box pl={25} pr={10} my={5}>
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid item xs='6'  >
-                            <Typography variant="body1">. Người lớn sinh trước ngày 12/08/2011</Typography>
-                        </Grid>
-                        <Grid item xs='6'  >
-                            <Typography variant="body1">. Trẻ nhỏ sinh từ 13/08/2018 đến 12/08/2021</Typography>
-                        </Grid>
-                        <Grid item xs='6'  >
-                            <Typography variant="body1">. Trẻ em sinh từ 13/08/2011 đến 12/08/2018</Typography>
-                        </Grid>
-                        <Grid item xs='6'  >
-                            <Typography variant="body1">. Em bé sinh từ 13/08/2021 đến 14/08/2023</Typography>
-                        </Grid>
                     </Grid>
-                </Box>
-                {/* Thanh toán tóm tắt chuyến đi   */}
-                <Grid item xs={2} pl={25} pr={10} my={5}>
-                    <h2>Tóm tắt chuyến đi</h2>
-                    <img
-                        src={`${srcImg}/${tours?.image}`}
-                        style={{ height: '50%', width: '50%', objectFit: 'cover', borderRadius: '10px' }}
-                        alt="Image 1"
-                    />
-                    <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px' }}>
-                        <h2>{tours?.tenTour}</h2>
-                    </div>
-                </Grid>
-
-                <Box pl={25} pr={10} my={5} >
-                    <Grid container spacing={5} my={1} display="flex" >
-                        <Grid >
-                            <Typography variant="h6" mx={20}>Hành Khách</Typography>
-                        </Grid>
-                        <Diversity3Icon />
-                        <Typography variant="body1">{countFull}</Typography>
-                    </Grid>
-
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid>
-                            <Typography variant="body1" mx={20}>Người lớn</Typography>
-                        </Grid>
-                        <Typography variant="body1" mx={1}>{count} x {tours?.giaTour} đ</Typography>
-                    </Grid>
-
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid >
-                            <Typography variant="body1" mx={20}>Trẻ em</Typography>
-                        </Grid>
-                        <Typography variant="body1" mx={4}>{childCount} x {tours?.giaTreEm} đ</Typography>
-                    </Grid>
-
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid  >
-                            <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
-                        </Grid>
-                        <Typography variant="body1" mx={3.3}>{treNho} x {tours?.giaTreNho} đ</Typography>
-                    </Grid>
-
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid  >
-                            <Typography variant="body1" mx={20}>Em bé </Typography>
-                        </Grid>
-                        <Typography variant="body1" mx={4.4}>{emBe} x {tours?.giaEmBe} đ</Typography>
-                    </Grid>
-                    <Divider sx={{ margin: '16px 0' }} />
-
-                    <Grid container spacing={5} my={1} display="flex">
-                        <Grid  >
-                            <Typography variant="body1" mx={20}>Tổng cộng </Typography>
-                        </Grid>
-                        <Typography variant="body1" mx={3.3}>{tongGia} đ </Typography>
-                    </Grid>
-                    <Grid spacing={5} my={5} mx={30}>
-                        <Button variant="contained" type='submit' >{onSubmit}
-                            Đặt ngay
-                        </Button>
-                    </Grid>
-                </Box>
-            </form>
-            <Footer />
+                </form>
+            </Grid>
         </div >
     )
 }

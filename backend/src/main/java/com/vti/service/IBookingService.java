@@ -13,5 +13,5 @@ public interface IBookingService extends UserDetailsService {
 
     void createBooking(Booking booking);
 
-    Booking getBookingByMaBooking(String maBooking);
+    Booking getBookingByMaBooking(int maBooking);
 }

@@ -78,12 +78,12 @@ public class BookingController {
             booking.setTour(tour);
         }
         bookingRepo.save(booking);
-        return new ResponseEntity<>("Create thành công", HttpStatus.OK) ;
+        return new ResponseEntity<>(booking.getMaBooking(), HttpStatus.OK) ;
     }
 
     // get by id
     @GetMapping("{maBooking}")
-    public ResponseEntity<?> getBookingById (@PathVariable String maBooking) {
+    public ResponseEntity<?> getBookingById (@PathVariable int maBooking) {
         Optional<Booking> booking = Optional.ofNullable(bookingRepo.findByMaBooking(maBooking));
 
         BookingDTO bookingDTO = new BookingDTO();

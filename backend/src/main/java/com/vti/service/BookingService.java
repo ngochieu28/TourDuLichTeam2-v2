@@ -16,7 +16,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public Booking getBookingByMaBooking(String maBooking) {
+    public Booking getBookingByMaBooking(int maBooking) {
         return bookingRepo.findByMaBooking(maBooking);
     }
 

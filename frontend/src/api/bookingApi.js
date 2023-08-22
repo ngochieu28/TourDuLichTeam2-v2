@@ -9,8 +9,8 @@ const bookingApi = {
     },
 
     //get by maBooking
-    getBookingById(id) {
-        const url = `/bookings/${id}`
+    getBookingById(maBooking) {
+        const url = `/bookings/${maBooking}`
         return axiosClient.get(url)
     },
 
