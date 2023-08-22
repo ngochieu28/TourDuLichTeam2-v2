@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from '../../conponents/Navbar'
 import Footer from '../../conponents/Footer';
-import BasicTabs from './Search';
+import BasicTabs from '../../conponents/Search';
 import TourHot from './TourHot';
 import DanhSachTour from './DanhSachTour';
 

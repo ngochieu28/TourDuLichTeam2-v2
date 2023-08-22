@@ -42,7 +42,7 @@ export default function LeftMenu({ openLeftMenu, OpenMenu }) {
                     </ListItem>
                 </LinkRouter>
 
-                {/* <LinkRouter to="product">
+                <LinkRouter to="product">
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
@@ -51,7 +51,7 @@ export default function LeftMenu({ openLeftMenu, OpenMenu }) {
                             <ListItemText />
                         </ListItemButton>
                     </ListItem>
-                </LinkRouter> */}
+                </LinkRouter>
 
                 <LinkRouter to="quan-ly-tour">
                     <ListItem disablePadding>

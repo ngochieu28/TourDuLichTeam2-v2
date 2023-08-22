@@ -5,8 +5,8 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Typography, InputBase, Button } from "@mui/material";
 import { Search, RestartAlt } from "@mui/icons-material";
-import { AppConsumer } from '../../store';
-import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../../store/action'
+import { AppConsumer } from '../store';
+import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../store/action'
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;

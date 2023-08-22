@@ -17,7 +17,7 @@ import NewPassword from './Page/auth/NewPassword';
 import Page404 from './Page/auth/Page404';
 import Page500 from './Page/auth/Page500';
 import LoginAdmin from './Page/auth/LoginAdmin';
-import QuanLyTour from './Page/Admin/QuanLyTour';
+import QuanLyTour from './Page/Admin/QuanLyTour/QuanLyTour';
 
 function App() {
   const location = useLocation();
