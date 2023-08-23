@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../store';
 import { TOGGLE_MENU } from '../store/action'
-
+import { useCheckLogin } from '../util';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -63,6 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function AppBarAdmin({ setOpenLeftMenu }) {
+    useCheckLogin();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 

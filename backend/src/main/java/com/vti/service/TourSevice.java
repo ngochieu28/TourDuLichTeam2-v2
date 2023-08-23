@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -232,4 +233,24 @@ public class TourSevice implements ITourSevice{
         tour.setSoCho(tour.getSoCho() - soChoDaDat);
         repository.save(tour);
     }
+
+    @Transactional
+    public void deleteTour(String maTour) {
+        // Tìm kiếm tour theo mã tour
+        Tour tour = repository.findByMaTour(maTour);
+        // Kiểm tra xem tour có tồn tại hay không
+        if (tour == null) {
+            // Nếu không tìm thấy tour, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Tour not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }else {
+            repository.deleteTourByMaTour(maTour);
+        }
+
+    }
+
+
 }

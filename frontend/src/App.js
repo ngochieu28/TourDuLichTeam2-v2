@@ -16,7 +16,6 @@ import ResetPassword from './Page/auth/ResetPassword';
 import NewPassword from './Page/auth/NewPassword';
 import Page404 from './Page/auth/Page404';
 import Page500 from './Page/auth/Page500';
-import LoginAdmin from './Page/auth/LoginAdmin';
 import QuanLyTour from './Page/Admin/QuanLyTour/QuanLyTour';
 import Test from './Test/Test';
 
@@ -38,7 +37,6 @@ function App() {
         <Route path='/booking/:maTour' element={<Booking />} />
         <Route path='/thanhToan/:maTour/:maBooking' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/loginAdmin' element={<LoginAdmin />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/auth/new-password/:token' element={<NewPassword />} />
         <Route path='/signUp' element={<SignUp />} />

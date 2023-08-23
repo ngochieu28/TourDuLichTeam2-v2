@@ -124,6 +124,10 @@ const Login = () => {
 
                                             // redirect to home page
                                             navigate('/');
+
+                                            if (sessionStorage.getItem("role") === 'Admin') {
+                                                navigate("/admin");
+                                            }
                                         }
 
                                     } catch (error) {

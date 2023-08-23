@@ -9,11 +9,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { AppConsumer } from '../store';
 import { CLOSE_MENU } from '../store/action';
 import { Link as LinkRouter } from 'react-router-dom';
-
+import { useCheckLogin } from '../util';
 
 
 export default function LeftMenu({ openLeftMenu, OpenMenu }) {
-
+    useCheckLogin();
     const [state, dispatch] = AppConsumer();
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

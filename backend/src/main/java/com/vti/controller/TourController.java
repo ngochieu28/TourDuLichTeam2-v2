@@ -54,4 +54,10 @@ public class TourController {
         service.updateSoChoTour(maTour, soChoDaDat);
         return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/{maTour}")
+    public ResponseEntity<?> deleteTour(@PathVariable(name = "maTour") String maTour) {
+        service.deleteTour(maTour);
+        return new ResponseEntity<String>("Delete successfully!", HttpStatus.OK);
+    }
 }
