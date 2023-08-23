@@ -5,4 +5,7 @@ export const useCheckLogin = () => {
     if (sessionStorage.getItem("role") !== 'Admin') {
         navigate("/login");
     }
+    if (localStorage.getItem("role") !== 'Admin') {
+        navigate("/login");
+    }
 };

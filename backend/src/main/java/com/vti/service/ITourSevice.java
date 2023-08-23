@@ -16,5 +16,6 @@ public interface ITourSevice {
     TourDTO getTourByMaTour(String maTour);
     TourDetailDTO getDetailTourByMaTour(String maTour);
     void updateSoChoTour(String maTour, Integer soChoDaDat);
+    void updateTour(String maTour, TourDetailDTO tourDetailDTO);
     void deleteTour(String maTour);
 }

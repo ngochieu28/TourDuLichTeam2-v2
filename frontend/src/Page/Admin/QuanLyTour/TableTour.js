@@ -88,7 +88,7 @@ export default function DataTable() {
     }
 
     const handelEdit = (maTour) => {
-        console.log(maTour);
+        navigate(`/admin/quan-ly-tour/${maTour}`);
     };
 
     const handelXem = (maTour) => {

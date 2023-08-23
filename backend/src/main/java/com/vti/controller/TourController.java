@@ -3,6 +3,7 @@ package com.vti.controller;
 import java.util.List;
 
 import com.vti.dto.TourDTO;
+import com.vti.dto.TourDetailDTO;
 import com.vti.dto.filter.GroupFilter;
 import com.vti.dto.filter.TourFilter;
 import com.vti.entity.Tour;
@@ -45,13 +46,19 @@ public class TourController {
         return new ResponseEntity<>(service.getDetailTourByMaTour(maTour), HttpStatus.OK);
     }
 
-    @PutMapping(value = "/{maTour}")
-    public ResponseEntity<?> updateGroup(@PathVariable(name = "maTour") String maTour, @RequestBody Object requestBody) {
+    @PutMapping(value = "updateSoCho/{maTour}")
+    public ResponseEntity<?> updateSoCho(@PathVariable(name = "maTour") String maTour, @RequestBody Object requestBody) {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = mapper.convertValue(requestBody, JsonNode.class);
         Integer soChoDaDat = jsonNode.get("soChoDaDat").asInt();
 
         service.updateSoChoTour(maTour, soChoDaDat);
+        return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/{maTour}")
+    public ResponseEntity<?> updateTour(@PathVariable(name = "maTour") String maTour, @RequestBody TourDetailDTO tourDetailDTO) {
+        service.updateTour(maTour, tourDetailDTO);
         return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
     }
 

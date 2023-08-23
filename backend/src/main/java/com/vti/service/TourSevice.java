@@ -229,8 +229,95 @@ public class TourSevice implements ITourSevice{
     public void updateSoChoTour(String maTour, Integer soChoDaDat) {
         // Tìm kiếm tour theo mã tour
         Tour tour = repository.findByMaTour(maTour);
+        // Kiểm tra xem tour có tồn tại hay không
+        if (tour == null) {
+            // Nếu không tìm thấy tour, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Tour not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
         tour.setSoCho(tour.getSoCho() - soChoDaDat);
+        repository.save(tour);
+    }
+
+    @Override
+    public void updateTour(String maTour, TourDetailDTO tourDetailDTO) {
+        // Tìm kiếm tour theo mã tour
+        Tour tour = repository.findByMaTour(maTour);
+        // Kiểm tra xem tour có tồn tại hay không
+        if (tour == null) {
+            // Nếu không tìm thấy tour, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Tour not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (tourDetailDTO.getTenTour() != null) {
+            tour.setTenTour(tourDetailDTO.getTenTour());
+        }
+        if (tourDetailDTO.getGiaTour() != null) {
+            tour.setGiaTour(tourDetailDTO.getGiaTour());
+        }
+        if (tourDetailDTO.getImage() != null) {
+            tour.setImage(tourDetailDTO.getImage());
+        }
+        if (tourDetailDTO.getImage2() != null) {
+            tour.setImage2(tourDetailDTO.getImage2());
+        }
+        if (tourDetailDTO.getImage3() != null) {
+            tour.setImage3(tourDetailDTO.getImage3());
+        }
+        if (tourDetailDTO.getImage4() != null) {
+            tour.setImage4(tourDetailDTO.getImage4());
+        }
+        if (tourDetailDTO.getLuotQuanTam() != null) {
+            tour.setLuotQuanTam(tourDetailDTO.getLuotQuanTam());
+        }
+        if (tourDetailDTO.getThoiGian() != null) {
+            tour.setThoiGian(tourDetailDTO.getThoiGian());
+        }
+        if (tourDetailDTO.getPhuongTienDiChuyen() != null) {
+            tour.setPhuongTienDiChuyen(tourDetailDTO.getPhuongTienDiChuyen());
+        }
+        if (tourDetailDTO.getDiemThamQuan() != null) {
+            tour.setDiemThamQuan(tourDetailDTO.getDiemThamQuan());
+        }
+        if (tourDetailDTO.getAmThuc() != null) {
+            tour.setAmThuc(tourDetailDTO.getAmThuc());
+        }
+        if (tourDetailDTO.getKhachSan() != null) {
+            tour.setKhachSan(tourDetailDTO.getKhachSan());
+        }
+        if (tourDetailDTO.getThoiGianLyTuong() != null) {
+            tour.setThoiGianLyTuong(tourDetailDTO.getThoiGianLyTuong());
+        }
+        if (tourDetailDTO.getDoiTuongThichHop() != null) {
+            tour.setDoiTuongThichHop(tourDetailDTO.getDoiTuongThichHop());
+        }
+        if (tourDetailDTO.getUuDai() != null) {
+            tour.setUuDai(tourDetailDTO.getUuDai());
+        }
+        if (tourDetailDTO.getNoiKhoiHanh() != null) {
+            tour.setNoiKhoiHanh(tourDetailDTO.getNoiKhoiHanh());
+        }
+        if (tourDetailDTO.getNgayKhoiHanhDate() != null) {
+            tour.setNgayKhoiHanh(tourDetailDTO.getNgayKhoiHanhDate());
+        }
+        if (tourDetailDTO.getDiemNhan() != null) {
+            tour.setDiemNhan(tourDetailDTO.getDiemNhan());
+        }
+        if (tourDetailDTO.getSoCho() != null) {
+            tour.setSoCho(tourDetailDTO.getSoCho());
+        }
+        if (tourDetailDTO.getLichTrinh() != null) {
+            tour.setLichTrinh(tourDetailDTO.getLichTrinh());
+        }
+
         repository.save(tour);
     }
 

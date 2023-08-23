@@ -38,8 +38,12 @@ const tourApi = {
         return axiosClient.get(url)
     },
     updateSoChoTour(maTour, soChoDaDat) {
-        const url = `/tours/${maTour}`
+        const url = `/tours/updateSoCho/${maTour}`
         return axiosClient.put(url, soChoDaDat)
+    },
+    updateTour(maTour, tourDTO) {
+        const url = `/tours/${maTour}`
+        return axiosClient.put(url, tourDTO)
     },
     deleteByMaTour(maTour) {
         const url = `/tours/${maTour}`

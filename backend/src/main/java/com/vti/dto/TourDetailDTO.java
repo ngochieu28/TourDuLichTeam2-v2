@@ -32,7 +32,8 @@ public class TourDetailDTO {
     private String doiTuongThichHop ;
     private String uuDai ;
     private String noiKhoiHanh ;
-    private String ngayKhoiHanh ;
+    private String ngayKhoiHanh;
+    private Date ngayKhoiHanhDate;
     private String diemNhan ;
     private Integer soCho ;
     private String lichTrinh;
