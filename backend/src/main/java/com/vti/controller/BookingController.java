@@ -48,6 +48,12 @@ public class BookingController {
             bookingDTO.setEmailKH(bookings.get(i).getEmailKH());
             bookingDTO.setPhoneNumber(bookings.get(i).getPhoneNumber());
             bookingDTO.setDiaChi(bookings.get(i).getDiaChi());
+            bookingDTO.setSoChoNL(bookings.get(i).getSoChoNL());
+//            bookingDTO.setSoChoNguoiLon(bookings.get(i).getSoChoNguoiLon());
+            bookingDTO.setSoChoTreEm(bookings.get(i).getSoChoTreEm());
+            bookingDTO.setSoChoTreNho(bookings.get(i).getSoChoTreNho());
+            bookingDTO.setSoChoEmBe(bookings.get(i).getSoChoEmBe());
+
 
             Tour tour = bookings.get(i).getTour();
             if (tour != null) {
@@ -71,6 +77,12 @@ public class BookingController {
         booking.setEmailKH(creatBookingDTO.getEmailKH());
         booking.setPhoneNumber(creatBookingDTO.getPhoneNumber());
         booking.setDiaChi(creatBookingDTO.getDiaChi());
+        booking.setSoChoNL(creatBookingDTO.getSoChoNL());
+        booking.setSoChoNguoiLon(creatBookingDTO.getSoChoNguoiLon());
+        booking.setSoChoTreEm(creatBookingDTO.getSoChoTreEm());
+        booking.setSoChoTreNho(creatBookingDTO.getSoChoTreNho());
+        booking.setSoChoEmBe(creatBookingDTO.getSoChoEmBe());
+
 
         // check nếu khác null sẽ đẩy dữ liệu lên db luôn còn ko sẽ đẩy thẳng DL lên DB
         if (creatBookingDTO.getTourId() != null) {
@@ -93,6 +105,11 @@ public class BookingController {
         bookingDTO.setEmailKH(booking.get().getEmailKH());
         bookingDTO.setPhoneNumber(booking.get().getPhoneNumber());
         bookingDTO.setDiaChi(booking.get().getDiaChi());
+        bookingDTO.setSoChoNL(booking.get().getSoChoNL());
+//        bookingDTO.setSoChoNguoiLon(booking.get().getSoChoNguoiLon());
+        bookingDTO.setSoChoTreEm(booking.get().getSoChoTreEm());
+        bookingDTO.setSoChoTreNho(booking.get().getSoChoTreNho());
+        bookingDTO.setSoChoEmBe(booking.get().getSoChoEmBe());
 
         Tour tour = booking.get().getTour();
         if (tour != null) {
@@ -102,4 +119,7 @@ public class BookingController {
 
         return new ResponseEntity<>(bookingDTO, HttpStatus.OK) ;
     }
+
+
+
 }

@@ -5,10 +5,9 @@ import tourApi from '../../api/tourApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Grid, Box, Typography, TextField, Radio, RadioGroup, FormControlLabel,
-    Divider, Button
+    Divider, Button, Alert, Stack, Snackbar
 } from '@mui/material';
 import { srcImg } from '../../util/srcImg';
-import FormBooking from '../Booking/formBooking';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import bookingApi from '../../api/bookingApi';
 import { Container } from '@mui/system';
@@ -17,17 +16,26 @@ export default function ThanhToan() {
 
     const [selectedMethod, setSelectedMethod] = useState('');
     const [tours, setTours] = useState();
-    const [count, setCount] = useState();
+    const [booking, setBooking] = useState()
+
+    const giaNguoiLon1 = (booking?.soChoNL) * (tours?.giaTour)
+    const giaTreEm1 = (booking?.soChoTreEm) * (tours?.giaTreEm)
+    const giaTreNho1 = (booking?.soChoTreNho) * (tours?.giaTreNho)
+    const giaEmBe1 = (booking?.soChoEmBe) * (tours?.giaEmBe)
+    const tongGia = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
+
+    const countFull = (booking?.soChoNL) + (booking?.soChoTreEm) + (booking?.soChoTreNho) + (booking?.soChoEmBe);
 
     // api booking
     const { maBooking } = useParams();
-
-    const [booking, setBooking] = useState()
-
     const getBooking = async () => {
         const res = await bookingApi.getBookingById(maBooking)
         setBooking(res);
     };
+
+    useEffect(() => {
+        getBooking()
+    }, [maBooking]);
 
     // avatar Tour
     const { maTour } = useParams();
@@ -39,12 +47,34 @@ export default function ThanhToan() {
 
     useEffect(() => {
         getTourDetail2()
-        getBooking()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [maTour, maBooking]);
+    }, [maTour]);
+
+    // update số chỗ tour sau khi đặt
+    const navigate = useNavigate()
+    const updateSochoTour = async (countFull) => {
+        const res = await tourApi.updateSoChoTour(maTour, countFull)
+        navigate("/")
+    }
 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
+    };
+
+    // onClick
+    const [open, setOpen] = useState(false);
+
+    const handleClick = () => {
+        if (setOpen(true)) {
+            updateSochoTour(countFull)
+        }
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
     };
 
     const renderPaymentInfo = () => {
@@ -107,7 +137,7 @@ export default function ThanhToan() {
             </Box>
                 ;
         }
-        return null;
+        return;
     };
 
     return (
@@ -149,7 +179,6 @@ export default function ThanhToan() {
                                 border="1px solid #ccc"
                                 borderRadius={4}
                                 padding={2}
-                            // width={400}
                             >
                                 <Grid >
                                     <h2>Tóm tắt chuyến đi</h2>
@@ -179,35 +208,35 @@ export default function ThanhToan() {
                                         <Typography variant="h6" mx={18}>Hành Khách</Typography>
                                     </Grid>
                                     <Diversity3Icon />
-                                    <Typography variant="body1">{count?.countFull}</Typography>
+                                    <Typography variant="body1">{countFull}</Typography>
                                 </Grid>
 
                                 <Grid container spacing={5} my={1} display="flex">
                                     <Grid>
                                         <Typography variant="body1" mx={20}>Người lớn</Typography>
                                     </Grid>
-                                    <Typography variant="body1" mx={1}>{count?.count} x {tours?.giaTour} đ</Typography>
+                                    <Typography variant="body1" mx={1}>{booking?.soChoNL} x {tours?.giaTour} đ</Typography>
                                 </Grid>
 
                                 <Grid container spacing={5} my={1} display="flex">
                                     <Grid >
                                         <Typography variant="body1" mx={20}>Trẻ em</Typography>
                                     </Grid>
-                                    <Typography variant="body1" mx={4}>{count?.childCount} x {tours?.giaTreEm} đ</Typography>
+                                    <Typography variant="body1" mx={4}>{booking?.soChoTreEm} x {tours?.giaTreEm} đ</Typography>
                                 </Grid>
 
                                 <Grid container spacing={5} my={1} display="flex">
                                     <Grid  >
                                         <Typography variant="body1" mx={20}>Trẻ nhỏ</Typography>
                                     </Grid>
-                                    <Typography variant="body1" mx={3.3}>{count?.treNho} x {tours?.giaTreNho} đ</Typography>
+                                    <Typography variant="body1" mx={3.3}>{booking?.soChoTreNho} x {tours?.giaTreNho} đ</Typography>
                                 </Grid>
 
                                 <Grid container spacing={5} my={1} display="flex">
                                     <Grid  >
                                         <Typography variant="body1" mx={20}>Em bé </Typography>
                                     </Grid>
-                                    <Typography variant="body1" mx={4.4}>{count?.emBe} x {tours?.giaEmBe} đ</Typography>
+                                    <Typography variant="body1" mx={4.4}>{booking?.soChoEmBe} x {tours?.giaEmBe} đ</Typography>
                                 </Grid>
                                 <Divider sx={{ margin: '16px 0' }} />
 
@@ -215,13 +244,19 @@ export default function ThanhToan() {
                                     <Grid  >
                                         <Typography variant="body1" mx={20}>Tổng cộng </Typography>
                                     </Grid>
-                                    <Typography variant="body1" mx={3.3}>{count?.tongGia} đ </Typography>
+                                    <Typography variant="body1" mx={3.3}>{tongGia} đ </Typography>
                                 </Grid>
                                 <Grid spacing={5} my={5} mx={15}>
-                                    <Button variant="contained" type='submit' >
-                                        {/* {onSubmit} */}
-                                        Đặt ngay
-                                    </Button>
+                                    <Stack spacing={2} sx={{ width: '100%' }}>
+                                        <Button variant="outlined" onClick={handleClick}>
+                                            Đặt ngay
+                                        </Button>
+                                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                                Đặt tour thành công
+                                            </Alert>
+                                        </Snackbar>
+                                    </Stack>
                                 </Grid>
                             </Box>
                         </Grid>

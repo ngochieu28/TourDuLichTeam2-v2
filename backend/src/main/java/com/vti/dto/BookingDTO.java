@@ -18,6 +18,16 @@ public class BookingDTO {
 
     private String diaChi ;
 
+    private Integer soChoNL ;
+
+    private Integer soChoNguoiLon ;
+
+    private Integer soChoTreEm ;
+
+    private Integer soChoTreNho ;
+
+    private Integer soChoEmBe ;
+
     private String tourId ;
 
 }

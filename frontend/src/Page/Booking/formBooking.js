@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { useParams, useNavigate, } from 'react-router-dom';
+import { useParams, } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
 import {
     Grid, TextField, Box, Typography,
@@ -37,8 +37,6 @@ const FormBooking = () => {
     const giaEmBe1 = emBe * giaEmBe
     const tongGia = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
 
-    const navigate = useNavigate();
-
     const { handleSubmit, control, reset, setValue, formState: { errors } } = useForm({
         defaultValues: {
             tourId: "",
@@ -55,6 +53,10 @@ const FormBooking = () => {
         setValue("emailKH", state.data.emailKH)
         setValue("phoneNumber", state.data.phoneNumber)
         setValue("diaChi", state.data.diaChi)
+        setValue("soChoNl", state.data.soChoNl)
+        setValue("soChoTreEM", state.data.soChoTreEM)
+        setValue("soChoTreNho", state.data.soChoTreNho)
+        setValue("soChoEmBe", state.data.soChoEmBe)
 
     }, [state.data])
 
@@ -73,9 +75,15 @@ const FormBooking = () => {
 
     // call Api
     const addNewBooking = async (data) => {
-        let res = await bookingApi.creatBooking(data)
-            .then((data));
-        console.log(res);
+
+        const data2 = {
+            ...data, soChoNL: count,
+            soChoTreEm: childCount,
+            soChoTreNho: treNho,
+            soChoEmBe: emBe,
+        }
+
+        let res = await bookingApi.creatBooking(data2)
 
         window.location.href = `/thanhToan/${maTour}/${res}`;
     }
@@ -83,10 +91,10 @@ const FormBooking = () => {
     // button
     const onSubmit = (data) => {
         addNewBooking(data)
-        // navigate(`/thanhToan/${maTour}/${maBooking}`)
     }
 
     //// check tăng giảm
+
     const increaseAdultCount = () => {
         if (countFull == tours?.soCho) {
             alert("Số chỗ còn lại là" + tours?.soCho)

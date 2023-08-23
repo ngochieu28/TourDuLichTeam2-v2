@@ -24,6 +24,16 @@ public class Booking {
 
     private String diaChi ;
 
+    private Integer soChoNL ;
+
+    private Integer soChoNguoiLon ;
+
+    private Integer soChoTreEm ;
+
+    private Integer soChoTreNho ;
+
+    private Integer soChoEmBe ;
+
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
