@@ -17,7 +17,7 @@ export default function ThanhToan() {
 
     const [selectedMethod, setSelectedMethod] = useState('');
     const [tours, setTours] = useState();
-    const { count, setCount } = FormBooking();
+    const [count, setCount] = useState();
 
     // api booking
     const { maBooking } = useParams();
@@ -27,7 +27,6 @@ export default function ThanhToan() {
     const getBooking = async () => {
         const res = await bookingApi.getBookingById(maBooking)
         setBooking(res);
-
     };
 
     // avatar Tour
@@ -40,6 +39,7 @@ export default function ThanhToan() {
 
     useEffect(() => {
         getTourDetail2()
+        getBooking()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [maTour, maBooking]);
 
@@ -151,7 +151,6 @@ export default function ThanhToan() {
                                 padding={2}
                             // width={400}
                             >
-
                                 <Grid >
                                     <h2>Tóm tắt chuyến đi</h2>
                                     <img
@@ -170,14 +169,14 @@ export default function ThanhToan() {
                                 </Grid>
 
                                 <Grid container spacing={5} my={1} display="flex" >
-                                    <Grid>
-                                        <Typography variant="body1" mx={1}>{booking?.nameKH} </Typography>
-                                        <Typography variant="body1" mx={1}>{booking?.emailKH} </Typography>
-                                        <Typography variant="body1" mx={1}>{booking?.phoneNumber} </Typography>
-                                        <Typography variant="body1" mx={1}>{booking?.diaChi} </Typography>
+                                    <Grid mx={20}>
+                                        <Typography variant="body1" mx={1}>Họ và tên: {booking?.nameKH} </Typography>
+                                        <Typography variant="body1" mx={1}>email: {booking?.emailKH} </Typography>
+                                        <Typography variant="body1" mx={1}>phone number:{booking?.phoneNumber} </Typography>
+                                        <Typography variant="body1" mx={1}>Địa chỉ {booking?.diaChi} </Typography>
                                     </Grid>
-                                    <Grid pl={18}>
-                                        <Typography variant="h6" >Hành Khách</Typography>
+                                    <Grid >
+                                        <Typography variant="h6" mx={18}>Hành Khách</Typography>
                                     </Grid>
                                     <Diversity3Icon />
                                     <Typography variant="body1">{count?.countFull}</Typography>
@@ -218,7 +217,7 @@ export default function ThanhToan() {
                                     </Grid>
                                     <Typography variant="body1" mx={3.3}>{count?.tongGia} đ </Typography>
                                 </Grid>
-                                <Grid spacing={5} my={5} mx={30}>
+                                <Grid spacing={5} my={5} mx={15}>
                                     <Button variant="contained" type='submit' >
                                         {/* {onSubmit} */}
                                         Đặt ngay

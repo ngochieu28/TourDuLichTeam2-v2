@@ -17,8 +17,6 @@ const FormBooking = () => {
     const [state, dispatch] = AppConsumer();
     const [tours, setTours] = useState();
 
-    // lấy id 
-    const [maBooking, setmaBooking] = useState();
 
     // đếm Sl và tính giá tiền
     const [count, setCount] = useState(1);
@@ -68,7 +66,6 @@ const FormBooking = () => {
         setTours(res);
     };
 
-
     useEffect(() => {
         getTourDetail2()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,14 +74,16 @@ const FormBooking = () => {
     // call Api
     const addNewBooking = async (data) => {
         let res = await bookingApi.creatBooking(data)
+            .then((data));
         console.log(res);
-        setmaBooking(res)
+
+        window.location.href = `/thanhToan/${maTour}/${res}`;
     }
 
     // button
     const onSubmit = (data) => {
         addNewBooking(data)
-        navigate(`/thanhToan/${maTour}/${maBooking}`)
+        // navigate(`/thanhToan/${maTour}/${maBooking}`)
     }
 
     //// check tăng giảm
