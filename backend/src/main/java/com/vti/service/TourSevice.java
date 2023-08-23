@@ -50,13 +50,14 @@ public class TourSevice implements ITourSevice{
         DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
         decimalFormatSymbols.setGroupingSeparator('.');
         decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
-
+        int idCounter = 1;
         // Lặp qua danh sách Tour và chuyển đổi ngày và giá thành định dạng mong muốn
         for (Tour tour : tours.getContent()) {
             // Tạo một đối tượng TourDTO mới
             TourDTO tourDTO = new TourDTO();
 
             // Sao chép các thuộc tính từ Tour sang TourDTO
+            tourDTO.setId(idCounter++);
             tourDTO.setMaTour(tour.getMaTour());
             tourDTO.setTenTour(tour.getTenTour());
             tourDTO.setImage(tour.getImage());
@@ -64,6 +65,7 @@ public class TourSevice implements ITourSevice{
             tourDTO.setThoiGian(tour.getThoiGian());
             tourDTO.setNoiKhoiHanh(tour.getNoiKhoiHanh());
             tourDTO.setSoCho(tour.getSoCho());
+            tourDTO.setGiaTour(tour.getGiaTour());
 
             // Chuyển đổi ngày thành định dạng mong muốn
             Date date = tour.getNgayKhoiHanh();
@@ -72,7 +74,7 @@ public class TourSevice implements ITourSevice{
 
             // Chuyển đổi giá thành định dạng mong muốn với dấu phân cách mỗi 3 số
             String formattedGiaTour = decimalFormat.format(tour.getGiaTour());
-            tourDTO.setGiaTour(formattedGiaTour);
+            tourDTO.setGiaTourString(formattedGiaTour);
 
             // Thêm TourDTO vào danh sách kết quả
             tourDTOs.add(tourDTO);
@@ -132,7 +134,7 @@ public class TourSevice implements ITourSevice{
 
         // Chuyển đổi giá thành định dạng mong muốn với dấu phân cách mỗi 3 số
         String formattedGiaTour = decimalFormat.format(tour.getGiaTour());
-        tourDTO.setGiaTour(formattedGiaTour);
+        tourDTO.setGiaTourString(formattedGiaTour);
 
         String formattedGiaTreEm = decimalFormat.format(tour.getGiaTreEm());
         tourDTO.setGiaTreEm(formattedGiaTreEm);

@@ -37,7 +37,6 @@ export default function DanhSachTour() {
     }, [currentPage]);
 
     useEffect(() => {
-        console.log(state);
         getDanhSachTour(1, 9, 'ngayKhoiHanh', 'desc', state.searchNoiKhoiHanh, state.searchDiemDen, state.searchThoiGian);
         scrollToTop();
     }, [state.searchDiemDen || state.searchNoiKhoiHanh || state.searchThoiGian]);
@@ -88,7 +87,7 @@ export default function DanhSachTour() {
                                             Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
                                         </Typography>
                                         <Typography>
-                                            <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTour}đ</h3>
+                                            <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTourString}đ</h3>
                                         </Typography>
 
                                         <CardActions>

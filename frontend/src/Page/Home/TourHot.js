@@ -59,7 +59,7 @@ export default function TourHot() {
                                         Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
                                     </Typography>
                                     <Typography>
-                                        <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTour}đ</h3>
+                                        <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTourString}đ</h3>
                                     </Typography>
 
                                     <CardActions >

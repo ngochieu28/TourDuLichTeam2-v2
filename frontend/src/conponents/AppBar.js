@@ -204,7 +204,7 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        Admin
                     </Typography>
                     <Search>
                         <SearchIconWrapper>

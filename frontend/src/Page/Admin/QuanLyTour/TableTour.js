@@ -1,34 +1,73 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button, Card, CardContent, CardHeader, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { DataGrid } from '@mui/x-data-grid';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddIcon from '@mui/icons-material/Add';
+import tourApi from '../../../api/tourApi';
+import { useNavigate } from 'react-router-dom';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+export default function DataTable() {
+    const [tours, setTours] = React.useState([]);
+    const navigate = useNavigate();
+    const columns = [
+        { field: 'maTour', headerName: 'Mã Tour', flex: 0.1 },
+        { field: 'tenTour', headerName: 'Tên Tour', flex: 0.25 },
+        { field: 'giaTour', headerName: 'Giá Tour', flex: 0.15 },
+        { field: 'thoiGian', headerName: 'Thời gian', flex: 0.15 },
+        { field: 'ngayKhoiHanh', headerName: 'Ngày bắt đầu', flex: 0.15 },
+        {
+            field: 'action',
+            headerName: 'Tác vụ',
+            flex: 0.2,
+            sortable: false,
+            renderCell: (params) => (
+                <>
+                    <Button variant="outlined" startIcon={<VisibilityIcon />} onClick={() => handelXem(params.row.maTour)}>
+                        Xem
+                    </Button>
+                    &nbsp;
+                    <Button variant="outlined" startIcon={<EditIcon />} onClick={() => handelEdit(params.row.maTour)}>
+                        Sửa
+                    </Button>
+                    &nbsp;
+                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handelDelete(params.row.maTour)}>
+                        Xóa
+                    </Button>
+                </>
+            ),
+        },
+    ];
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+    const getDanhSachTour = async (page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian) => {
+        const res = await tourApi.getAllTour(page, size, sortField, sortType, searchNoiKhoiHanh, searchDiemDen, searchThoiGian);
+        setTours(res.content);
 
-export default function TableTour() {
+    };
+
+    React.useEffect(() => {
+        getDanhSachTour(1, 99999);
+    }, []);
+
+
+    const handelDelete = (maTour) => {
+        console.log(maTour);
+    }
+    const handelEdit = (maTour) => {
+        console.log(maTour);
+    }
+    const handelXem = (maTour) => {
+        navigate(`/tourDetail/${maTour}`)
+    }
+
+    // const getTourDetail = async () => {
+    //     const res = await tourApi.getTourDetailByMaTour(maTour);
+    //     setTours(res);
+    // };
+
     return (
         <Card>
-
-
-
             <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <Typography variant="h6" component="h1" style={{ textAlign: 'left' }}>
@@ -38,41 +77,18 @@ export default function TableTour() {
                         Thêm mới
                     </Button>
                 </div>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Mã Tour</TableCell>
-                                <TableCell align="center">Tên Tour</TableCell>
-                                <TableCell align="center">Giá Tour</TableCell>
-                                <TableCell align="center">Số ngày</TableCell>
-                                <TableCell align="center">Ngày bắt đầu</TableCell>
-                                <TableCell align="center">Tác vụ</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell >
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.calories}</TableCell>
-                                    <TableCell align="center">{row.fat}</TableCell>
-                                    <TableCell align="center">{row.carbs}</TableCell>
-                                    <TableCell align="center">{row.protein}</TableCell>
-                                    <TableCell align="center">
-                                        <Button variant="outlined" startIcon={<EditIcon />}>Edit</Button>
-                                        &nbsp;
-                                        <Button variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+
+                <DataGrid
+                    rows={tours}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                />
+
             </CardContent>
         </Card>
     );
