@@ -38,9 +38,13 @@ const tourApi = {
         return axiosClient.get(url)
     },
     updateSoChoTour(maTour, soChoDaDat) {
-        const url = `/product/${maTour}`
+        const url = `/tours/${maTour}`
         return axiosClient.put(url, soChoDaDat)
     },
+    deleteByMaTour(maTour) {
+        const url = `/tours/${maTour}`
+        return axiosClient.delete(url);
+    }
 }
 
 export default tourApi

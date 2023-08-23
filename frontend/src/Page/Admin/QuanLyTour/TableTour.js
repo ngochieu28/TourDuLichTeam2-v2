@@ -1,4 +1,11 @@
 import * as React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,11 +17,22 @@ import { useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../../../store';
 import { useCheckLogin } from '../../../util';
 
+
+
 export default function DataTable() {
     useCheckLogin();
+    const [open, setOpen] = React.useState(false);
+    const [maTourClick, setMaTourClick] = React.useState();
     const [tours, setTours] = React.useState([]);
     const [state, dispatch] = AppConsumer();
     const navigate = useNavigate();
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const columns = [
         { field: 'maTour', headerName: 'Mã Tour', flex: 0.15 },
         { field: 'tenTour', headerName: 'Tên Tour', flex: 0.25 },
@@ -58,9 +76,16 @@ export default function DataTable() {
         getDanhSachTour(1, 99999, 'ngayKhoiHanh', 'desc', state.searchNoiKhoiHanh, state.searchDiemDen, state.searchThoiGian);
     }, [state.searchDiemDen, state.searchNoiKhoiHanh, state.searchThoiGian]);
 
-    const handelDelete = (maTour) => {
-        console.log(maTour);
+    const handelDelete = async (maTour) => {
+        setMaTourClick(maTour)
+        setOpen(true);
     };
+
+    const handelXacNhanXoa = async () => {
+        await tourApi.deleteByMaTour(maTourClick)
+        getDanhSachTour(1, 99999);
+        setOpen(false)
+    }
 
     const handelEdit = (maTour) => {
         console.log(maTour);
@@ -70,12 +95,7 @@ export default function DataTable() {
         navigate(`/tourDetail/${maTour}`);
     };
 
-    const [selectedRows, setSelectedRows] = React.useState([]);
 
-    const handleSelectionModelChange = (selectionModel) => {
-        console.log(selectionModel);
-        setSelectedRows(selectionModel.map((row) => row.maTour));
-    };
     return (
         <Card>
             <CardContent>
@@ -86,24 +106,39 @@ export default function DataTable() {
                     <Button variant="outlined" startIcon={<AddIcon />} style={{ textAlign: 'right' }}>
                         Thêm mới
                     </Button>
-                    <Button
-                        variant="outlined"
-                        startIcon={<AddIcon />}
-                        style={{ textAlign: 'right' }}
-                        onClick={() => {
-                            console.log(selectedRows);
-                        }}
-                    >
-                        Test
-                    </Button>
+
                 </div>
                 <DataGrid
                     rows={tours}
                     columns={columns}
-                    checkboxSelection
-                    onSelectionModelChange={handleSelectionModelChange}
                 />
             </CardContent>
+            <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle id="responsive-dialog-title">
+                    {"Xác nhận xóa tour"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <h4>
+                            Bạn chắc chắn muốn xóa tour này?
+                        </h4>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handelXacNhanXoa} >
+                        Xác nhận
+                    </Button>
+                    <Button color="primary" onClick={() => handleClose()}>
+                        Hủy
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Card>
+
     );
 }
