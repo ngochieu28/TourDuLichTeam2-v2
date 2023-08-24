@@ -15,21 +15,17 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Grid, Card, TextField, InputAdornment } from "@mui/material";
 import tourApi from '../../../api/tourApi';
 import { srcImg } from '../../../util/srcImg';
-import EditableTextField from '../../../conponents/Dialog-TextField-Data';
-import { ContentState, EditorState, convertToRaw } from 'draft-js';
+import EditableTextField from '../../../conponents/Dialog-TextField';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
-import htmlToDraft from 'html-to-draftjs';
-import { format } from 'date-fns';
 
 export default function AddTour() {
-    const { maTour } = useParams();
-    const [tours, setTours] = useState();
     const navigate = useNavigate();
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState('');
@@ -51,58 +47,15 @@ export default function AddTour() {
         lichTrinh: ""
     })
 
-    const getTourDetail = async () => {
-        try {
-            const res = await tourApi.getTourDetailByMaTour(maTour);
-            const ngayKhoiHanhDate = format(new Date(res.ngayKhoiHanhDate), 'yyyy-MM-dd');
-            setTourEdit({
-                tenTour: res.tenTour || "",
-                luotQuanTam: res.luotQuanTam || "",
-                giaTour: res.giaTour || "",
-                ngayKhoiHanhDate: ngayKhoiHanhDate || "",
-                thoiGian: res.thoiGian || "",
-                noiKhoiHanh: res.noiKhoiHanh || "",
-                soCho: res.soCho || "",
-                phuongTienDiChuyen: res.phuongTienDiChuyen || "",
-                diemThamQuan: res.diemThamQuan || "",
-                amThuc: res.amThuc || "",
-                khachSan: res.khachSan || "",
-                thoiGianLyTuong: res.thoiGianLyTuong || "",
-                doiTuongThichHop: res.doiTuongThichHop || "",
-                uuDai: res.uuDai || "",
-                lichTrinh: res.lichTrinh || "",
-            });
-            const contentBlock = htmlToDraft(res.lichTrinh);
-            if (contentBlock) {
-                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-                const newEditorState = EditorState.createWithContent(contentState);
-                setEditorState(newEditorState);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error('Gặp lỗi khi gọi Tour!');
-            navigate(`/admin/quan-ly-tour`);
-        }
-    };
-
-    useEffect(() => {
-        getTourDetail()
-    }, [maTour]);
-
     const handelApDung = async () => {
         try {
-            await tourApi.updateTour(maTour, tourEdit)
-            console.log(tourEdit);
-            toast.success('Sửa Tour thành công!');
+            await tourApi.addTour(tourEdit)
+            toast.success('Tạo Tour thành công!');
             navigate(`/admin/quan-ly-tour`);
         } catch (error) {
             console.log(error);
-            toast.error('Sửa Tour thất bại!');
+            toast.error('Tạo thất bại!');
         }
-    }
-
-    const handelReset = () => {
-        getTourDetail()
     }
 
     const onEditorStateChange = (editorState) => {
@@ -218,7 +171,6 @@ export default function AddTour() {
             uuDai: editedUuDai,
         }));
     };
-
 
 
 
@@ -418,9 +370,6 @@ export default function AddTour() {
                     </Card>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" style={{ margin: '5px' }} onClick={handelReset}>
-                        Reset
-                    </Button>
                     <Button variant="contained" style={{ margin: '5px' }} onClick={handelApDung}>
                         Áp dụng
                     </Button>

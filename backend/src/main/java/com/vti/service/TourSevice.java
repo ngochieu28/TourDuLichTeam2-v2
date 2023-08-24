@@ -203,6 +203,7 @@ public class TourSevice implements ITourSevice{
             tourDTO.setGiaEmBe(tour.getGiaEmBe());
             tourDTO.setGiaTreNho(tour.getGiaTreNho());
             tourDTO.setGiaTreEm(tour.getGiaTreEm());
+            tourDTO.setNgayKhoiHanhDate(tour.getNgayKhoiHanh());
 
         // Chuyển đổi ngày thành định dạng mong muốn
         Date date = tour.getNgayKhoiHanh();
@@ -223,6 +224,11 @@ public class TourSevice implements ITourSevice{
         tourDTO.setGiaEmBeString(formattedGiaEmBe);
 
             return tourDTO;
+    }
+
+    @Override
+    public void createTour(TourDetailDTO tourDetailDTO) {
+        repository.save(tourDetailDTO.toEntity());
     }
 
     @Override

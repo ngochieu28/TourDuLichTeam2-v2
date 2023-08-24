@@ -2,6 +2,7 @@ package com.vti.controller;
 
 import java.util.List;
 
+import com.vti.dto.GroupFormForCreating;
 import com.vti.dto.TourDTO;
 import com.vti.dto.TourDetailDTO;
 import com.vti.dto.filter.GroupFilter;
@@ -44,6 +45,12 @@ public class TourController {
     @GetMapping(value = "detail/{maTour}")
     public ResponseEntity<?> findTourDetailByMaTour(@PathVariable(name = "maTour") String maTour) {
         return new ResponseEntity<>(service.getDetailTourByMaTour(maTour), HttpStatus.OK);
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> createTour(@RequestBody TourDetailDTO tourDetailDTO) {
+        service.createTour(tourDetailDTO);
+        return new ResponseEntity<String>("Create successfully!", HttpStatus.OK);
     }
 
     @PutMapping(value = "updateSoCho/{maTour}")

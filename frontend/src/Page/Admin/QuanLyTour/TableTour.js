@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddIcon from '@mui/icons-material/Add';
 import tourApi from '../../../api/tourApi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../../../store';
 import { useCheckLogin } from '../../../util';
 
@@ -88,7 +88,7 @@ export default function DataTable() {
     }
 
     const handelEdit = (maTour) => {
-        navigate(`/admin/quan-ly-tour/${maTour}`);
+        navigate(`/admin/quan-ly-tour/editTour/${maTour}`);
     };
 
     const handelXem = (maTour) => {
@@ -103,9 +103,9 @@ export default function DataTable() {
                     <Typography variant="h6" component="h1" style={{ textAlign: 'left' }}>
                         Danh sách Tours
                     </Typography>
-                    <Button variant="outlined" startIcon={<AddIcon />} style={{ textAlign: 'right' }}>
+                    <Link to={'/admin/addTour'}><Button variant="outlined" startIcon={<AddIcon />} style={{ textAlign: 'right' }}>
                         Thêm mới
-                    </Button>
+                    </Button></Link>
 
                 </div>
                 <DataGrid

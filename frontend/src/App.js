@@ -19,6 +19,7 @@ import Page500 from './Page/auth/Page500';
 import QuanLyTour from './Page/Admin/QuanLyTour/QuanLyTour';
 import Test from './Test/Test';
 import EditTour from './Page/Admin/QuanLyTour/EditTour';
+import AddTour from './Page/Admin/QuanLyTour/AddTour';
 
 function App() {
   const location = useLocation();
@@ -34,7 +35,8 @@ function App() {
           <Route path='product' element={<Product />} />
           <Route path='product/:id' element={<ProductDetail />} />
           <Route path='quan-ly-tour' element={<QuanLyTour />} />
-          <Route path='quan-ly-tour/:maTour' element={<EditTour />} />
+          <Route path='addTour' element={<AddTour />} />
+          <Route path='quan-ly-tour/editTour/:maTour' element={<EditTour />} />
         </Route>
         <Route path='/booking/:maTour' element={<Booking />} />
         <Route path='/thanhToan/:maTour/:maBooking' element={<ThanhToan />} />

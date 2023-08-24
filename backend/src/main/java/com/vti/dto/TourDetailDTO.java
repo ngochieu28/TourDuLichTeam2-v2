@@ -1,5 +1,7 @@
 package com.vti.dto;
 
+import com.vti.entity.Group;
+import com.vti.entity.Tour;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +39,10 @@ public class TourDetailDTO {
     private String diemNhan ;
     private Integer soCho ;
     private String lichTrinh;
+
+    public Tour toEntity() {
+        return new Tour(maTour,tenTour,giaTour,luotQuanTam,thoiGian,phuongTienDiChuyen,diemThamQuan,amThuc,khachSan,thoiGianLyTuong,doiTuongThichHop,uuDai,noiKhoiHanh,ngayKhoiHanhDate,soCho,lichTrinh);
+    }
 
     public String getGiaTourString() {
         return giaTourString;
@@ -261,6 +267,8 @@ public class TourDetailDTO {
     public void setLichTrinh(String lichTrinh) {
         this.lichTrinh = lichTrinh;
     }
+
+
 }
 
 
