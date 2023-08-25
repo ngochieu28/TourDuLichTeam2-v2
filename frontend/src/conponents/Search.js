@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Typography, InputBase, Button } from "@mui/material";
+import Drawer from '@mui/material/Drawer';
+import Divider from '@mui/material/Divider';
+import bookingApi from '../api/bookingApi';
+import { Typography, InputBase, Button, Container, Grid } from "@mui/material";
 import { Search, RestartAlt } from "@mui/icons-material";
 import { AppConsumer } from '../store';
 import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../store/action'
@@ -52,6 +55,63 @@ export default function BasicTabs() {
     const [noiKhoiHanh, setNoiKhoiHanh] = React.useState('');
     const [diemDen, setDiemDen] = React.useState('');
     const [thoiGian, setThoiGian] = React.useState('');
+
+    // Search Booking 
+    const [check, setCheck] = React.useState({
+        Search: false,
+    });
+    const [booking, setbooking] = React.useState();
+    const [selectedId, setSelectedId] = React.useState('');
+
+    const handleInputChange = (e) => {
+        setSelectedId(e.target.value);
+    };
+
+    const getBookingById = async () => {
+        const maBooking = selectedId
+        let res = await bookingApi.getBookingById(maBooking)
+        setbooking(res);
+    };
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setCheck({ ...check, [anchor]: open });
+    };
+
+    const searchBooking = (anchor) => (
+        <Box
+            sx={{ width: anchor === 'Search' }}
+            role="presentation"
+            onClick={toggleDrawer(anchor, true)}
+            onKeyDown={toggleDrawer(anchor, true)}
+        >
+            <Container >
+                <Grid item xs="12" display="flex">
+                    <Typography variant="h5" component="h2">
+                        <input type="text" value={selectedId} placeholder='Nhập mã Booking' onChange={handleInputChange} />
+                    </Typography>
+                    <Button onClick={getBookingById}> Tìm kiếm</Button>
+                </Grid>
+                <Divider />
+                <Grid display="flex">
+                    <Grid >
+                        <p>Tên người đặt : <b>{booking?.nameKH}</b></p>
+                        <p>Email : <b>{booking?.emailKH}</b></p>
+                        <p>Phone Number : <b>{booking?.phoneNumber}</b></p>
+                        <p>Địa chỉ : <b>{booking?.diaChi}</b></p>
+                    </Grid>
+                    <Grid item xs="6" mx={10}>
+                        <p>Số ngời lớn : <b>{booking?.soChoNL}</b></p>
+                        <p>Số trẻ em : <b>{booking?.soChoTreEm}</b></p>
+                        <p>Số trẻ nhỏ  : <b>{booking?.soChoTreNho}</b></p>
+                        <p>Số em bé : <b>{booking?.soChoEmBe}</b></p>
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
+    );
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -147,7 +207,20 @@ export default function BasicTabs() {
                 <h4>Có điều kiện sẽ phát triển sau</h4>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
-                <h4>Đây là phần tra cứu Booking</h4>
+                <div>
+                    {['Search'].map((anchor) => (
+                        <React.Fragment key={anchor}>
+                            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+                            <Drawer
+                                anchor={anchor}
+                                open={check[anchor]}
+                                onClose={toggleDrawer(anchor, false)}
+                            >
+                                {searchBooking(anchor)}
+                            </Drawer>
+                        </React.Fragment>
+                    ))}
+                </div>
             </CustomTabPanel>
         </Box>
     );
