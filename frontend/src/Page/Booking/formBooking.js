@@ -6,12 +6,13 @@ import { useForm, Controller } from 'react-hook-form'
 import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { useParams, } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
 import {
-    Grid, TextField, Box, Typography,
-    Button, ButtonGroup, Divider,
+    Grid, TextField, Box, Typography, Button, ButtonGroup, Divider,
 } from '@mui/material';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const FormBooking = () => {
     const [state, dispatch] = AppConsumer();
@@ -37,7 +38,15 @@ const FormBooking = () => {
     const giaEmBe1 = emBe * giaEmBe
     const tongGia = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
 
-    const { handleSubmit, control, reset, setValue, formState: { errors } } = useForm({
+    // validation input
+    const validationSchema = yup.object({
+        nameKH: yup.string().max(50, "Must be less than 50 characters").required('Họ và tên là bắt buộc'),
+        emailKH: yup.string().email('Invalid email address').matches(/@/, 'Email phải chứa ký tự @').required('Địa chỉ là bắt buộc'),
+        phoneNumber: yup.string().matches(/^\d{9,11}$/, "Must be between 9 and 11 digits").required('Required'),
+        diaChi: yup.string().max(50, "Must be less than 50 characters").required('Địa chỉ là bắt buộc'),
+    });
+
+    const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
         defaultValues: {
             tourId: "",
             nameKH: "",
@@ -45,6 +54,7 @@ const FormBooking = () => {
             phoneNumber: "",
             diaChi: "",
         },
+        resolver: yupResolver(validationSchema),
     });
 
     useEffect(() => {
@@ -94,7 +104,6 @@ const FormBooking = () => {
     }
 
     //// check tăng giảm
-
     const increaseAdultCount = () => {
         if (countFull == tours?.soCho) {
             alert("Số chỗ còn lại là" + tours?.soCho)
@@ -170,10 +179,11 @@ const FormBooking = () => {
                                 <Grid item xs="6" >
                                     <Controller name="nameKH" control={control} render={({ field }) => (
                                         <TextField
+                                            {...register('nameKH')}
                                             label="Họ và tên "
                                             {...field}
                                             fullWidth
-                                            helperText={errors.nameKH && errors.nameKH.message}
+                                            helperText={errors?.nameKH?.message}
                                             error={!!errors.nameKH}
                                         />
                                     )} />
@@ -181,12 +191,12 @@ const FormBooking = () => {
                                 <Grid item xs="6">
                                     <Controller name="emailKH" control={control} render={({ field }) => (
                                         <TextField
+                                            {...register('emailKH')}
                                             label="Email"
                                             {...field}
                                             fullWidth
-                                            helperText={errors.emailKH && errors.emailKH.message}
+                                            helperText={errors?.emailKH?.message}
                                             error={!!errors.emailKH}
-                                            type='email'
                                         />
                                     )} />
                                 </Grid>
@@ -196,10 +206,11 @@ const FormBooking = () => {
                                 <Grid item xs="6" my={4} >
                                     <Controller name="phoneNumber" control={control} render={({ field }) => (
                                         <TextField
+                                            {...register('phoneNumber')}
                                             label="Số điện thoại"
                                             {...field}
                                             fullWidth
-                                            helperText={errors.phoneNumber && errors.phoneNumber.message}
+                                            helperText={errors?.phoneNumber?.message}
                                             error={!!errors.phoneNumber}
                                             type='number'
                                         />
@@ -208,10 +219,11 @@ const FormBooking = () => {
                                 <Grid item xs="6" my={4}>
                                     <Controller name="diaChi" control={control} render={({ field }) => (
                                         <TextField
+                                            {...register('diaChi')}
                                             label="Địa chỉ"
                                             {...field}
                                             fullWidth
-                                            helperText={errors.diaChi && errors.diaChi.message}
+                                            helperText={errors?.diaChi?.message}
                                             error={!!errors.diaChi}
                                         />
                                     )} />
@@ -356,10 +368,19 @@ const FormBooking = () => {
                                 </Grid>
                             </Grid>
 
-                            <Grid my={5} pl={3}>
-                                <Button variant="contained" type='submit' >{onSubmit}
-                                    Đặt ngay
-                                </Button>
+                            <Grid my={5} pl={3} >
+                                {tours?.soCho !== 0 &&
+                                    <Button variant="contained" type='submit' >{onSubmit}
+                                        Đặt ngay
+                                    </Button>
+                                }
+                                {tours?.soCho == 0 &&
+                                    <Link to={"/"} >
+                                        <Button variant="contained" type='submit' >
+                                            Quay về trang chủ
+                                        </Button>
+                                    </Link>
+                                }
                             </Grid>
                         </Grid>
                     </Grid>

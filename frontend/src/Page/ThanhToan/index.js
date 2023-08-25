@@ -11,6 +11,7 @@ import { srcImg } from '../../util/srcImg';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import bookingApi from '../../api/bookingApi';
 import { Container } from '@mui/system';
+import { toast } from 'react-toastify';
 
 export default function ThanhToan() {
 
@@ -52,29 +53,26 @@ export default function ThanhToan() {
 
     // update số chỗ tour sau khi đặt
     const navigate = useNavigate()
-    const updateSochoTour = async (countFull) => {
-        const res = await tourApi.updateSoChoTour(maTour, countFull)
+
+    const updateSochoTour = async (e) => {
+        e.preventDefault();
+        const data = { "soChoDaDat": countFull }
+        console.log(data);
+        const res = await tourApi.updateSoChoTour(maTour, data)
+
+        console.log(data);
+        toast.success('Đặt thành công!');
         navigate("/")
     }
 
+    const handleClick = (countFull) => {
+
+        updateSochoTour(countFull)
+    };
+
+    // check chọn nút thanh toán 
     const handleMethodChange = (event) => {
         setSelectedMethod(event.target.value);
-    };
-
-    // onClick
-    const [open, setOpen] = useState(false);
-
-    const handleClick = () => {
-        if (setOpen(true)) {
-            updateSochoTour(countFull)
-        }
-    };
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
     };
 
     const renderPaymentInfo = () => {
@@ -251,11 +249,6 @@ export default function ThanhToan() {
                                         <Button variant="outlined" onClick={handleClick}>
                                             Đặt ngay
                                         </Button>
-                                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                                            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                                                Đặt tour thành công
-                                            </Alert>
-                                        </Snackbar>
                                     </Stack>
                                 </Grid>
                             </Box>
