@@ -41,7 +41,7 @@ public class TourDetailDTO {
     private String lichTrinh;
 
     public Tour toEntity() {
-        return new Tour(maTour,tenTour,giaTour,luotQuanTam,thoiGian,phuongTienDiChuyen,diemThamQuan,amThuc,khachSan,thoiGianLyTuong,doiTuongThichHop,uuDai,noiKhoiHanh,ngayKhoiHanhDate,soCho,lichTrinh);
+        return new Tour(maTour,tenTour,giaTour,image,image,image2,image3,luotQuanTam,thoiGian,phuongTienDiChuyen,diemThamQuan,amThuc,khachSan,thoiGianLyTuong,doiTuongThichHop,uuDai,noiKhoiHanh,ngayKhoiHanhDate,soCho,lichTrinh);
     }
 
     public String getGiaTourString() {

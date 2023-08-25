@@ -33,6 +33,10 @@ export default function AddTour() {
         tenTour: "",
         luotQuanTam: "",
         giaTour: "",
+        image: "NDSGN3399-035-160823VN-D.jpg",
+        image2: "NDSGN617-009-090823XE-F.jpg",
+        image3: "NDSGN876-267-100823VJ-F.jpg",
+        image4: "DSSGN820-014-120823FWT.jpg",
         ngayKhoiHanhDate: "",
         thoiGian: "",
         noiKhoiHanh: "",
@@ -44,7 +48,7 @@ export default function AddTour() {
         thoiGianLyTuong: "",
         doiTuongThichHop: "",
         uuDai: "",
-        lichTrinh: ""
+        lichTrinh: "",
     })
 
     const handelApDung = async () => {

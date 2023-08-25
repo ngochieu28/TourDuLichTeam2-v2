@@ -119,14 +119,14 @@ export default function TourDetail() {
                             <Grid container spacing={1} >
                                 <Grid item xs={6} >
                                     <img
-                                        src={` http://192.168.1.163:4000/${tours?.image2}`}
+                                        src={`${srcImg}/${tours?.image2}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 2"
                                     />
                                 </Grid>
                                 <Grid item xs={6} >
                                     <img
-                                        src={` http://192.168.1.163:4000/${tours?.image3}`}
+                                        src={`${srcImg}/${tours?.image3}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 3"
                                     />
@@ -135,7 +135,7 @@ export default function TourDetail() {
                             <Grid container >
                                 <Grid item xs={12} >
                                     <img
-                                        src={` http://192.168.1.163:4000/${tours?.image4}`}
+                                        src={`${srcImg}/${tours?.image4}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 4"
                                     />

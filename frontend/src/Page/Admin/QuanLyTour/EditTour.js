@@ -219,9 +219,6 @@ export default function AddTour() {
         }));
     };
 
-
-
-
     return (
         <>
             <div className='tour-detail'>
@@ -280,8 +277,7 @@ export default function AddTour() {
                     <Grid container spacing={1}>
                         <Grid item xs={7} >
                             <img
-                                // src={`${srcImg}/${tours?.image}`}
-                                src='https://media.travel.com.vn/tour/tfd_230724053955_322122_DJI_0785.jpg'
+                                src={`${srcImg}/${tours?.image}`}
                                 style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                 alt="Image 1"
                             />
@@ -290,16 +286,14 @@ export default function AddTour() {
                             <Grid container spacing={1} >
                                 <Grid item xs={6} >
                                     <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image2}`}
-                                        src='https://media.travel.com.vn/tour/tfd_230724054049_351853_cable%20car%20(3).jpg'
+                                        src={`${srcImg}/${tours?.image2}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 2"
                                     />
                                 </Grid>
                                 <Grid item xs={6} >
                                     <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image3}`}
-                                        src='https://media.travel.com.vn/destination/tf_230627041352_932314_VINOASIS%20(6).jpeg'
+                                        src={`${srcImg}/${tours?.image3}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 3"
                                     />
@@ -308,8 +302,7 @@ export default function AddTour() {
                             <Grid container >
                                 <Grid item xs={12} >
                                     <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image4}`}
-                                        src='https://media.travel.com.vn/destination/dc__230510_.jpg'
+                                        src={`${srcImg}/${tours?.image4}`}
                                         style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                         alt="Image 4"
                                     />

@@ -46,10 +46,14 @@ public class Tour {
 	@OneToMany(mappedBy = "tour")
 	private List<Booking> bookings;
 
-	public Tour(String maTour, String tenTour, Integer giaTour, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanhDate, Integer soCho, String lichTrinh) {
+	public Tour(String maTour, String tenTour, Integer giaTour, String image, String image1, String image2, String image3, Integer luotQuanTam, String thoiGian, String phuongTienDiChuyen, String diemThamQuan, String amThuc, String khachSan, String thoiGianLyTuong, String doiTuongThichHop, String uuDai, String noiKhoiHanh, Date ngayKhoiHanhDate, Integer soCho, String lichTrinh) {
 		this.maTour = UUID.randomUUID().toString();
 		this.tenTour = tenTour;
 		this.giaTour = giaTour;
+		this.image = "NDSGN3399-035-160823VN-D.jpg";
+		this.image2 = "NDSGN617-009-090823XE-F.jpg";
+		this.image3 = "NDSGN876-267-100823VJ-F.jpg";
+		this.image4 = "DSSGN820-014-120823FWT.jpg";
 		this.luotQuanTam = luotQuanTam;
 		this.thoiGian = thoiGian;
 		this.phuongTienDiChuyen = phuongTienDiChuyen;
@@ -64,7 +68,6 @@ public class Tour {
 		this.soCho = soCho;
 		this.lichTrinh = lichTrinh;
 	}
-
 
 
 	public Integer getGiaTreEm() {
