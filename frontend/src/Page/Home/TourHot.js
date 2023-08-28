@@ -27,7 +27,7 @@ export default function TourHot() {
                 </Grid>
                 {tourHots && tourHots.length > 0 && tourHots.map((item) => {
                     return (
-                        <Grid item xs={4} key={item.maTour}>
+                        <Grid item xs={12} sm={6} md={4} key={item.maTour}>
                             <Card className='card'>
                                 <div style={{ position: 'relative', height: '245px' }}>
                                     <img

@@ -1,52 +1,17 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import bookingApi from '../api/bookingApi';
-import { Typography, InputBase, Button, Container, Grid } from "@mui/material";
-import { Search, RestartAlt } from "@mui/icons-material";
+import React, { useState } from 'react';
+import { Box, Grid, Typography, Tab, Tabs, InputBase, Button, Container, Divider, Drawer, FormGroup, CardContent, Card } from '@mui/material';
 import { AppConsumer } from '../store';
 import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../store/action'
+import { RestartAlt, Search } from '@mui/icons-material';
+import bookingApi from '../api/bookingApi';
+import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-material-ui";
+import * as Yup from "yup";
+import { Link } from 'react-router-dom';
 
-function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-CustomTabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
-export default function BasicTabs() {
+export default function ResponsiveTabs() {
     const [state, dispatch] = AppConsumer();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -55,6 +20,33 @@ export default function BasicTabs() {
     const [noiKhoiHanh, setNoiKhoiHanh] = React.useState('');
     const [diemDen, setDiemDen] = React.useState('');
     const [thoiGian, setThoiGian] = React.useState('');
+
+    const CustomTabPanel = ({ value, index, children }) => {
+        return (
+            <div role="tabpanel" hidden={value !== index}>
+                {value === index && <Box p={3}>{children}</Box>}
+            </div>
+        );
+    };
+
+    const initialValues = {
+        noiKhoiHanh: '',
+        diemDen: '',
+        thoiGian: '',
+    };
+
+    const validationSchema = Yup.object({
+        noiKhoiHanh: Yup.string(),
+        diemDen: Yup.string(),
+        thoiGian: Yup.string(),
+    });
+
+    const handleSubmit = (values) => {
+        // console.log(values);
+        dispatch(SET_SEARCHNOIKHOIHANH(values.noiKhoiHanh))
+        dispatch(SET_SEARCHDIEMDEN(values.diemDen))
+        dispatch(SET_SEARCHTHOIGIAN(values.thoiGian))
+    };
 
     // Search Booking 
     const [check, setCheck] = React.useState({
@@ -113,86 +105,121 @@ export default function BasicTabs() {
         </Box>
     );
 
+
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Tour du lịch trọn gói" {...a11yProps(0)} />
-                    <Tab label="Khách sạn" {...a11yProps(1)} />
-                    <Tab label="Vé máy bay" {...a11yProps(2)} />
-                    <Tab label="Combo vé máy bay + Khách sạn" {...a11yProps(3)} />
-                    <Tab label="Combo xe + khách sạn" {...a11yProps(4)} />
-                    <Tab label="Tra cứu Booking" {...a11yProps(5)} />
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="responsive tabs example"
+                    variant="scrollable"
+                    scrollButtons="auto"
+                >
+                    <Tab label="Tour du lịch trọn gói" />
+                    <Tab label="Khách sạn" />
+                    <Tab label="Vé máy bay" />
+                    <Tab label="Combo vé máy bay + Khách sạn" />
+                    <Tab label="Combo xe + khách sạn" />
+                    <Tab label="Tra cứu Booking" />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <div>
-                    <form
-                        className="ml-auto position-relative"
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            dispatch(SET_SEARCHNOIKHOIHANH(noiKhoiHanh))
-                            dispatch(SET_SEARCHDIEMDEN(diemDen))
-                            dispatch(SET_SEARCHTHOIGIAN(thoiGian))
-
-                        }}
-                    >
-                        <div className="mr-2" style={{ display: 'inline-block' }}>
-                            <Box inline className="ml-auto position-relative">
-                                <div className="position-relative" style={{ display: 'inline-block' }}>
-                                    <InputBase
-                                        placeholder="Điểm đi...."
-                                        style={{ height: '50px', paddingRight: '30px', border: '2px solid #ffc709' }}
-                                        value={noiKhoiHanh}
-                                        onChange={(e) => setNoiKhoiHanh(e.target.value)}
-                                    />
-                                </div>
-                            </Box>
-                        </div>
-                        <div className="mr-2" style={{ display: 'inline-block' }}>
-                            <Box inline className="ml-auto position-relative">
-                                <div className="position-relative" style={{ display: 'inline-block' }}>
-                                    <InputBase
-                                        placeholder="Điểm đến...."
-                                        style={{ height: '50px', paddingRight: '30px', border: '2px solid #ffc709' }}
-                                        value={diemDen}
-                                        onChange={(e) => setDiemDen(e.target.value)}
-                                    />
-                                </div>
-                            </Box>
-                        </div>
-                        <div className="mr-2" style={{ display: 'inline-block' }}>
-                            <Box inline className="ml-auto position-relative">
-                                <div className="position-relative" style={{ display: 'inline-block' }}>
-                                    <InputBase
-                                        type='number'
-                                        placeholder="Số ngày...."
-                                        style={{ height: '50px', paddingRight: '30px', border: '2px solid #ffc709' }}
-                                        value={thoiGian}
-                                        onChange={(e) => setThoiGian(e.target.value)}
-                                    />
-                                </div>
-                            </Box>
-                        </div>
-                        <div className="mr-2" style={{ display: 'inline-block' }}>
-                            <Button type='submit' style={{ background: 'linear-gradient(64.4deg, #244c7a 21.33%, #002f65 67.61%)', color: '#fff', padding: '8px 16px', border: 'none', borderRadius: '4px', color: 'yellow', height: '50px' }}>
-                                <Search />
-                            </Button>
-                        </div>
-                        <div className="mr-2" style={{ display: 'inline-block' }}>
-                            <Button style={{ background: 'linear-gradient(64.4deg, #244c7a 21.33%, #002f65 67.61%)', color: '#fff', padding: '8px 16px', border: 'none', borderRadius: '4px', color: 'yellow', height: '50px' }} onClick={() => {
-                                setNoiKhoiHanh('')
-                                setDiemDen('')
-                                setThoiGian('')
-                                dispatch(SET_SEARCHNOIKHOIHANH(''))
-                                dispatch(SET_SEARCHDIEMDEN(''))
-                                dispatch(SET_SEARCHTHOIGIAN(''))
-                            }}>
-                                <RestartAlt />
-                            </Button>
-                        </div>
-                    </form>
-                </div>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    <Form>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6} sm={3}>
+                                <Box inline className="ml-auto position-relative">
+                                    <div className="position-relative" style={{ display: 'inline-block' }}>
+                                        <FormGroup>
+                                            <Field
+                                                label="Điểm đi...."
+                                                type="text"
+                                                name="noiKhoiHanh"
+                                                component={TextField}
+                                                fullWidth
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <Box inline className="ml-auto position-relative">
+                                    <div className="position-relative" style={{ display: 'inline-block' }}>
+                                        <FormGroup>
+                                            <Field
+                                                label="Điểm đến...."
+                                                type="text"
+                                                name="diemDen"
+                                                component={TextField}
+                                                fullWidth
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <Box inline className="ml-auto position-relative">
+                                    <div className="position-relative" style={{ display: 'inline-block' }}>
+                                        <FormGroup>
+                                            <Field
+                                                label="Số ngày...."
+                                                type="text"
+                                                name="thoiGian"
+                                                component={TextField}
+                                                fullWidth
+                                            />
+                                        </FormGroup>
+                                    </div>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={6}>
+                                        <Button
+                                            type="submit"
+                                            style={{
+                                                background: 'linear-gradient(64.4deg, #244c7a 21.33%, #002f65 67.61%)',
+                                                color: '#fff',
+                                                padding: '8px 16px',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                color: 'yellow',
+                                                height: '50px',
+                                            }}
+                                        >
+                                            <Search />
+                                        </Button>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Button
+                                            style={{
+                                                background: 'linear-gradient(64.4deg, #244c7a 21.33%, #002f65 67.61%)',
+                                                color: '#fff',
+                                                padding: '8px 16px',
+                                                border: 'none',
+                                                borderRadius: '4px',
+                                                color: 'yellow',
+                                                height: '50px',
+                                            }}
+                                            onClick={() => {
+                                                dispatch(SET_SEARCHNOIKHOIHANH(''))
+                                                dispatch(SET_SEARCHDIEMDEN(''))
+                                                dispatch(SET_SEARCHTHOIGIAN(''))
+                                            }}
+                                        >
+                                            <RestartAlt />
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Form>
+                </Formik>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
                 <h4>Có điều kiện sẽ phát triển sau</h4>

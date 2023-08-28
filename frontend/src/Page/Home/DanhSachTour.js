@@ -56,7 +56,7 @@ export default function DanhSachTour() {
                     tours.length > 0 &&
                     tours.map((item) => {
                         return (
-                            <Grid item xs={4} key={item.maTour}>
+                            <Grid item xs={12} sm={6} md={4} key={item.maTour}>
                                 <Card className='card'>
                                     <div style={{ position: 'relative', height: '245px' }}>
                                         <img

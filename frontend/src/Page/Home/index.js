@@ -8,13 +8,9 @@ import BasicTabs from '../../conponents/Search';
 import TourHot from './TourHot';
 import DanhSachTour from './DanhSachTour';
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Album() {
-
-
-
     return (
         <ThemeProvider theme={defaultTheme}>
             <Header />

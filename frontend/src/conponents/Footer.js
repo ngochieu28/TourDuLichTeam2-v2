@@ -19,12 +19,12 @@ const Footer = () => (
     <footer className="footer">
         <Container >
             <Grid container >
-                <Grid xs="3" className="text-left">
+                <Grid xs={6} sm={3} className="text-left">
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Du lịch trong nước
                     </a></h4>
                     <Grid container>
-                        <Grid xs="6">
+                        <Grid xs={12} sm={6}>
                             <ul>
                                 <li>
                                     <span className="text-muted" href="#">
@@ -63,12 +63,12 @@ const Footer = () => (
                                 </li>
                                 <li>
                                     <span className="text-muted" href="#">
-                                        Đà Lạc
+                                        Đà Lạt
                                     </span>
                                 </li>
                             </ul>
                         </Grid >
-                        <Grid xs="6">
+                        <Grid xs={12} sm={6}>
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
@@ -114,12 +114,12 @@ const Footer = () => (
                         </Grid >
                     </Grid >
                 </Grid >
-                <Grid xs="3" className="text-left">
+                <Grid xs={6} sm={3} className="text-left">
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Du lịch nước ngoài
                     </a></h4>
                     <Grid container>
-                        <Grid xs="6">
+                        <Grid xs={12} sm={6}>
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
@@ -163,7 +163,7 @@ const Footer = () => (
                                 </li>
                             </ul>
                         </Grid >
-                        <Grid xs="6">
+                        <Grid xs={12} sm={6}>
                             <ul className="list-unstyled">
                                 <li>
                                     <span className="text-muted" href="#">
@@ -209,7 +209,7 @@ const Footer = () => (
                         </Grid >
                     </Grid >
                 </Grid >
-                <Grid xs="3" className="text-left">
+                <Grid xs={6} sm={3} className="text-left">
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Dòng Tour
                     </a></h4>
@@ -236,7 +236,7 @@ const Footer = () => (
                         </li>
                     </ul>
                 </Grid >
-                <Grid xs="3" className="text-left">
+                <Grid xs={6} sm={3} className="text-left" >
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Ứng dụng di động
                     </a></h4>
@@ -282,8 +282,8 @@ const Footer = () => (
                     </Grid >
                 </Grid >
             </Grid >
-            <Grid container>
-                <Grid xs="3" className="text-left">
+            <Grid container spacing={1}>
+                <Grid xs={6} sm={3} className="text-left">
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Liên hệ
                     </a></h4>
@@ -325,7 +325,7 @@ const Footer = () => (
                         <p>Từ 8:00 - 22:00 hàng ngày</p>
                     </div>
                 </Grid >
-                <Grid xs="3" className="text-left">
+                <Grid xs={6} sm={3} className="text-left">
                     <h4><a href="#" style={{ textDecoration: 'none' }}>
                         Thông tin
                     </a></h4>
@@ -366,7 +366,7 @@ const Footer = () => (
                             </span>
                         </li>
                     </ul></Grid >
-                <Grid xs="6" className="text-left">
+                <Grid xs="6" className="text-left" display={{ xs: 'none', sm: 'block', md: 'block' }}>
                     <div>
                         <h4><a href="#" style={{ textDecoration: 'none' }}>
                             Newsletter
