@@ -3,6 +3,7 @@ package com.vti.database;
 import com.vti.entity.ERole;
 import com.vti.entity.Role;
 import com.vti.entity.User;
+import com.vti.entity.UserStatus;
 import com.vti.repository.RoleRepository;
 import com.vti.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class Database {
                 admin.setUserName("admintrator");
                 admin.setEmail("admintrator@gmail.com");
                 admin.setRole("Admin");
+                admin.setStatus(UserStatus.ACTIVE);
                 admin.setPassword(encoder.encode("admin123"));
 
 //                // Create the ROLE_ADMIN role if it doesn't exist
