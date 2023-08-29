@@ -11,7 +11,7 @@ export default function BasicAccordion() {
         <div style={{ marginBottom: '2rem' }}>
             <h2 style={{ textAlign: 'center' }}>Những thông tin cần lưu ý</h2>
             <Grid container spacing={1}>
-                <Grid item xs='6'>
+                <Grid item xs={12} sm={6}>
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -109,7 +109,7 @@ export default function BasicAccordion() {
                         </AccordionDetails>
                     </Accordion>
                 </Grid>
-                <Grid item xs='6'>
+                <Grid item xs={12} sm={6}>
                     <Accordion>
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
