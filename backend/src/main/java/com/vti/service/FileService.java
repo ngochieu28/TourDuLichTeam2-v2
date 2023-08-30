@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class FileService implements IFileService {
 
 	private FileManager fileManager = new FileManager();
-	private String linkFolder = "~/TourDuLichTeam2-v2/image";
+	private String linkFolder = "/home/ubuntu/TourDuLichTeam2-v2/image";
 
 
 	@Override
