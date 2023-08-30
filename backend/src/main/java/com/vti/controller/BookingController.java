@@ -6,6 +6,7 @@ import com.vti.entity.Booking;
 import com.vti.entity.Tour;
 import com.vti.repository.BookingRepository;
 import com.vti.repository.TourRepository;
+import com.vti.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
