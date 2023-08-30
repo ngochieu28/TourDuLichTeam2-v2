@@ -7,10 +7,17 @@ export const initialState = {
     searchNoiKhoiHanh: "",
     searchDiemDen: "",
     searchThoiGian: "",
+    role: "",
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case "ROLE": {
+            return {
+                ...state,
+                role: action.payload
+            }
+        }
         case "DATA": {
             return {
                 ...state,

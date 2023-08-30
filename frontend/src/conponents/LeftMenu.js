@@ -9,7 +9,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { AppConsumer } from '../store';
 import { CLOSE_MENU } from '../store/action';
 import { Link as LinkRouter } from 'react-router-dom';
-import { useCheckLogin } from '../util';
+import { useCheckLogin } from '../util/CheckAdmin';
 
 
 export default function LeftMenu({ openLeftMenu, OpenMenu }) {

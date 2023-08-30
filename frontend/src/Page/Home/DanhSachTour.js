@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect, useRef } from 'react';
 import tourApi from '../../api/tourApi'
+import fileApi from '../../api/fileApi';
 import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination } from '@mui/material';
 import { AppConsumer } from '../../store';
 import { Link } from 'react-router-dom';

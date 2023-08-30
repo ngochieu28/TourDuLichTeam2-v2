@@ -8,4 +8,5 @@ public interface IFileService {
 
 	String uploadImage(MultipartFile image) throws IOException;
 
+	byte[] getImage(String fileName) throws IOException;
 }

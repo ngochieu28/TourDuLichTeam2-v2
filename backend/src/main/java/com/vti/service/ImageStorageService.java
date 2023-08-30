@@ -37,7 +37,6 @@ public class ImageStorageService implements IStorageService{
     @Override
     public String storeFile(MultipartFile file) {
         try {
-            System.out.println("haha");
             if (file.isEmpty()) {
                 throw new RuntimeException("Failed to store empty file.");
             }

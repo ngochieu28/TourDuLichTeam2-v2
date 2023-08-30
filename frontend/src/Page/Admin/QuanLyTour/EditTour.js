@@ -26,6 +26,7 @@ import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
 import htmlToDraft from 'html-to-draftjs';
 import { format } from 'date-fns';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 export default function AddTour() {
     const { maTour } = useParams();
@@ -108,6 +109,18 @@ export default function AddTour() {
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
         setConvertedContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+    };
+
+    const fontOptions = {
+        options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Verdana'],
+        className: 'demo-font-option',
+        dropdownClassName: 'demo-font-dropdown',
+    };
+
+    const sizeOptions = {
+        options: [8, 10, 12, 14, 16, 18, 24, 30],
+        className: 'demo-size-option',
+        dropdownClassName: 'demo-size-dropdown',
     };
 
     useEffect(() => {
@@ -406,6 +419,10 @@ export default function AddTour() {
                                 onEditorStateChange={onEditorStateChange}
                                 wrapperClassName="demo-wrapper"
                                 editorClassName="demo-editor"
+                                toolbar={{
+                                    fontFamily: fontOptions,
+                                    fontSize: sizeOptions,
+                                }}
                             />
                         </div>
                     </Card>

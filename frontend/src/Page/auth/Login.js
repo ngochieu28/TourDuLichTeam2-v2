@@ -21,8 +21,11 @@ import LoginApi from '../../api/LoginApi'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AppConsumer } from '../../store';
+import { SET_ROLE } from '../../store/action'
 
 const Login = () => {
+    const [state, dispatch] = AppConsumer();
     const [open, setOpen] = React.useState(false);
     const [email, setEmail] = useState("");
     const [isDisableResendButton, setDisableResendButton] = useState(false);
@@ -101,6 +104,9 @@ const Login = () => {
                                             values.password
                                         );
 
+                                        // setRole để check admin
+                                        dispatch(SET_ROLE(result.role))
+
                                         // check user active
                                         if (result.token === null || result.token === undefined) {
                                             setEmail(result.email);
@@ -120,12 +126,10 @@ const Login = () => {
                                                 result.role,
                                                 result.status);
 
-                                            // save token & UserInfo to redux
-
                                             // redirect to home page
                                             navigate('/');
 
-                                            if (sessionStorage.getItem("role") === 'Admin') {
+                                            if (result.role === 'Admin') {
                                                 navigate("/admin");
                                             }
                                         }

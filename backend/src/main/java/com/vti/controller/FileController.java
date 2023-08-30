@@ -3,14 +3,12 @@ package com.vti.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vti.service.IFileService;
@@ -33,5 +31,18 @@ public class FileController {
 		}
 		
 		return new ResponseEntity<>(fileService.uploadImage(image), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/image/{fileName}")
+	public ResponseEntity<byte[]> getImage(@PathVariable String fileName) throws IOException {
+		byte[] imageData = fileService.getImage(fileName);
+
+		if (imageData == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_JPEG);
+		return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
 	}
 }

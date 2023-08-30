@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../store';
 import { TOGGLE_MENU } from '../store/action'
-import { useCheckLogin } from '../util';
+import { useCheckLogin } from '../util/CheckAdmin';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',

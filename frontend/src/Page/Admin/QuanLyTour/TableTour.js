@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import tourApi from '../../../api/tourApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../../../store';
-import { useCheckLogin } from '../../../util';
+import { useCheckLogin } from '../../../util/CheckAdmin';
 
 
 

@@ -4,6 +4,12 @@ export const SET_DATA = (payload) => {
         payload,
     }
 };
+export const SET_ROLE = (payload) => {
+    return {
+        type: "ROLE",
+        payload,
+    }
+};
 export const SET_SEARCHNOIKHOIHANH = (payload) => {
     return {
         type: "NOIKHOIHANH",
