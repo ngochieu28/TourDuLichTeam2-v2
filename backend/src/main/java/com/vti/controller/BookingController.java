@@ -1,6 +1,7 @@
 package com.vti.controller;
 
 import com.vti.dto.BookingDTO;
+import com.vti.dto.BookingTourDTO;
 import com.vti.dto.CreatBookingDTO;
 import com.vti.entity.Booking;
 import com.vti.entity.Tour;
@@ -12,19 +13,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@Transactional
 @CrossOrigin(value = "*")
 @RequestMapping(value = "/api/v1/bookings")
 
 public class BookingController {
+
+    @Autowired
+    private IBookingService service ;
 
     @Autowired
     private BookingRepository bookingRepo ;
@@ -32,7 +36,7 @@ public class BookingController {
     @Autowired
     private TourRepository tourRepo ;
 
-    // get All
+    // GET ALL
     @GetMapping()
     public ResponseEntity<?> getAll(Pageable pageable) {
         Page<Booking> pageBookings = bookingRepo.findAll(pageable) ;
@@ -67,7 +71,7 @@ public class BookingController {
         return new ResponseEntity<>(bookingDTOS, HttpStatus.OK) ;
     }
 
-    // create new booking
+    // CREAT NEW BOOKING
     @PostMapping()
     public ResponseEntity<?> creat(@RequestBody CreatBookingDTO creatBookingDTO) {
 
@@ -94,8 +98,8 @@ public class BookingController {
         return new ResponseEntity<>(booking.getMaBooking(), HttpStatus.OK) ;
     }
 
-    // get by id
-    @GetMapping("{maBooking}")
+    // GET BY ID
+    @GetMapping("/{maBooking}")
     public ResponseEntity<?> getBookingById (@PathVariable int maBooking) {
         Optional<Booking> booking = Optional.ofNullable(bookingRepo.findByMaBooking(maBooking));
 
@@ -119,6 +123,27 @@ public class BookingController {
         }
 
         return new ResponseEntity<>(bookingDTO, HttpStatus.OK) ;
+    }
+
+    // DELETE BY ID
+    @DeleteMapping("/{maBooking}")
+    public ResponseEntity<?> delete (@PathVariable int maBooking) {
+        bookingRepo.deleteById(maBooking);
+        return new ResponseEntity<>("delete thành công", HttpStatus.OK) ;
+    }
+
+    // UPDATE BY ID
+    @PutMapping("/{maBooking}")
+    public ResponseEntity<?> updateById (@PathVariable int maBooking , @RequestBody BookingDTO bookingDTO) {
+        service.updateBookingById(maBooking, bookingDTO);
+        return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
+    }
+
+    // GET TOUR BOOKING
+    @GetMapping("/booking-tour/{maBooking}")
+    public ResponseEntity<?> getTourBooking (@PathVariable int maBooking){
+        BookingTourDTO bookingTourDTO = service.getTourBooking(maBooking);
+        return new ResponseEntity<>(bookingTourDTO , HttpStatus.OK);
     }
 
 

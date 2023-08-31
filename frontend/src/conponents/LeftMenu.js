@@ -63,6 +63,17 @@ export default function LeftMenu({ openLeftMenu, OpenMenu }) {
                         </ListItemButton>
                     </ListItem>
                 </LinkRouter>
+
+                <LinkRouter to="quan-ly-booking">
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                Quản lý Booking
+                            </ListItemIcon>
+                            <ListItemText />
+                        </ListItemButton>
+                    </ListItem>
+                </LinkRouter>
             </List>
         </Box>
     );

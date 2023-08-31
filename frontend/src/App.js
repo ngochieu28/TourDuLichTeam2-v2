@@ -20,6 +20,7 @@ import QuanLyTour from './Page/Admin/QuanLyTour/QuanLyTour';
 import Test from './Test/Test';
 import EditTour from './Page/Admin/QuanLyTour/EditTour';
 import AddTour from './Page/Admin/QuanLyTour/AddTour';
+import QuanLyBooking from './Page/Admin/QuanLyBooking/QuanLyBooking';
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,8 @@ function App() {
           <Route path='quan-ly-tour' element={<QuanLyTour />} />
           <Route path='addTour' element={<AddTour />} />
           <Route path='quan-ly-tour/editTour/:maTour' element={<EditTour />} />
+          <Route path='quan-ly-booking' element={<QuanLyBooking />} />
+
         </Route>
         <Route path='/booking/:maTour' element={<Booking />} />
         <Route path='/thanhToan/:maTour/:maBooking' element={<ThanhToan />} />

@@ -50,7 +50,7 @@ export default function ResponsiveTabs() {
 
     // Search Booking 
     const [check, setCheck] = React.useState({
-        Search: false,
+        top: false,
     });
     const [booking, setbooking] = React.useState();
     const [selectedId, setSelectedId] = React.useState('');
@@ -74,7 +74,7 @@ export default function ResponsiveTabs() {
 
     const searchBooking = (anchor) => (
         <Box
-            sx={{ width: anchor === 'Search' }}
+            sx={{ width: anchor === 'top' }}
             role="presentation"
             onClick={toggleDrawer(anchor, true)}
             onKeyDown={toggleDrawer(anchor, true)}
@@ -235,7 +235,7 @@ export default function ResponsiveTabs() {
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
                 <div>
-                    {['Search'].map((anchor) => (
+                    {['top'].map((anchor) => (
                         <React.Fragment key={anchor}>
                             <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
                             <Drawer
