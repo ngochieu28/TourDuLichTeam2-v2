@@ -8,6 +8,7 @@ export const initialState = {
     searchDiemDen: "",
     searchThoiGian: "",
     role: "",
+    searchMaBooking: "",
 }
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +41,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchThoiGian: action.payload
+            }
+        }
+        case "MABOOKING": {
+            return {
+                ...state,
+                searchMaBooking: action.payload
             }
         }
 

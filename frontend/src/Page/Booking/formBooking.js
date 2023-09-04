@@ -36,7 +36,7 @@ const FormBooking = () => {
     const giaTreEm1 = childCount * giaTreEm
     const giaTreNho1 = treNho * giaTreNho
     const giaEmBe1 = emBe * giaEmBe
-    const tongGia = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
+    const tongGia1 = giaNguoiLon1 + giaTreEm1 + giaTreNho1 + giaEmBe1
 
     // validation input
     const validationSchema = yup.object({
@@ -53,6 +53,7 @@ const FormBooking = () => {
             emailKH: "",
             phoneNumber: "",
             diaChi: "",
+            tongGia: "",
         },
         resolver: yupResolver(validationSchema),
     });
@@ -91,6 +92,7 @@ const FormBooking = () => {
             soChoTreEm: childCount,
             soChoTreNho: treNho,
             soChoEmBe: emBe,
+            tongGia: tongGia1,
         }
 
         let res = await bookingApi.creatBooking(data2)
@@ -364,7 +366,7 @@ const FormBooking = () => {
                             <Grid my={3} pl={3} display="flex">
                                 <Typography variant="body1" >Tổng cộng </Typography>
                                 <Grid pl={13} >
-                                    <Typography variant="body1" >{tongGia} đ </Typography>
+                                    <Typography variant="body1" >{tongGia1} đ </Typography>
                                 </Grid>
                             </Grid>
 

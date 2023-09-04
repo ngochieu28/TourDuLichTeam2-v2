@@ -28,6 +28,10 @@ public class CreatBookingDTO {
 
     private Integer soChoEmBe ;
 
+    private Integer tongGia ;
+
     private String tourId ;
+
+
 
 }

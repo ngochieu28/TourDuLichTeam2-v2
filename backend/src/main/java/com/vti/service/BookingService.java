@@ -68,6 +68,9 @@ public class BookingService implements IBookingService {
         if (bookingDTO.getSoChoEmBe() != null) {
             booking.setSoChoEmBe(bookingDTO.getSoChoEmBe());
         }
+        if (bookingDTO.getTongGia() != null ){
+            booking.setTongGia(bookingDTO.getTongGia());
+        }
 
         if (bookingDTO.getTourId() != null) {
             Tour tour = TourRepo.findByMaTour(bookingDTO.getTourId());
@@ -106,14 +109,18 @@ public class BookingService implements IBookingService {
                 String emailKH = resultSet.getString("emailKH");
                 String phoneNumber = resultSet.getString("phoneNumber");
                 String diaChi = resultSet.getString("diaChi");
-                String soChoNL = resultSet.getString("soChoNL");
-                String soChoTreEm = resultSet.getString("soChoTreEm");
-                String soChoTreNho = resultSet.getString("soChoTreNho");
-                String soChoEmBe = resultSet.getString("soChoEmBe");
+                Integer soChoNL = resultSet.getInt("soChoNL");
+                Integer soChoTreEm = resultSet.getInt("soChoTreEm");
+                Integer soChoTreNho = resultSet.getInt("soChoTreNho");
+                Integer soChoEmBe = resultSet.getInt("soChoEmBe");
                 String image = resultSet.getString("image");
                 String noiKhoiHanh = resultSet.getString("noiKhoiHanh");
                 String ngayKhoiHanh = resultSet.getString("ngayKhoiHanh");
                 String thoiGian = resultSet.getString("thoiGian");
+                Integer soCho = resultSet.getInt("soCho");
+                Integer tongGia = resultSet.getInt("tongGia");
+                Integer giaTour = resultSet.getInt("giaTour");
+
 
                 // Xử lý dữ liệu
                 bookingTourDTO.setMaTour(maTour);
@@ -130,6 +137,12 @@ public class BookingService implements IBookingService {
                 bookingTourDTO.setNoiKhoiHanh(noiKhoiHanh);
                 bookingTourDTO.setNgayKhoiHanh(ngayKhoiHanh);
                 bookingTourDTO.setThoiGian(thoiGian);
+                bookingTourDTO.setSoCho(soCho);
+                bookingTourDTO.setTongGia(tongGia);
+                bookingTourDTO.setGiaTour(giaTour);
+                bookingTourDTO.setGiaTreEm(bookingTourDTO.getGiaTreEm());
+                bookingTourDTO.setGiaTreNho(bookingTourDTO.getGiaTreNho());
+                bookingTourDTO.setGiaEmBe(bookingTourDTO.getGiaEmBe());
 
             }
         } catch (SQLException e) {

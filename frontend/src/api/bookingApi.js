@@ -33,9 +33,9 @@ const bookingApi = {
     },
 
     // update
-    updateBooking(maBooking) {
+    updateBooking(maBooking, data) {
         const url = `/bookings/${maBooking}`
-        return axiosClient.put(url)
+        return axiosClient.put(url, data)
     },
 
 }

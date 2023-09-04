@@ -28,6 +28,12 @@ export const SET_SEARCHTHOIGIAN = (payload) => {
         payload,
     }
 };
+export const SET_SEARCHMABOOKING = (payload) => {
+    return {
+        type: "MABOOKING",
+        payload,
+    }
+};
 
 export const SET_LIST = (payload) => {
     return {

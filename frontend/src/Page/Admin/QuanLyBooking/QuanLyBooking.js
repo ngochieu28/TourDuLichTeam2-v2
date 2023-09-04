@@ -66,13 +66,7 @@ export default function QuanLyBooking() {
 
     // update
     const handelEdit = async (maBooking) => {
-        try {
-            let res = await bookingApi.updateBooking(maBooking);
-            setBookingUpdate(res);
-            handleOpenUpdate();
-        } catch (error) {
-            console.log('Error:', error);
-        }
+
     };
 
     // delete

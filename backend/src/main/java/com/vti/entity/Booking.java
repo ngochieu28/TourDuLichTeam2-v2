@@ -34,6 +34,8 @@ public class Booking {
 
     private Integer soChoEmBe ;
 
+    private Integer tongGia ;
+
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;

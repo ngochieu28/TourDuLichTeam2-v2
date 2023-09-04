@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Typography, Tab, Tabs, InputBase, Button, Container, Divider, Drawer, FormGroup, CardContent, Card } from '@mui/material';
+import { Box, Grid, Typography, Tab, Tabs, InputBase, Button, Container, Divider, Drawer, FormGroup, CardContent, Card, Input } from '@mui/material';
 import { AppConsumer } from '../store';
 import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../store/action'
 import { RestartAlt, Search } from '@mui/icons-material';
@@ -7,7 +7,8 @@ import bookingApi from '../api/bookingApi';
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
 
 export default function ResponsiveTabs() {
     const [state, dispatch] = AppConsumer();
@@ -65,46 +66,11 @@ export default function ResponsiveTabs() {
         setbooking(res);
     };
 
-    const toggleDrawer = (anchor, open) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
-        setCheck({ ...check, [anchor]: open });
-    };
+    const navigate = useNavigate()
 
-    const searchBooking = (anchor) => (
-        <Box
-            sx={{ width: anchor === 'top' }}
-            role="presentation"
-            onClick={toggleDrawer(anchor, true)}
-            onKeyDown={toggleDrawer(anchor, true)}
-        >
-            <Container >
-                <Grid item xs="12" display="flex">
-                    <Typography variant="h5" component="h2">
-                        <input type="text" value={selectedId} placeholder='Nhập mã Booking' onChange={handleInputChange} />
-                    </Typography>
-                    <Button onClick={getBookingById}> Tìm kiếm</Button>
-                </Grid>
-                <Divider />
-                <Grid display="flex">
-                    <Grid >
-                        <p>Tên người đặt : <b>{booking?.nameKH}</b></p>
-                        <p>Email : <b>{booking?.emailKH}</b></p>
-                        <p>Phone Number : <b>{booking?.phoneNumber}</b></p>
-                        <p>Địa chỉ : <b>{booking?.diaChi}</b></p>
-                    </Grid>
-                    <Grid item xs="6" mx={10}>
-                        <p>Số ngời lớn : <b>{booking?.soChoNL}</b></p>
-                        <p>Số trẻ em : <b>{booking?.soChoTreEm}</b></p>
-                        <p>Số trẻ nhỏ  : <b>{booking?.soChoTreNho}</b></p>
-                        <p>Số em bé : <b>{booking?.soChoEmBe}</b></p>
-                    </Grid>
-                </Grid>
-            </Container>
-        </Box>
-    );
-
+    const updateBooking = () => {
+        navigate(`/updateBooking/${booking?.maBooking}`)
+    }
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -234,20 +200,30 @@ export default function ResponsiveTabs() {
                 <h4>Có điều kiện sẽ phát triển sau</h4>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
-                <div>
-                    {['top'].map((anchor) => (
-                        <React.Fragment key={anchor}>
-                            <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-                            <Drawer
-                                anchor={anchor}
-                                open={check[anchor]}
-                                onClose={toggleDrawer(anchor, false)}
-                            >
-                                {searchBooking(anchor)}
-                            </Drawer>
-                        </React.Fragment>
-                    ))}
-                </div>
+                <Container >
+                    <Grid item xs="12" display="flex">
+                        <Typography variant="h5" component="h2">
+                            <InputBase type="text" value={selectedId} placeholder='Nhập mã Booking' onChange={handleInputChange} />
+                        </Typography>
+                        <Button onClick={getBookingById}> Tìm kiếm</Button>
+                        <Button onClick={updateBooking}> Sửa lại thông tin</Button>
+                    </Grid>
+                    <Divider />
+                    <Grid display="flex">
+                        <Grid >
+                            <p>Tên người đặt : <b>{booking?.nameKH}</b></p>
+                            <p>Email : <b>{booking?.emailKH}</b></p>
+                            <p>Phone Number : <b>{booking?.phoneNumber}</b></p>
+                            <p>Địa chỉ : <b>{booking?.diaChi}</b></p>
+                        </Grid>
+                        <Grid item xs="6" mx={10}>
+                            <p>Số ngời lớn : <b>{booking?.soChoNL}</b></p>
+                            <p>Số trẻ em : <b>{booking?.soChoTreEm}</b></p>
+                            <p>Số trẻ nhỏ : <b>{booking?.soChoTreNho}</b></p>
+                            <p>Số em bé : <b>{booking?.soChoEmBe}</b></p>
+                        </Grid>
+                    </Grid>
+                </Container>
             </CustomTabPanel>
         </Box>
     );

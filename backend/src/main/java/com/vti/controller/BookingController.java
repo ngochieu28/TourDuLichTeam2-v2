@@ -58,7 +58,7 @@ public class BookingController {
             bookingDTO.setSoChoTreEm(bookings.get(i).getSoChoTreEm());
             bookingDTO.setSoChoTreNho(bookings.get(i).getSoChoTreNho());
             bookingDTO.setSoChoEmBe(bookings.get(i).getSoChoEmBe());
-
+//            bookingDTO.setTongGia(bookings.get(i).getSoChoEmBe());
 
             Tour tour = bookings.get(i).getTour();
             if (tour != null) {
@@ -87,6 +87,7 @@ public class BookingController {
         booking.setSoChoTreEm(creatBookingDTO.getSoChoTreEm());
         booking.setSoChoTreNho(creatBookingDTO.getSoChoTreNho());
         booking.setSoChoEmBe(creatBookingDTO.getSoChoEmBe());
+        booking.setTongGia(creatBookingDTO.getTongGia());
 
 
         // check nếu khác null sẽ đẩy dữ liệu lên db luôn còn ko sẽ đẩy thẳng DL lên DB

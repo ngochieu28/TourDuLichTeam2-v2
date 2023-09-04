@@ -21,6 +21,7 @@ import Test from './Test/Test';
 import EditTour from './Page/Admin/QuanLyTour/EditTour';
 import AddTour from './Page/Admin/QuanLyTour/AddTour';
 import QuanLyBooking from './Page/Admin/QuanLyBooking/QuanLyBooking';
+import UpdateBooking from './Page/Admin/QuanLyBooking/UpdateBooking';
 
 function App() {
   const location = useLocation();
@@ -39,8 +40,8 @@ function App() {
           <Route path='addTour' element={<AddTour />} />
           <Route path='quan-ly-tour/editTour/:maTour' element={<EditTour />} />
           <Route path='quan-ly-booking' element={<QuanLyBooking />} />
-
         </Route>
+
         <Route path='/booking/:maTour' element={<Booking />} />
         <Route path='/thanhToan/:maTour/:maBooking' element={<ThanhToan />} />
         <Route path='/login' element={<Login />} />
@@ -50,6 +51,7 @@ function App() {
         <Route path='/page500' element={<Page500 />} />
         <Route path="*" element={<Page404 />} />
         <Route path='/test' element={<Test />} />
+        <Route path='/updateBooking/:maBooking' element={<UpdateBooking />} />
       </Routes>
     </div>
   );

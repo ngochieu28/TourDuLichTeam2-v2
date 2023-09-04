@@ -28,6 +28,8 @@ public class BookingDTO {
 
     private Integer soChoEmBe ;
 
+    private Integer tongGia ;
+
     private String tourId ;
 
 }
