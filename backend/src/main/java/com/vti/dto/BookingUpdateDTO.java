@@ -1,19 +1,14 @@
-package com.vti.entity;
+package com.vti.dto;
 
+import com.vti.entity.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
-@Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Booking {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookingUpdateDTO {
     private int maBooking ;
 
     private String nameKH ;
@@ -36,17 +31,7 @@ public class Booking {
 
     private Integer tongGia ;
 
-    private int status = BookingStatus.BOOKING_DONE ;
+    private int status = BookingStatus.BOOKING_DRAFT;
 
-    @ManyToOne
-    @JoinColumn(name = "tour_id")
-    private Tour tour;
-
-    public Tour getTour() {
-        return tour;
-    }
-
-    public void setTour(Tour tour) {
-        this.tour = tour;
-    }
+    private String tourId ;
 }

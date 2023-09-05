@@ -2,8 +2,10 @@ package com.vti.controller;
 
 import com.vti.dto.BookingDTO;
 import com.vti.dto.BookingTourDTO;
+import com.vti.dto.BookingUpdateDTO;
 import com.vti.dto.CreatBookingDTO;
 import com.vti.entity.Booking;
+import com.vti.entity.BookingStatus;
 import com.vti.entity.Tour;
 import com.vti.repository.BookingRepository;
 import com.vti.repository.TourRepository;
@@ -45,9 +47,11 @@ public class BookingController {
 
         List<BookingDTO> bookingDTOS = new ArrayList<>() ;
 
+        int idCounter = 1;
         for (int i = 0; i < bookings.size(); i++) {
             BookingDTO bookingDTO = new BookingDTO() ;
 
+            bookingDTO.setId(idCounter++);
             bookingDTO.setMaBooking(bookings.get(i).getMaBooking());
             bookingDTO.setNameKH(bookings.get(i).getNameKH());
             bookingDTO.setEmailKH(bookings.get(i).getEmailKH());
@@ -59,6 +63,15 @@ public class BookingController {
             bookingDTO.setSoChoTreNho(bookings.get(i).getSoChoTreNho());
             bookingDTO.setSoChoEmBe(bookings.get(i).getSoChoEmBe());
 //            bookingDTO.setTongGia(bookings.get(i).getSoChoEmBe());
+            if (bookings.get(i).getStatus() == BookingStatus.BOOKING_DRAFT) {
+                bookingDTO.setStatus("Booking chưa được duyệt") ;
+            }
+            if (bookings.get(i).getStatus() == BookingStatus.BOOKING_DONE) {
+                bookingDTO.setStatus("Booking đã được duyệt") ;
+            }
+            if (bookings.get(i).getStatus() == BookingStatus.BOOKING_CANCEL) {
+                bookingDTO.setStatus("Booking bị từ chối duyệt") ;
+            }
 
             Tour tour = bookings.get(i).getTour();
             if (tour != null) {
@@ -116,6 +129,15 @@ public class BookingController {
         bookingDTO.setSoChoTreEm(booking.get().getSoChoTreEm());
         bookingDTO.setSoChoTreNho(booking.get().getSoChoTreNho());
         bookingDTO.setSoChoEmBe(booking.get().getSoChoEmBe());
+        if (booking.get().getStatus() == BookingStatus.BOOKING_DRAFT) {
+            bookingDTO.setStatus("Booking chưa được duyệt") ;
+        }
+        if (booking.get().getStatus() == BookingStatus.BOOKING_DONE) {
+            bookingDTO.setStatus("Booking đã được duyệt") ;
+        }
+        if (booking.get().getStatus() == BookingStatus.BOOKING_CANCEL) {
+            bookingDTO.setStatus("Booking bị từ chối duyệt") ;
+        }
 
         Tour tour = booking.get().getTour();
         if (tour != null) {
@@ -135,8 +157,8 @@ public class BookingController {
 
     // UPDATE BY ID
     @PutMapping("/{maBooking}")
-    public ResponseEntity<?> updateById (@PathVariable int maBooking , @RequestBody BookingDTO bookingDTO) {
-        service.updateBookingById(maBooking, bookingDTO);
+    public ResponseEntity<?> updateById (@PathVariable int maBooking , @RequestBody BookingUpdateDTO bookingUpdateDTO) {
+        service.updateBookingById(maBooking, bookingUpdateDTO);
         return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
     }
 
@@ -147,6 +169,16 @@ public class BookingController {
         return new ResponseEntity<>(bookingTourDTO , HttpStatus.OK);
     }
 
+    // UPDATE STATUS
+    @PutMapping("/booking-status")
+    public ResponseEntity<?> updateStatusBooking (@RequestParam int maBooking, @RequestParam int status ) {
 
+        if (status == BookingStatus.BOOKING_CANCEL) {
+            service.cancelBooking(maBooking);
+        }else if (status == BookingStatus.BOOKING_DONE) {
+            service.approveBooking(maBooking);
+        }
+        return new ResponseEntity<>("Update successfully!" , HttpStatus.OK);
+    }
 
 }

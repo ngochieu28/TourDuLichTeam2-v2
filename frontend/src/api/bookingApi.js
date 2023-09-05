@@ -38,5 +38,11 @@ const bookingApi = {
         return axiosClient.put(url, data)
     },
 
+    // update status
+    updateStatusBooking(maBooking, status) {
+        const url = `/bookings/booking-status?maBooking=${maBooking}&status=${status}`
+        return axiosClient.put(url)
+    }
+
 }
 export default bookingApi;

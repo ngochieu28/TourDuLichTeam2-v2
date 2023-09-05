@@ -2,7 +2,9 @@ package com.vti.service;
 
 import com.vti.dto.BookingDTO;
 import com.vti.dto.BookingTourDTO;
+import com.vti.dto.BookingUpdateDTO;
 import com.vti.entity.Booking;
+import com.vti.entity.BookingStatus;
 import com.vti.entity.Tour;
 import com.vti.repository.BookingRepository;
 import com.vti.repository.TourRepository;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.Optional;
 
 @Service
 public class BookingService implements IBookingService {
@@ -31,49 +34,51 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public void updateBookingById(int maBooking, BookingDTO bookingDTO) {
+    public void updateBookingById(int maBooking, BookingUpdateDTO bookingUpdateDTO) {
         Booking booking = bookingRepo.findByMaBooking(maBooking);
         if (booking == null) {
-            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn
             try {
                 throw new NotFoundException("Booking not found");
             } catch (NotFoundException e) {
                 e.printStackTrace();
             }
         }
-        if (bookingDTO.getNameKH() != null) {
-            booking.setNameKH(bookingDTO.getNameKH());
+        if (bookingUpdateDTO.getNameKH() != null) {
+            booking.setNameKH(bookingUpdateDTO.getNameKH());
         }
-        if (bookingDTO.getEmailKH() != null) {
-            booking.setEmailKH(bookingDTO.getEmailKH());
+        if (bookingUpdateDTO.getEmailKH() != null) {
+            booking.setEmailKH(bookingUpdateDTO.getEmailKH());
         }
-        if (bookingDTO.getDiaChi() != null) {
-            booking.setDiaChi(bookingDTO.getDiaChi());
+        if (bookingUpdateDTO.getDiaChi() != null) {
+            booking.setDiaChi(bookingUpdateDTO.getDiaChi());
         }
-        if (bookingDTO.getPhoneNumber() != null) {
-            booking.setPhoneNumber(bookingDTO.getPhoneNumber());
+        if (bookingUpdateDTO.getPhoneNumber() != null) {
+            booking.setPhoneNumber(bookingUpdateDTO.getPhoneNumber());
         }
-        if (bookingDTO.getSoChoNL() != null) {
-            booking.setSoChoNL(bookingDTO.getSoChoNL());
+        if (bookingUpdateDTO.getSoChoNL() != null) {
+            booking.setSoChoNL(bookingUpdateDTO.getSoChoNL());
         }
-        if (bookingDTO.getSoChoNguoiLon() != null) {
-            booking.setSoChoNguoiLon(bookingDTO.getSoChoNguoiLon());
+        if (bookingUpdateDTO.getSoChoNguoiLon() != null) {
+            booking.setSoChoNguoiLon(bookingUpdateDTO.getSoChoNguoiLon());
         }
-        if (bookingDTO.getSoChoTreEm() != null) {
-            booking.setSoChoTreEm(bookingDTO.getSoChoTreEm());
+        if (bookingUpdateDTO.getSoChoTreEm() != null) {
+            booking.setSoChoTreEm(bookingUpdateDTO.getSoChoTreEm());
         }
-        if (bookingDTO.getSoChoTreNho() != null) {
-            booking.setSoChoTreNho(bookingDTO.getSoChoTreNho());
+        if (bookingUpdateDTO.getSoChoTreNho() != null) {
+            booking.setSoChoTreNho(bookingUpdateDTO.getSoChoTreNho());
         }
-        if (bookingDTO.getSoChoEmBe() != null) {
-            booking.setSoChoEmBe(bookingDTO.getSoChoEmBe());
+        if (bookingUpdateDTO.getSoChoEmBe() != null) {
+            booking.setSoChoEmBe(bookingUpdateDTO.getSoChoEmBe());
         }
-        if (bookingDTO.getTongGia() != null ){
-            booking.setTongGia(bookingDTO.getTongGia());
+        if (bookingUpdateDTO.getTongGia() != null ){
+            booking.setTongGia(bookingUpdateDTO.getTongGia());
         }
+            booking.setStatus(bookingUpdateDTO.getStatus());
 
-        if (bookingDTO.getTourId() != null) {
-            Tour tour = TourRepo.findByMaTour(bookingDTO.getTourId());
+
+        if (bookingUpdateDTO.getTourId() != null) {
+            Tour tour = TourRepo.findByMaTour(bookingUpdateDTO.getTourId());
             booking.setTour(tour);
         }
         bookingRepo.save(booking);
@@ -165,6 +170,36 @@ public class BookingService implements IBookingService {
             }
             return bookingTourDTO;
         }
+
+    @Override
+    public void approveBooking(int maBooking) {
+        Booking booking = bookingRepo.findByMaBooking(maBooking);
+        if (booking == null) {
+            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Booking not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        booking.setStatus(BookingStatus.BOOKING_DONE);
+        bookingRepo.save(booking);
+    }
+
+    @Override
+    public void cancelBooking(int maBooking) {
+        Booking booking = bookingRepo.findByMaBooking(maBooking);
+        if (booking == null) {
+            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Booking not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        booking.setStatus(BookingStatus.BOOKING_CANCEL);
+        bookingRepo.save(booking);
+    }
 
 
 }

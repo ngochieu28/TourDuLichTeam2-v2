@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import bookingApi from '../../../api/bookingApi';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DialogContentText from '@mui/material/DialogContentText';
 import { srcImg } from '../../../util/srcImg'
@@ -10,6 +9,9 @@ import {
     TablePagination, Dialog, DialogTitle, DialogContent, DialogActions,
     Grid,
 } from '@mui/material'
+import { useCheckLogin } from '../../../util/CheckAdmin'
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
 
 export default function QuanLyBooking() {
     const [bookings, setBookings] = useState([]);
@@ -17,12 +19,6 @@ export default function QuanLyBooking() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [open, setOpen] = useState(false);
-    const [bookingUpdate, setBookingUpdate] = useState();
-
-    // update
-    const [openUpdate, setOpenUpdate] = useState(false);
-    const handleOpenUpdate = () => { setOpenUpdate(true); };
-    const handleCloseUpdate = () => { setOpenUpdate(false); };
 
     // xem
     const [openCheck, setOpenCheck] = useState(false);
@@ -30,7 +26,11 @@ export default function QuanLyBooking() {
     const handleCloseCheck = () => setOpenCheck(false);
 
     // check xóa 
-    const handleOpen = () => { setOpen(true); };
+    const [getMaBooking, setGetMaBooking] = useState();
+    const handleOpen = (maBooking) => {
+        setGetMaBooking(maBooking)
+        setOpen(true);
+    };
     const handleClose = () => { setOpen(false); };
 
     // phân trang
@@ -65,14 +65,23 @@ export default function QuanLyBooking() {
     };
 
     // update
-    const handelEdit = async (maBooking) => {
-
-    };
+    const handelUpdate = async (maBooking, status) => {
+        try {
+            if (status == 1) {
+                await bookingApi.updateStatusBooking(maBooking, 1)
+            } else if (status === 2) {
+                await bookingApi.updateStatusBooking(maBooking, 2);
+            }
+            getAllBooking()
+        } catch (error) {
+            console.log('Error:', error);
+        };
+    }
 
     // delete
-    const handelDelete = async (maBooking) => {
+    const handelDelete = async () => {
         try {
-            let res = await bookingApi.deleteBookingById(maBooking)
+            let res = await bookingApi.deleteBookingById(getMaBooking)
             getAllBooking()
             handleClose()
         } catch (error) {
@@ -80,6 +89,7 @@ export default function QuanLyBooking() {
         }
     };
 
+    useCheckLogin();
     return (
         <Container>
             <Table>
@@ -88,8 +98,9 @@ export default function QuanLyBooking() {
                         <TableCell align="center" style={{ width: "100px" }}>Mã booking</TableCell >
                         <TableCell align="center" style={{ width: "170px" }}>Tên người đặt</TableCell >
                         <TableCell align="center" >số lượng người tham gia</TableCell >
+                        <TableCell align="center"> Trạng thái Booking</TableCell >
                         <TableCell align="center" >Tính năng</TableCell >
-
+                        <TableCell align="center" >Yêu cầu update </TableCell >
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,6 +109,7 @@ export default function QuanLyBooking() {
                             <TableCell align="center" scope="row">{item.maBooking}</TableCell >
                             <TableCell align="center">{item.nameKH}</TableCell >
                             <TableCell align="center">{item.soChoNL + item.soChoTreEm + item.soChoTreNho + item.soChoEmBe}</TableCell >
+                            <TableCell align="center">{item.status}</TableCell >
                             <TableCell align="center">
                                 <Button variant="outlined" startIcon={<VisibilityIcon />} onClick={() => handelCheck(item.maBooking)} />
                                 <Dialog open={openCheck} onClose={handleCloseCheck}>
@@ -140,27 +152,23 @@ export default function QuanLyBooking() {
                                             </Grid>
                                         </Grid>
                                     </DialogContent>
-                                    <DialogActions>
-                                        {/* Các nút hoặc hành động khác */}
-                                    </DialogActions>
                                 </Dialog>
 
-                                <Button variant="outlined" onClick={() => handelEdit(item.maBooking)} startIcon={<EditIcon />} />
-                                <Dialog open={openUpdate} onClose={handleCloseUpdate}>
-
-                                </Dialog>
-
-                                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={handleOpen} />
+                                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleOpen(item.maBooking)} />
                                 <Dialog open={open} onClose={handleClose}>
                                     <DialogTitle>Xác nhận xóa</DialogTitle>
                                     <DialogContent>Bạn có chắc chắn muốn xóa dữ liệu này?</DialogContent>
                                     <DialogActions>
                                         <Button onClick={handleClose}>Hủy</Button>
-                                        <Button onClick={() => handelDelete(item.maBooking)} color="secondary">
+                                        <Button onClick={handelDelete} color="secondary">
                                             Xóa
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
+                            </TableCell >
+                            <TableCell align="center" scope="row">
+                                <Button variant="outlined" startIcon={<CloseIcon />} onClick={() => handelUpdate(item.maBooking, 1)} />
+                                <Button variant="outlined" startIcon={<DoneIcon />} onClick={() => handelUpdate(item.maBooking, 2)} />
                             </TableCell >
                         </TableRow>
                     ))}

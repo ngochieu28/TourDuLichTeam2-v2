@@ -1,71 +1,174 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Snackbar from '@mui/material/Snackbar';
-import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useState, useCallback } from 'react'
+import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DialogContentText from '@mui/material/DialogContentText';
+import {
+    Button, Container, Table, TableBody, TableCell, TableHead, TableRow,
+    TablePagination, Dialog, DialogTitle, DialogContent, DialogActions,
+    Grid,
+} from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
+import bookingApi from '../api/bookingApi';
+import { DataGrid } from '@mui/x-data-grid';
 
-const UpdateComponent = () => {
+export default function Test() {
+
+    const [bookings, setBookings] = useState([]);
+    const [tourBooking, setTourBooking] = useState();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [open, setOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [bookingClink, setBookingClink] = useState()
 
-    const handleUpdate = () => {
+    // xem
+    const [openCheck, setOpenCheck] = useState(false);
+    const handleOpenCheck = () => setOpenCheck(true);
+    const handleCloseCheck = () => setOpenCheck(false);
+
+    // phân trang
+    const handleChangePage = (newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    // call API
+    const getAllBooking = async (maBooking, nameKH) => {
+        let res = await bookingApi.getAll(maBooking, nameKH)
+        setBookings(res)
+    }
+
+    useEffect(() => {
+        getAllBooking()
+    }, [])
+
+
+    // xem
+    const handelCheck = async (maBooking) => {
+        try {
+            let res = await bookingApi.getTourBooking(maBooking)
+            setTourBooking(res)
+            handleOpenCheck()
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    };
+
+    // update
+    const handelUpdate = async (maBooking, status) => {
+        try {
+            if (status == 1) {
+                await bookingApi.updateStatusBooking(maBooking, 1)
+            } else if (status === 2) {
+                await bookingApi.updateStatusBooking(maBooking, 2);
+            }
+            getAllBooking()
+        } catch (error) {
+            console.log('Error:', error);
+        };
+    }
+
+    // delete
+    const handleDelete = async (maBooking) => {
+        setBookingClink(maBooking)
         setOpen(true);
-        // Gửi yêu cầu cập nhật đến trang admin
+    }
 
-        // Xử lý phản hồi từ server
-        setLoading(true);
-        // Đợi admin xác nhận
-        setTimeout(() => {
-            setLoading(false);
-            setSnackbarOpen(true);
-            setOpen(false);
-        }, 3000);
+    const handelXacNhanDelete = async (maBooking) => {
+        try {
+            let res = await bookingApi.deleteBookingById(maBooking)
+            getAllBooking()
+            setOpen(false)
+        } catch (error) {
+            console.log('Error:', error);
+        }
     };
 
-    // const handleUpdate = () => {
-    //     // Gửi yêu cầu cập nhật đến trang admin
-    //     axios
-    //         .post('/api/update', { data: { needsConfirmation: true } })
-    //         .then(response => {
-    //             // Xử lý phản hồi từ server
-    //             if (response.data.status === 'confirmation_required') {
-    //                 // Hiển thị thông báo yêu cầu xác nhận đến người dùng
-    //                 // Lưu trạng thái yêu cầu cập nhật trong ứng dụng ReactJS
-    //             } else if (response.data.status === 'updated') {
-    //                 // Hiển thị thông báo cập nhật thành công đến người dùng
-    //                 // Thực hiện các hành động liên quan đến cập nhật
-    //             }
-    //         })
-    //         .catch(error => {
-    //             // Xử lý lỗi khi gửi yêu cầu
-    //         });
-    // };
-
-    const handleCloseSnackbar = () => {
-        setSnackbarOpen(false);
-    };
-
+    const columns = [
+        { field: 'maBooking', headerName: 'MaBooking', flex: 0.10 },
+        { field: 'nameKH', headerName: 'Họ và tên', flex: 0.20 },
+        {
+            field: 'number',
+            headerName: 'Số người tham gia',
+            valueGetter: (params) =>
+                `${params.row.soChoNL + params.row.soChoTreEm + params.row.soChoTreNho + params.row.soChoEmBe}`,
+            flex: 0.2,
+        },
+        { field: 'status', headerName: 'Trạng thái', flex: 0.2 },
+        {
+            field: 'action1',
+            headerName: 'Tính Năng',
+            flex: 0.2,
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            renderCell: (params) => (
+                <>
+                    <Button variant="outlined" startIcon={<VisibilityIcon />} onClick={() => handelCheck(params.row.maBooking)}>
+                        Xem
+                    </Button>
+                    &nbsp;
+                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleDelete(params.row.maBooking)}>
+                        Xóa
+                    </Button>
+                </>
+            ),
+        },
+        {
+            field: 'action2',
+            headerName: 'Yêu cầu update',
+            flex: 0.2,
+            renderCell: (params) => (
+                <>
+                    <Button variant="outlined" startIcon={<CloseIcon />} onClick={() => handelUpdate(params.row.maBooking, 1)}></Button>
+                    &nbsp;
+                    <Button variant="outlined" startIcon={<DoneIcon />} onClick={() => handelUpdate(params.row.maBooking, 2)}></Button>
+                </>
+            ),
+        },
+    ];
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleUpdate}>
-                Update
-            </Button>
-            <Dialog open={open}>
-                <DialogTitle>Waiting for Admin Confirmation</DialogTitle>
-                <DialogContent>
-                    {loading ? <CircularProgress /> : 'Waiting for admin to confirm the update...'}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Cancel</Button>
-                </DialogActions>
-            </Dialog>
-            <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleCloseSnackbar} message="Update confirmed!" />
-        </div>
-    );
-};
+            <Container>
+                <DataGrid
+                    rows={bookings}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 10 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10, 20]}
+                />
 
-export default UpdateComponent;
+                <Dialog
+                    open={open}
+                    onClose={false}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Xác nhận xóa tour"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <h4>
+                                Bạn chắc chắn muốn xóa tour này?
+                            </h4>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handelXacNhanDelete} >
+                            Xác nhận
+                        </Button>
+                        <Button color="primary" onClick={() => setOpen(false)}>
+                            Hủy
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Container>
+        </div>
+    )
+}
