@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import Container from '@mui/material/Container';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -24,6 +24,9 @@ import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
+import fileApi from '../../../api/fileApi';
+import axios from 'axios';
+import UploadIcon from '@mui/icons-material/Upload';
 
 export default function AddTour() {
     const navigate = useNavigate();
@@ -33,10 +36,10 @@ export default function AddTour() {
         tenTour: "",
         luotQuanTam: "",
         giaTour: "",
-        image: "NDSGN3399-035-160823VN-D.jpg",
-        image2: "NDSGN617-009-090823XE-F.jpg",
-        image3: "NDSGN876-267-100823VJ-F.jpg",
-        image4: "DSSGN820-014-120823FWT.jpg",
+        image: "",
+        image2: "",
+        image3: "",
+        image4: "",
         ngayKhoiHanhDate: "",
         thoiGian: "",
         noiKhoiHanh: "",
@@ -52,6 +55,53 @@ export default function AddTour() {
     })
 
     const handelApDung = async () => {
+        // Kiểm tra xem đã chọn đủ 4 ảnh hay chưa
+        if (previewAvatarFiles.length !== 4) {
+            alert("Vui lòng chọn đủ 4 ảnh");
+            return;
+        }
+
+        try {
+            const uploadedImageUrls = [];
+            for (let i = 0; i < previewAvatarFiles.length; i++) {
+                const file = previewAvatarFiles[i];
+                const nameImage = await fileApi.uploadImage(file);
+                uploadedImageUrls.push(nameImage);
+            }
+
+            console.log(uploadedImageUrls[0]);
+            setTourEdit((prevTourEdit) => ({
+                ...prevTourEdit,
+                image: uploadedImageUrls[0],
+            }));
+            setTourEdit((prevTourEdit) => ({
+                ...prevTourEdit,
+                image2: uploadedImageUrls[1],
+            }));
+            setTourEdit((prevTourEdit) => ({
+                ...prevTourEdit,
+                image3: uploadedImageUrls[2],
+            }));
+            setTourEdit((prevTourEdit) => ({
+                ...prevTourEdit,
+                image4: uploadedImageUrls[3],
+            }));
+
+            setPreviewAvatarUrls([]);
+            setPreviewAvatarFiles([]);
+
+            avatarInputFiles.current.forEach((inputFile) => {
+                if (inputFile) {
+                    inputFile.value = "";
+                }
+            });
+        } catch (error) {
+            console.log("Lỗi tải lên ảnh:", error);
+            // Xử lý lỗi khi tải lên ảnh
+            // Ví dụ: Hiển thị thông báo lỗi cho người dùng
+            alert("Đã xảy ra lỗi khi tải lên ảnh. Vui lòng thử lại sau.");
+        }
+
         try {
             await tourApi.addTour(tourEdit)
             toast.success('Tạo Tour thành công!');
@@ -176,7 +226,25 @@ export default function AddTour() {
         }));
     };
 
+    const [previewAvatarUrls, setPreviewAvatarUrls] = useState([]);
+    const [previewAvatarFiles, setPreviewAvatarFiles] = useState([]);
+    const avatarInputFiles = useRef([null, null, null, null]);
 
+    const onChangeAvatarInput = (index, e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onloadend = () => {
+            const newPreviewAvatarUrls = [...previewAvatarUrls];
+            newPreviewAvatarUrls[index] = reader.result;
+            setPreviewAvatarUrls(newPreviewAvatarUrls);
+
+            const newPreviewAvatarFiles = [...previewAvatarFiles];
+            newPreviewAvatarFiles[index] = file;
+            setPreviewAvatarFiles(newPreviewAvatarFiles);
+        };
+    };
 
     return (
         <>
@@ -234,41 +302,101 @@ export default function AddTour() {
                         </Grid>
                     </Grid>
                     <Grid container spacing={1}>
-                        <Grid item xs={7} >
-                            <img
-                                // src={`${srcImg}/${tours?.image}`}
-                                src='https://media.travel.com.vn/tour/tfd_230724053955_322122_DJI_0785.jpg'
-                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                alt="Image 1"
-                            />
+                        <Grid item xs={7}>
+                            {previewAvatarUrls[0] ?
+                                <img
+                                    alt="Chris Wood"
+                                    src={previewAvatarUrls[0]}
+                                    className="rounded-circle img-responsive mt-2"
+                                    style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                />
+                                :
+                                <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Button color="primary" style={{ maxWidth: '200px', maxHeight: '200px', padding: '16px', borderRadius: '10px' }} onClick={() => avatarInputFiles.current[0].click()}>
+                                        <UploadIcon /> Upload
+                                    </Button>
+                                    <input
+                                        type='file'
+                                        id='avatarInput'
+                                        ref={(ref) => (avatarInputFiles.current[0] = ref)}
+                                        onChange={(e) => onChangeAvatarInput(0, e)}
+                                        style={{ display: 'none' }}
+                                    />
+                                </div>
+                            }
                         </Grid>
                         <Grid item xs={5} >
                             <Grid container spacing={1} >
                                 <Grid item xs={6} >
-                                    <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image2}`}
-                                        src='https://media.travel.com.vn/tour/tfd_230724054049_351853_cable%20car%20(3).jpg'
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 2"
-                                    />
+                                    {previewAvatarUrls[1] ?
+                                        <img
+                                            alt="Chris Wood"
+                                            src={previewAvatarUrls[1]}
+                                            className="rounded-circle img-responsive mt-2"
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                        />
+                                        :
+                                        <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Button color="primary" style={{ maxWidth: '200px', maxHeight: '200px', padding: '16px', borderRadius: '10px' }} onClick={() => avatarInputFiles.current[1].click()}>
+                                                <UploadIcon /> Upload
+                                            </Button>
+                                            <input
+                                                type='file'
+                                                id='avatarInput'
+                                                ref={(ref) => (avatarInputFiles.current[1] = ref)}
+                                                onChange={(e) => onChangeAvatarInput(1, e)}
+                                                style={{ display: 'none' }}
+                                            />
+                                        </div>
+                                    }
                                 </Grid>
                                 <Grid item xs={6} >
-                                    <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image3}`}
-                                        src='https://media.travel.com.vn/destination/tf_230627041352_932314_VINOASIS%20(6).jpeg'
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 3"
-                                    />
+                                    {previewAvatarUrls[2] ?
+                                        <img
+                                            alt="Chris Wood"
+                                            src={previewAvatarUrls[2]}
+                                            className="rounded-circle img-responsive mt-2"
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                        />
+                                        :
+                                        <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Button color="primary" style={{ maxWidth: '200px', maxHeight: '200px', padding: '16px', borderRadius: '10px' }} onClick={() => avatarInputFiles.current[2].click()}>
+                                                <UploadIcon /> Upload
+                                            </Button>
+                                            <input
+                                                type='file'
+                                                id='avatarInput'
+                                                ref={(ref) => (avatarInputFiles.current[2] = ref)}
+                                                onChange={(e) => onChangeAvatarInput(2, e)}
+                                                style={{ display: 'none' }}
+                                            />
+                                        </div>
+                                    }
                                 </Grid>
                             </Grid>
                             <Grid container >
                                 <Grid item xs={12} >
-                                    <img
-                                        // src={` http://192.168.1.163:4000/${tours?.image4}`}
-                                        src='https://media.travel.com.vn/destination/dc__230510_.jpg'
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 4"
-                                    />
+                                    {previewAvatarUrls[3] ?
+                                        <img
+                                            alt="Chris Wood"
+                                            src={previewAvatarUrls[3]}
+                                            className="rounded-circle img-responsive mt-2"
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                        />
+                                        :
+                                        <div style={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Button color="primary" style={{ maxWidth: '200px', maxHeight: '200px', padding: '16px', borderRadius: '10px' }} onClick={() => avatarInputFiles.current[3].click()}>
+                                                <UploadIcon /> Upload
+                                            </Button>
+                                            <input
+                                                type='file'
+                                                id='avatarInput'
+                                                ref={(ref) => (avatarInputFiles.current[3] = ref)}
+                                                onChange={(e) => onChangeAvatarInput(3, e)}
+                                                style={{ display: 'none' }}
+                                            />
+                                        </div>
+                                    }
                                 </Grid>
                             </Grid>
                         </Grid>

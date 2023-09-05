@@ -69,6 +69,26 @@ public class TourController {
         return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
     }
 
+    @PutMapping(value = "updateimage/{maTour}")
+    public ResponseEntity<?> updateImage(@PathVariable(name = "maTour") String maTour, @RequestBody Object requestBody) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.convertValue(requestBody, JsonNode.class);
+
+        Integer indexImg = null;
+        if (jsonNode.has("indexImg") && !jsonNode.get("indexImg").isNull()) {
+            indexImg = jsonNode.get("indexImg").asInt();
+        }
+
+        String nameImg = null;
+        if (jsonNode.has("nameImg") && !jsonNode.get("nameImg").isNull()) {
+            nameImg = jsonNode.get("nameImg").asText();
+        }
+
+
+        service.updateImageTour(maTour, indexImg, nameImg);
+        return new ResponseEntity<String>("Update successfully!", HttpStatus.OK);
+    }
+
     @DeleteMapping(value = "/{maTour}")
     public ResponseEntity<?> deleteTour(@PathVariable(name = "maTour") String maTour) {
         service.deleteTour(maTour);

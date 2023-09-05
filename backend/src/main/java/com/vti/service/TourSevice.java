@@ -342,8 +342,39 @@ public class TourSevice implements ITourSevice{
         }else {
             repository.deleteTourByMaTour(maTour);
         }
-
     }
 
+    @Override
+    public void updateImageTour(String maTour,Integer indexImage, String nameImg) {
+        // Tìm kiếm tour theo mã tour
+        Tour tour = repository.findByMaTour(maTour);
+        // Kiểm tra xem tour có tồn tại hay không
+        if (tour == null) {
+            // Nếu không tìm thấy tour, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Tour not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        switch (indexImage){
+            case 0:
+                tour.setImage(nameImg);
+                break;
+            case 1:
+                tour.setImage2(nameImg);
+                break;
+            case 2:
+                tour.setImage3(nameImg);
+                break;
+            case 3:
+                tour.setImage4(nameImg);
+                break;
+            default:
+                return;
+        }
+        repository.save(tour);
+    }
 
 }

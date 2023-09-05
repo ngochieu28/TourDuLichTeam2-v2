@@ -218,9 +218,13 @@ const Login = () => {
                                         </Grid>
                                     </Grid>
                                 </Card>
+
                             )}
                         </Formik>
                     </Box>
+                    <h1>Đăng nhập với role admin: </h1>
+                    <h2>userName: admintrator</h2>
+                    <h2>passWord: admin123</h2>
                     <Dialog
                         fullScreen={fullScreen}
                         open={open}

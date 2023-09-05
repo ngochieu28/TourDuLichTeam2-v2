@@ -49,6 +49,10 @@ const tourApi = {
         const url = `/tours/${maTour}`
         return axiosClient.put(url, tourDTO)
     },
+    updateimg(maTour, infoImg) {
+        const url = `/tours/updateimage/${maTour}`
+        return axiosClient.put(url, infoImg)
+    },
     deleteByMaTour(maTour) {
         const url = `/tours/${maTour}`
         return axiosClient.delete(url);

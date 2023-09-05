@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import Container from '@mui/material/Container';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -38,6 +38,10 @@ export default function AddTour() {
         tenTour: "",
         luotQuanTam: "",
         giaTour: "",
+        image: "",
+        image2: "",
+        image3: "",
+        image4: "",
         ngayKhoiHanhDate: "",
         thoiGian: "",
         noiKhoiHanh: "",
@@ -60,6 +64,10 @@ export default function AddTour() {
                 tenTour: res.tenTour || "",
                 luotQuanTam: res.luotQuanTam || "",
                 giaTour: res.giaTour || "",
+                image: res.image || "",
+                image2: res.image2 || "",
+                image3: res.image3 || "",
+                image4: res.image4 || "",
                 ngayKhoiHanhDate: ngayKhoiHanhDate || "",
                 thoiGian: res.thoiGian || "",
                 noiKhoiHanh: res.noiKhoiHanh || "",
@@ -232,13 +240,52 @@ export default function AddTour() {
         }));
     };
 
+    // State to store the uploaded image files
+    const [uploadedImages, setUploadedImages] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
+
+    // Reference to the file input element
+    const fileInputRefs = useRef([]);
+
+    // Event handler for when a file is selected
+    const handleImageUpload = (event, index) => {
+        const file = event.target.files[0];
+
+        const newUploadedImages = [...uploadedImages];
+        newUploadedImages[index] = URL.createObjectURL(file);
+        setUploadedImages(newUploadedImages);
+
+        const newFileNames = [...fileNames];
+        newFileNames[index] = file.name;
+        setFileNames(newFileNames);
+
+        const infoImg = {
+            "indexImg": index,
+            "nameImg": newFileNames[index]
+        };
+
+        updateImage(infoImg);
+    };
+
+    const updateImage = async (infoImg) => {
+        console.log(maTour, infoImg);
+        const res = await tourApi.updateimg(maTour, infoImg);
+        getTourDetail();
+    };
+
+
+    // Event handler for when an image is clicked
+    const handleImageClick = (index) => {
+        fileInputRefs.current[index].click();
+    };
+
     return (
         <>
             <div className='tour-detail'>
                 <Container>
                     <div style={{ display: 'flex', alignItems: 'center', color: '#4d4aef' }}>
                         <ConfirmationNumberOutlinedIcon style={{ fontSize: '14px' }} />
-                        <p style={{ fontSize: '14px', marginLeft: '5px' }}></p>
+                        <p style={{ fontSize: '14px', marginLeft: '5px' }}>{maTour}</p>
                     </div>
                     <Grid container>
                         <Grid item xs='6'>
@@ -289,36 +336,113 @@ export default function AddTour() {
                     </Grid>
                     <Grid container spacing={1}>
                         <Grid item xs={7} >
-                            <img
-                                src={`${srcImg}/${tours?.image}`}
-                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                alt="Image 1"
-                            />
+                            {uploadedImages[0] ? (
+                                <img
+                                    src={uploadedImages[0]}
+                                    style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                    alt="Uploaded Image 0"
+                                    onClick={() => handleImageClick(0)}
+                                />
+                            ) : (
+                                <div style={{ height: '100%', width: '100%' }}>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        ref={(el) => (fileInputRefs.current[0] = el)}
+                                        style={{ display: 'none' }}
+                                        onChange={(event) => handleImageUpload(event, 0)}
+                                    />
+                                    <img
+                                        src={`${srcImg}/${tourEdit.image}`}
+                                        style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                        alt="Image 1"
+                                        onClick={() => handleImageClick(0)}
+                                    />
+                                </div>
+                            )}
                         </Grid>
                         <Grid item xs={5} >
                             <Grid container spacing={1} >
                                 <Grid item xs={6} >
-                                    <img
-                                        src={`${srcImg}/${tours?.image2}`}
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 2"
-                                    />
+                                    {uploadedImages[1] ? (
+                                        <img
+                                            src={uploadedImages[1]}
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                            alt="Uploaded Image 1"
+                                            onClick={() => handleImageClick(1)}
+                                        />
+                                    ) : (
+                                        <div>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                ref={(el) => (fileInputRefs.current[1] = el)}
+                                                style={{ display: 'none' }}
+                                                onChange={(event) => handleImageUpload(event, 1)}
+                                            />
+                                            <img
+                                                src={`${srcImg}/${tourEdit.image2}`}
+                                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                                alt="Image 2"
+                                                onClick={() => handleImageClick(1)}
+                                            />
+                                        </div>
+                                    )}
+
                                 </Grid>
                                 <Grid item xs={6} >
-                                    <img
-                                        src={`${srcImg}/${tours?.image3}`}
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 3"
-                                    />
+                                    {uploadedImages[2] ? (
+                                        <img
+                                            src={uploadedImages[2]}
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                            alt="Uploaded Image 1"
+                                            onClick={() => handleImageClick(2)}
+                                        />
+                                    ) : (
+                                        <div>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                ref={(el) => (fileInputRefs.current[2] = el)}
+                                                style={{ display: 'none' }}
+                                                onChange={(event) => handleImageUpload(event, 2)}
+                                            />
+                                            <img
+                                                src={`${srcImg}/${tourEdit.image3}`}
+                                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                                alt="Image 2"
+                                                onClick={() => handleImageClick(2)}
+                                            />
+                                        </div>
+                                    )}
                                 </Grid>
                             </Grid>
                             <Grid container >
                                 <Grid item xs={12} >
-                                    <img
-                                        src={`${srcImg}/${tours?.image4}`}
-                                        style={{ width: '100%', objectFit: 'cover', borderRadius: '10px' }}
-                                        alt="Image 4"
-                                    />
+                                    {uploadedImages[3] ? (
+                                        <img
+                                            src={uploadedImages[3]}
+                                            style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                            alt="Uploaded Image 1"
+                                            onClick={() => handleImageClick(3)}
+                                        />
+                                    ) : (
+                                        <div>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                ref={(el) => (fileInputRefs.current[3] = el)}
+                                                style={{ display: 'none' }}
+                                                onChange={(event) => handleImageUpload(event, 3)}
+                                            />
+                                            <img
+                                                src={`${srcImg}/${tourEdit.image4}`}
+                                                style={{ height: '100%', width: '100%', objectFit: 'cover', borderRadius: '10px', cursor: 'pointer' }}
+                                                alt="Image 2"
+                                                onClick={() => handleImageClick(3)}
+                                            />
+                                        </div>
+                                    )}
                                 </Grid>
                             </Grid>
                         </Grid>
