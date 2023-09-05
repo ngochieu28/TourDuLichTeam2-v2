@@ -16,43 +16,43 @@ import java.nio.file.Paths;
 public class FileService implements IFileService {
 
 	private FileManager fileManager = new FileManager();
-//	private String linkFolder = "/home/ubuntu/TourDuLichTeam2-v2/image";
-	private String linkFolder = "D:\\Documents\\Mook\\TourDuLichTeam2-v2\\image";
-
-	// ubuntu
-//	@Override
-//	public String uploadImage(MultipartFile image) throws IOException {
-//		String nameImage = new Date().getTime() + "." + fileManager.getFormatFile(image.getOriginalFilename());
-//		String path = linkFolder + "/" + nameImage;
-//		fileManager.createNewMultiPartFile(path, image);
-//		return nameImage;
-//	}
-// 	@Override
-//	public byte[] getImage(String fileName) throws IOException {
-//		String filePath = linkFolder + "/" + fileName;
-//		// Đọc dữ liệu của file ảnh thành mảng byte[]
-//		Path imagePath = Paths.get(filePath);
-//		return Files.readAllBytes(imagePath);
-//	}
-
-	// localhost
+	
+// ubuntu
+	private String linkFolder = "/home/ubuntu/TourDuLichTeam2-v2/image";
 	@Override
 	public String uploadImage(MultipartFile image) throws IOException {
-
 		String nameImage = new Date().getTime() + "." + fileManager.getFormatFile(image.getOriginalFilename());
-
-		String path = linkFolder + "\\" + nameImage;
-
+		String path = linkFolder + "/" + nameImage;
 		fileManager.createNewMultiPartFile(path, image);
-
 		return nameImage;
 	}
-
 	@Override
 	public byte[] getImage(String fileName) throws IOException {
-		String filePath = linkFolder + "\\" + fileName;
+		String filePath = linkFolder + "/" + fileName;
 		// Đọc dữ liệu của file ảnh thành mảng byte[]
 		Path imagePath = Paths.get(filePath);
 		return Files.readAllBytes(imagePath);
 	}
+
+// localhost
+	// private String linkFolder = "D:\\Documents\\Mook\\TourDuLichTeam2-v2\\image";
+	// @Override
+	// public String uploadImage(MultipartFile image) throws IOException {
+
+	// 	String nameImage = new Date().getTime() + "." + fileManager.getFormatFile(image.getOriginalFilename());
+
+	// 	String path = linkFolder + "\\" + nameImage;
+
+	// 	fileManager.createNewMultiPartFile(path, image);
+
+	// 	return nameImage;
+	// }
+
+	// @Override
+	// public byte[] getImage(String fileName) throws IOException {
+	// 	String filePath = linkFolder + "\\" + fileName;
+	// 	// Đọc dữ liệu của file ảnh thành mảng byte[]
+	// 	Path imagePath = Paths.get(filePath);
+	// 	return Files.readAllBytes(imagePath);
+	// }
 }
