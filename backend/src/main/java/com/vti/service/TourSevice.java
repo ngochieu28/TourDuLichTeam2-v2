@@ -386,8 +386,9 @@ public class TourSevice implements ITourSevice{
         repository.save(tour);
     }
 
+    @Override
     public List<ThongKeTourDTO> thongKeTourVoiNoiKhoiHanh() {
-        String query = "SELECT t.noiKhoiHanh, COUNT(t) AS totalTours " +
+        String query = "SELECT t.noiKhoiHanh, COUNT(t) AS totalTours, SUM(t.soCho) " +
                 "FROM Tour t " +
                 "GROUP BY t.noiKhoiHanh";
 
@@ -398,22 +399,24 @@ public class TourSevice implements ITourSevice{
         for (Object[] result : results) {
             String noiKhoiHanh = (String) result[0];
             Long totalTours = (Long) result[1];
+            Long soChoTrong = (Long) result[2];
 
             ThongKeTourDTO tourDTO = new ThongKeTourDTO();
             tourDTO.setNoiKhoiHanh(noiKhoiHanh);
             tourDTO.setTotalTour(totalTours.intValue());
-
+            tourDTO.setSoChoTrong(soChoTrong.intValue());
             tourDTOList.add(tourDTO);
         }
 
         return tourDTOList;
     }
 
+    @Override
     public List<ThongKeTourDTO> thongKeSoTourTheoThang() {
         String query = "SELECT FUNCTION('MONTH', t.ngayKhoiHanh), COUNT(t) " +
                 "FROM Tour t " +
-                "GROUP BY FUNCTION('MONTH', t.ngayKhoiHanh)";
-
+                "GROUP BY FUNCTION('MONTH', t.ngayKhoiHanh) " +
+                "ORDER BY FUNCTION('MONTH', t.ngayKhoiHanh) ASC";
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
         List<Object[]> results = typedQuery.getResultList();
@@ -424,7 +427,7 @@ public class TourSevice implements ITourSevice{
             Long totalTours = (Long) result[1];
 
             ThongKeTourDTO tourDTO = new ThongKeTourDTO();
-            tourDTO.setThang(thang);
+            tourDTO.setThang("Tháng " +thang);
             tourDTO.setTotalTour(totalTours.intValue());
 
             tourDTOList.add(tourDTO);
