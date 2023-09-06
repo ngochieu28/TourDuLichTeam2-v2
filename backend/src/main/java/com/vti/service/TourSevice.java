@@ -1,5 +1,7 @@
 package com.vti.service;
 
+import com.vti.dto.BookingTourDTO;
+import com.vti.dto.ThongKeTourDTO;
 import com.vti.dto.TourDTO;
 import com.vti.dto.TourDetailDTO;
 import com.vti.dto.filter.GroupFilter;
@@ -17,6 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -28,6 +34,9 @@ import java.util.Locale;
 
 @Service
 public class TourSevice implements ITourSevice{
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     private TourRepository repository;
 
@@ -375,6 +384,53 @@ public class TourSevice implements ITourSevice{
                 return;
         }
         repository.save(tour);
+    }
+
+    public List<ThongKeTourDTO> thongKeTourVoiNoiKhoiHanh() {
+        String query = "SELECT t.noiKhoiHanh, COUNT(t) AS totalTours " +
+                "FROM Tour t " +
+                "GROUP BY t.noiKhoiHanh";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+
+        List<ThongKeTourDTO> tourDTOList = new ArrayList<>();
+        for (Object[] result : results) {
+            String noiKhoiHanh = (String) result[0];
+            Long totalTours = (Long) result[1];
+
+            ThongKeTourDTO tourDTO = new ThongKeTourDTO();
+            tourDTO.setNoiKhoiHanh(noiKhoiHanh);
+            tourDTO.setTotalTour(totalTours.intValue());
+
+            tourDTOList.add(tourDTO);
+        }
+
+        return tourDTOList;
+    }
+
+    public List<ThongKeTourDTO> thongKeSoTourTheoThang() {
+        String query = "SELECT FUNCTION('MONTH', t.ngayKhoiHanh), COUNT(t) " +
+                "FROM Tour t " +
+                "GROUP BY FUNCTION('MONTH', t.ngayKhoiHanh)";
+
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+
+        List<ThongKeTourDTO> tourDTOList = new ArrayList<>();
+        for (Object[] result : results) {
+            Integer thang = (Integer) result[0];
+            Long totalTours = (Long) result[1];
+
+            ThongKeTourDTO tourDTO = new ThongKeTourDTO();
+            tourDTO.setThang(thang);
+            tourDTO.setTotalTour(totalTours.intValue());
+
+            tourDTOList.add(tourDTO);
+        }
+
+        return tourDTOList;
     }
 
 }

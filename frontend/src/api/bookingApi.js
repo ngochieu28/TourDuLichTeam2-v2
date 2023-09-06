@@ -1,7 +1,6 @@
 import axiosClient from "./axiosClient";
 
 const bookingApi = {
-
     //get all
     getAll() {
         const url = `/bookings`

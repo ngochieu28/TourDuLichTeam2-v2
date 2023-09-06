@@ -2,9 +2,7 @@ package com.vti.controller;
 
 import java.util.List;
 
-import com.vti.dto.GroupFormForCreating;
-import com.vti.dto.TourDTO;
-import com.vti.dto.TourDetailDTO;
+import com.vti.dto.*;
 import com.vti.dto.filter.GroupFilter;
 import com.vti.dto.filter.TourFilter;
 import com.vti.entity.Tour;
@@ -17,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vti.dto.GroupFormForUpdating;
 
 
 @CrossOrigin("*")
@@ -45,6 +42,18 @@ public class TourController {
     @GetMapping(value = "detail/{maTour}")
     public ResponseEntity<?> findTourDetailByMaTour(@PathVariable(name = "maTour") String maTour) {
         return new ResponseEntity<>(service.getDetailTourByMaTour(maTour), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/thong-ke-tour-voi-noi-khoi-hanh")
+    public ResponseEntity<?> thongKeTourVoiNoiKhoiHanh() {
+        List<ThongKeTourDTO> tourView = service.thongKeTourVoiNoiKhoiHanh();
+        return new ResponseEntity<>(tourView, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/thong-ke-so-tour-theo-thang")
+    public ResponseEntity<?> ThongKeSoTourTheoThang() {
+        List<ThongKeTourDTO> tourView = service.thongKeSoTourTheoThang();
+        return new ResponseEntity<>(tourView, HttpStatus.OK);
     }
 
     @PostMapping()
