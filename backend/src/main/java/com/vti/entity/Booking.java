@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -36,11 +37,17 @@ public class Booking {
 
     private Integer tongGia ;
 
+    private LocalDate thoiGianDat = LocalDate.now();
+
     private int status = BookingStatus.BOOKING_DONE ;
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Tour getTour() {
         return tour;
