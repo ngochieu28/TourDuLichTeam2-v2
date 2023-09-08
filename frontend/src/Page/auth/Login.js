@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppConsumer } from '../../store';
-import { SET_ROLE, SET_USER_ID } from '../../store/action'
+import { SET_ROLE, SET_INFO_USER } from '../../store/action'
 
 const Login = () => {
     const [state, dispatch] = AppConsumer();
@@ -106,6 +106,7 @@ const Login = () => {
 
                                         // setRole để check admin
                                         dispatch(SET_ROLE(result.role))
+                                        dispatch(SET_INFO_USER(result))
 
                                         // check user active
                                         if (result.token === null || result.token === undefined) {
@@ -128,6 +129,7 @@ const Login = () => {
 
                                             // redirect to home page
                                             navigate('/');
+                                            dispatch(SET_INFO_USER(result))
 
                                             if (result.role === 'Admin') {
                                                 navigate("/admin");

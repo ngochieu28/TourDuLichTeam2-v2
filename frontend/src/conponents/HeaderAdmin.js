@@ -20,6 +20,7 @@ import { AppConsumer } from '../store';
 import { TOGGLE_MENU } from '../store/action'
 import { useCheckLogin } from '../util/CheckAdmin';
 
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -71,6 +72,7 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const context = AppConsumer()
+    const [state, dispatch] = AppConsumer();
 
     const handleOpenLeftMenu = () => {
         // setOpenLeftMenu(true);
@@ -90,9 +92,7 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
     };
 
     const handleProfile = () => {
-        const value = sessionStorage.getItem('userData');
-        const data = JSON.parse(value);
-        alert("Xin chào " + data.firstname + data.lastname + "\n Email của bạn là: " + data.email);
+        console.log(state.userInfo);
     }
 
     const handleLogOut = () => {
@@ -109,27 +109,27 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
     };
 
     const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleProfile}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
-        </Menu>
-    );
+    // const renderMenu = (
+    //     <Menu
+    //         anchorEl={anchorEl}
+    //         anchorOrigin={{
+    //             vertical: 'top',
+    //             horizontal: 'right',
+    //         }}
+    //         id={menuId}
+    //         keepMounted
+    //         transformOrigin={{
+    //             vertical: 'top',
+    //             horizontal: 'right',
+    //         }}
+    //         open={isMenuOpen}
+    //         onClose={handleMenuClose}
+    //     >
+    //         <MenuItem onClick={handleProfile}>Profile</MenuItem>
+    //         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    //         <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+    //     </Menu>
+    // );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -259,7 +259,7 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
+            {/* {renderMenu} */}
         </Box>
     );
 }

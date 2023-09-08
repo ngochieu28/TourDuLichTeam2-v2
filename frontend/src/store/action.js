@@ -69,4 +69,9 @@ export const BOOKING_EDIT = (payload) => {
         payload
     }
 }
-
+export const SET_INFO_USER = (payload) => {
+    return {
+        type: "USERINFO",
+        payload
+    }
+}

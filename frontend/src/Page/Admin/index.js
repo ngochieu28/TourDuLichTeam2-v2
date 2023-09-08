@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useContext } from 'react'
-import AppBarAdmin from '../../conponents/AppBar'
+import HeaderAdmin from '../../conponents/HeaderAdmin'
 import Header from '../../conponents/Navbar'
 import LeftMenu from '../../conponents/LeftMenu'
 import { initialState } from '../../store/reducer'
@@ -37,7 +37,7 @@ export default function Admin() {
             {state.list.map(item => {
                 return <p key={item}>{item}</p>
             })} */}
-            <AppBarAdmin setOpenLeftMenu={setOpenLeftMenu} />
+            <HeaderAdmin setOpenLeftMenu={setOpenLeftMenu} />
             <LeftMenu openLeftMenu={openLeftMenu} OpenMenu={OpenMenu} />
             <Outlet />
         </div>
