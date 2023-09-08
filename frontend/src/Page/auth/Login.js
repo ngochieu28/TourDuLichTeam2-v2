@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppConsumer } from '../../store';
-import { SET_ROLE } from '../../store/action'
+import { SET_ROLE, SET_USER_ID } from '../../store/action'
 
 const Login = () => {
     const [state, dispatch] = AppConsumer();
