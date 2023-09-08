@@ -1,5 +1,8 @@
 package com.vti.dto;
 
+import lombok.Data;
+
+@Data
 public class LoginInfoUser {
 
 	private String token;
@@ -16,8 +19,10 @@ public class LoginInfoUser {
 
 	private String status;
 
+	private Integer idUser ;
+
 	public LoginInfoUser(String token, String userName, String email, String firstName, String lastName, String role,
-			String status) {
+			String status , Integer idUser) {
 		this.token = token;
 		this.userName = userName;
 		this.email = email;
@@ -25,34 +30,8 @@ public class LoginInfoUser {
 		this.lastName = lastName;
 		this.role = role;
 		this.status = status;
+		this.idUser = idUser;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public String getStatus() {
-		return status;
-	}
 
 }
