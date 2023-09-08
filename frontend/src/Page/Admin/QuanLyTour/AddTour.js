@@ -54,7 +54,7 @@ export default function AddTour() {
         lichTrinh: "",
     })
 
-    const handelApDung = async () => {
+    const handleApply = async () => {
         // Kiểm tra xem đã chọn đủ 4 ảnh hay chưa
         if (previewAvatarFiles.length !== 4) {
             alert("Vui lòng chọn đủ 4 ảnh");
@@ -69,23 +69,17 @@ export default function AddTour() {
                 uploadedImageUrls.push(nameImage);
             }
 
-            console.log(uploadedImageUrls[0]);
-            setTourEdit((prevTourEdit) => ({
-                ...prevTourEdit,
-                image: uploadedImageUrls[0],
-            }));
-            setTourEdit((prevTourEdit) => ({
-                ...prevTourEdit,
-                image2: uploadedImageUrls[1],
-            }));
-            setTourEdit((prevTourEdit) => ({
-                ...prevTourEdit,
-                image3: uploadedImageUrls[2],
-            }));
-            setTourEdit((prevTourEdit) => ({
-                ...prevTourEdit,
-                image4: uploadedImageUrls[3],
-            }));
+            // Tạo một bản sao của tourEdit để cập nhật giá trị
+            const updatedTourEdit = { ...tourEdit };
+
+            // Set các giá trị image
+            updatedTourEdit.image = uploadedImageUrls[0];
+            updatedTourEdit.image2 = uploadedImageUrls[1];
+            updatedTourEdit.image3 = uploadedImageUrls[2];
+            updatedTourEdit.image4 = uploadedImageUrls[3];
+
+            // Gọi hàm addTour với tourEdit đã cập nhật giá trị ảnh
+            await tourApi.addTour(updatedTourEdit);
 
             setPreviewAvatarUrls([]);
             setPreviewAvatarFiles([]);
@@ -95,23 +89,14 @@ export default function AddTour() {
                     inputFile.value = "";
                 }
             });
-        } catch (error) {
-            console.log("Lỗi tải lên ảnh:", error);
-            // Xử lý lỗi khi tải lên ảnh
-            // Ví dụ: Hiển thị thông báo lỗi cho người dùng
-            alert("Đã xảy ra lỗi khi tải lên ảnh. Vui lòng thử lại sau.");
-        }
 
-        try {
-            await tourApi.addTour(tourEdit)
             toast.success('Tạo Tour thành công!');
             navigate(`/admin/quan-ly-tour`);
         } catch (error) {
             console.log(error);
             toast.error('Tạo thất bại!');
         }
-    }
-
+    };
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState);
         setConvertedContent(draftToHtml(convertToRaw(editorState.getCurrentContent())));
@@ -428,6 +413,7 @@ export default function AddTour() {
                                         variant="standard"
                                         type={"number"}
                                         inputProps={{ min: 0 }}
+                                        required
                                     />
 
                                 </div>
@@ -502,7 +488,7 @@ export default function AddTour() {
                     </Card>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" style={{ margin: '5px' }} onClick={handelApDung}>
+                    <Button variant="contained" style={{ margin: '5px' }} onClick={handleApply}>
                         Áp dụng
                     </Button>
                     <Button variant="outlined" color='inherit' style={{ margin: '5px' }}><Link to={'/admin/quan-ly-tour'}>Hủy</Link></Button>

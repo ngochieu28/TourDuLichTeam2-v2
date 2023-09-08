@@ -77,16 +77,17 @@ const SignUp = () => {
                                     'This username is already registered.',
                                     async (username) => {
                                         const isExists = await UserApi.existsByUsername(username);
-                                        return !isExists.data;
+                                        return !isExists;
                                     }
                                 ),
                             email: Yup.string()
                                 .email("Invalid email address")
                                 .required("Required")
-                                .test('checkExistsEmail', 'This email is already registered.', async (email) => {
-                                    const isExists = await UserApi.existsByEmail(email);
-                                    return !isExists.data;
-                                }),
+                                .test('checkExistsEmail', 'This email is already registered.',
+                                    async (email) => {
+                                        const isExists = await UserApi.existsByEmail(email);
+                                        return !isExists;
+                                    }),
                             password: Yup.string()
                                 .min(6, "Must be between 6 and 50 characters")
                                 .max(50, "Must be between 6 and 50 characters")

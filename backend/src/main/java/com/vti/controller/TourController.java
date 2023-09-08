@@ -3,9 +3,7 @@ package com.vti.controller;
 import java.util.List;
 
 import com.vti.dto.*;
-import com.vti.dto.filter.GroupFilter;
 import com.vti.dto.filter.TourFilter;
-import com.vti.entity.Tour;
 import com.vti.service.ITourSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,6 +51,12 @@ public class TourController {
     @GetMapping(value = "/thong-ke-so-tour-theo-thang")
     public ResponseEntity<?> ThongKeSoTourTheoThang() {
         List<ThongKeTourDTO> tourView = service.thongKeSoTourTheoThang();
+        return new ResponseEntity<>(tourView, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/thong-ke-so-cho")
+    public ResponseEntity<?> ThongKeSoCho() {
+        List<PieChartDTO>  tourView = service.thongKeSoCho();
         return new ResponseEntity<>(tourView, HttpStatus.OK);
     }
 

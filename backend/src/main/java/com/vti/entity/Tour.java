@@ -38,6 +38,7 @@ public class Tour {
 	private Date ngayKhoiHanh ;
 	private String diemNhan ;
 	private Integer soCho ;
+	private Integer soChoFull;
 
 
 	@Column( columnDefinition = "TEXT")
@@ -66,10 +67,9 @@ public class Tour {
 		this.noiKhoiHanh = noiKhoiHanh;
 		this.ngayKhoiHanh = ngayKhoiHanhDate;
 		this.soCho = soCho;
+		this.soChoFull= soCho;
 		this.lichTrinh = lichTrinh;
 	}
-
-
 	public Integer getGiaTreEm() {
 		return giaTour - (giaTour * 50 / 100);
 	}
@@ -93,6 +93,4 @@ public class Tour {
 	public void setGiaEmBe(Integer giaEmBe) {
 		this.giaEmBe = giaEmBe;
 	}
-
-
 }

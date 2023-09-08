@@ -1,15 +1,9 @@
 package com.vti.service;
 
-import com.vti.dto.BookingTourDTO;
-import com.vti.dto.ThongKeTourDTO;
-import com.vti.dto.TourDTO;
-import com.vti.dto.TourDetailDTO;
-import com.vti.dto.filter.GroupFilter;
+import com.vti.dto.*;
 import com.vti.dto.filter.TourFilter;
 import com.vti.entity.Tour;
-import com.vti.repository.GroupRepository;
 import com.vti.repository.TourRepository;
-import com.vti.specification.GroupSpecificationBuilder;
 import com.vti.specification.TourSpecificationBuilder;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -436,4 +429,26 @@ public class TourSevice implements ITourSevice{
         return tourDTOList;
     }
 
+    @Override
+    public List<PieChartDTO> thongKeSoCho() {
+        String query = "SELECT SUM(t.soCho) AS soChoTrong, (SUM(t.soChoFull) - SUM(t.soCho)) AS soChoDaDat " +
+                "FROM Tour t";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        Object[] result = typedQuery.getSingleResult();
+
+        List<PieChartDTO> thongKeSoChoResultDTOs = new ArrayList<>();
+
+        PieChartDTO soChoTrongDTO = new PieChartDTO();
+        soChoTrongDTO.setName("Số chỗ trống");
+        soChoTrongDTO.setValue(((Long) result[0]).intValue());
+        thongKeSoChoResultDTOs.add(soChoTrongDTO);
+
+        PieChartDTO soChoDaDatDTO = new PieChartDTO();
+        soChoDaDatDTO.setName("Số chỗ đã đặt");
+        soChoDaDatDTO.setValue(((Long) result[1]).intValue());
+        thongKeSoChoResultDTOs.add(soChoDaDatDTO);
+
+        return thongKeSoChoResultDTOs;
+    }
 }

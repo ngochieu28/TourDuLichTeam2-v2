@@ -14,6 +14,8 @@ const Chart = () => {
 
     const [thongKeSoTourTheoThangData, setThongKeSoTourTheoThangData] = useState();
     const [thongKeTourVoiNoiKhoiHanhData, setThongKeTourVoiNoiKhoiHanhData] = useState();
+    const [thongKeSoChoData, setThongKeSoChoData] = useState([]);
+
 
     const thongKeSoTourTheoThang = async () => {
         const res = await tourApi.thongKeSoTourTheoThang()
@@ -25,9 +27,15 @@ const Chart = () => {
         setThongKeTourVoiNoiKhoiHanhData(res);
     }
 
+    const thongKeSoCho = async () => {
+        const res = await tourApi.thongKeSoCho()
+        setThongKeSoChoData(res);
+    }
+
     useEffect(() => {
         thongKeSoTourTheoThang();
         thongKeTourVoiNoiKhoiHanh();
+        thongKeSoCho();
     }, [])
 
     return (
@@ -69,6 +77,27 @@ const Chart = () => {
                         <Bar dataKey="totalTour" fill="#82ca9d" />
                         <Bar dataKey="soChoTrong" fill="#ffc658" />
                     </BarChart>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <Typography variant="h6" gutterBottom>
+                        Biểu đồ Tròn
+                    </Typography>
+                    <PieChart width={500} height={300}>
+                        <Pie
+                            data={thongKeSoChoData}
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
+                        >
+                            {thongKeSoChoData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                    </PieChart>
                 </Grid>
             </Grid>
         </Container>

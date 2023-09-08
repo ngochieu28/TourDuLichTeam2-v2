@@ -45,6 +45,10 @@ const tourApi = {
         const url = `/tours/thong-ke-tour-voi-noi-khoi-hanh`
         return axiosClient.get(url)
     },
+    thongKeSoCho() {
+        const url = `/tours/thong-ke-so-cho`
+        return axiosClient.get(url)
+    },
     addTour(tourDTO) {
         const url = `/tours`
         return axiosClient.post(url, tourDTO)

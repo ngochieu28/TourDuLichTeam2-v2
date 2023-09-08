@@ -1,5 +1,6 @@
 package com.vti.service;
 
+import com.vti.dto.PieChartDTO;
 import com.vti.dto.ThongKeTourDTO;
 import com.vti.dto.TourDTO;
 import com.vti.dto.TourDetailDTO;
@@ -20,4 +21,5 @@ public interface ITourSevice {
     void updateImageTour(String maTour,Integer indexImage, String nameImg);
     List<ThongKeTourDTO> thongKeTourVoiNoiKhoiHanh();
     List<ThongKeTourDTO> thongKeSoTourTheoThang();
+    List<PieChartDTO>  thongKeSoCho();
 }
