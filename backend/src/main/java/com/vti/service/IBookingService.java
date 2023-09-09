@@ -24,6 +24,6 @@ public interface IBookingService  {
 
     List<PieChartDTO> tinhPhanTramCacDoTuoi();
 
-    List<BookingTourDTO> getListBookingByUserId(int userId);
+    List<BookingUserDTO> getListBookingByUserId(int userId);
 
 }

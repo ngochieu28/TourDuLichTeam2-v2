@@ -304,37 +304,55 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<BookingTourDTO> getListBookingByUserId(int userId) {
-        String queryString = "SELECT * " +
-                "FROM Tour AS t " +
-                "JOIN Booking AS b ON t.maTour = b.tour_id " +
-                "JOIN User AS u ON b.user_id = u.id " +
+    public List<BookingUserDTO> getListBookingByUserId(int userId) {
+        String queryString = "SELECT t.noiKhoiHanh, t.ngayKhoiHanh, b.soChoNL, b.soChoTreEm, b.soChoTreNho, " +
+                "b.soChoEmBe, b.soNguoiThamGia, b.status, b.thoiGianDat, b.tongGia, b.nameKH, b.emailKH, b.phoneNumber, b.diaChi " +
+                "FROM Booking AS b " +
+                "JOIN Tour AS t ON t.maTour = b.tour " +
+                "JOIN User AS u ON u.id = b.user  " +
                 "WHERE u.id = " + userId;
+
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(queryString, Object[].class);
+
         List<Object[]> results = typedQuery.getResultList();
-        List<BookingTourDTO> bookingTourDTOS = new ArrayList<>();
+        List<BookingUserDTO> bookingDTOS = new ArrayList<>();
 
         for (Object[] result : results) {
             String noiKhoiHanh = (String) result[0];
-            String ngayKhoiHanh = (String) result[1];
-            Long soChoNL = (Long) result[2];
-            Long soChoTreEm = (Long) result[3];
-            Long soChoTreNho = (Long) result[4];
-            Long soChoEmBe = (Long) result[5];
+            String ngayKhoiHanh = result[1].toString();
+            Integer soChoNL = (Integer) result[2];
+            Integer soChoTreEm = (Integer) result[3];
+            Integer soChoTreNho = (Integer) result[4];
+            Integer soChoEmBe = (Integer) result[5];
+            Integer soNguoiThamGia = (Integer) result[6];
+            Integer status = (Integer) result[7];
+            String thoiGianDat = result[8].toString();
+            Integer tongGia = (Integer) result[9];
+            String nameKH = (String) result[10];
+            String emailKH = (String) result[11];
+            String phoneNumber = (String) result[12];
+            String diaChi = (String) result[13];
 
-
-            BookingTourDTO bookingDTO = new BookingTourDTO();
-            bookingDTO.setNoiKhoiHanh( noiKhoiHanh);
+            BookingUserDTO bookingDTO = new BookingUserDTO();
+            bookingDTO.setNoiKhoiHanh(noiKhoiHanh);
             bookingDTO.setNgayKhoiHanh(ngayKhoiHanh);
-            bookingDTO.setSoChoNL(soChoNL.intValue());
-            bookingDTO.setSoChoTreEm(soChoTreEm.intValue());
-            bookingDTO.setSoChoTreNho(soChoTreNho.intValue());
-            bookingDTO.setSoChoEmBe(soChoEmBe.intValue());
+            bookingDTO.setSoChoNL(soChoNL);
+            bookingDTO.setSoChoTreEm(soChoTreEm);
+            bookingDTO.setSoChoTreNho(soChoTreNho);
+            bookingDTO.setSoChoEmBe(soChoEmBe);
+            bookingDTO.setSoNguoiThamGia(soNguoiThamGia);
+            bookingDTO.setTrangThai(status);
+            bookingDTO.setThoiGianDat(thoiGianDat);
+            bookingDTO.setTongGia(tongGia);
+            bookingDTO.setNameKH(nameKH);
+            bookingDTO.setEmailKH(emailKH);
+            bookingDTO.setPhoneNumber(phoneNumber);
+            bookingDTO.setDiaChi(diaChi);
 
-
-            bookingTourDTOS.add(bookingDTO);
+            bookingDTOS.add(bookingDTO);
         }
-    return bookingTourDTOS;
+
+        return bookingDTOS;
     }
 
 }

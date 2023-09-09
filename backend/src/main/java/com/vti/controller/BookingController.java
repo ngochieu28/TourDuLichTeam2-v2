@@ -211,7 +211,7 @@ public class BookingController {
     // GET BOOKING BY USER ID
     @GetMapping("/userId/{userId}")
     public ResponseEntity<?> getBookingByUserId ( @PathVariable int userId) {
-        List<BookingTourDTO> bookingDTOS = service.getListBookingByUserId(userId);
+        List<BookingUserDTO> bookingDTOS = service.getListBookingByUserId(userId);
         return new ResponseEntity<>(bookingDTOS , HttpStatus.OK);
     }
 }

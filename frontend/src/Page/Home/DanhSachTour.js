@@ -58,50 +58,52 @@ export default function DanhSachTour() {
                     tours.map((item) => {
                         return (
                             <Grid item xs={12} sm={6} md={4} key={item.maTour}>
-                                <Card className='card'>
-                                    <div style={{ position: 'relative', height: '245px' }}>
-                                        <img
-                                            src={`${srcImg}/${item.image}`}
-                                            alt="Card image cap"
-                                            style={{ position: 'relative', width: '100%', height: '100%' }}
-                                        />
-                                        <Typography className="luotQuanTam" variant="body2">
-                                            {item.luotQuanTam} quan tâm
-                                        </Typography>
-                                    </div>
-                                    <CardContent>
-                                        <Typography>
-                                            {item.ngayKhoiHanh} - {item.thoiGian}
-                                        </Typography>
-                                        <Typography component="div" style={{ height: '120px' }}>
-                                            <a href="#" className="tenTour">
-                                                <b> {item.tenTour}</b>
-                                            </a>
-                                        </Typography>
+                                <Link to={`/tourDetail/${item.maTour}`}>
+                                    <Card className='card'>
+                                        <div style={{ position: 'relative', height: '245px' }}>
+                                            <img
+                                                src={`${srcImg}/${item.image}`}
+                                                alt="Card image cap"
+                                                style={{ position: 'relative', width: '100%', height: '100%' }}
+                                            />
+                                            <Typography className="luotQuanTam" variant="body2">
+                                                {item.luotQuanTam} quan tâm
+                                            </Typography>
+                                        </div>
+                                        <CardContent>
+                                            <Typography>
+                                                {item.ngayKhoiHanh} - {item.thoiGian}
+                                            </Typography>
+                                            <Typography component="div" style={{ height: '120px' }}>
+                                                <a href="#" className="tenTour">
+                                                    <b> {item.tenTour}</b>
+                                                </a>
+                                            </Typography>
 
-                                        <Typography>
-                                            Mã Tour:
-                                            <br />
-                                            <ConfirmationNumberOutlinedIcon style={{ fontSize: '18px' }} /> <b>{item.maTour}</b>
-                                        </Typography>
-                                        <Typography>
-                                            Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
-                                        </Typography>
-                                        <Typography>
-                                            <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTourString}đ</h3>
-                                        </Typography>
+                                            <Typography>
+                                                Mã Tour:
+                                                <br />
+                                                <ConfirmationNumberOutlinedIcon style={{ fontSize: '18px' }} /> <b>{item.maTour}</b>
+                                            </Typography>
+                                            <Typography>
+                                                Nơi khởi hành: <b>{item.noiKhoiHanh}</b>
+                                            </Typography>
+                                            <Typography>
+                                                <h3 style={{ color: 'red', display: 'inline' }}>{item.giaTourString}đ</h3>
+                                            </Typography>
 
-                                        <CardActions>
-                                            <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
-                                                <Link to={`/tourDetail/${item.maTour}`}>Xem chi tiết</Link>
-                                            </Button>
-                                        </CardActions>
-                                        <Typography style={{ textAlign: 'right' }}>
-                                            <b>Số chỗ còn nhận:</b>{' '}
-                                            <span style={{ color: 'red', display: 'inline' }}>{item.soCho}</span>
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                                            <CardActions>
+                                                <Button variant="outlined" color="primary" style={{ marginRight: '10px' }}>
+                                                    Xem chi tiết
+                                                </Button>
+                                            </CardActions>
+                                            <Typography style={{ textAlign: 'right' }}>
+                                                <b>Số chỗ còn nhận:</b>{' '}
+                                                <span style={{ color: 'red', display: 'inline' }}>{item.soCho}</span>
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
                             </Grid>
                         );
                     })}
