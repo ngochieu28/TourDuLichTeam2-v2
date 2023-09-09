@@ -1,14 +1,13 @@
 package com.vti.controller;
 
-import com.vti.dto.BookingDTO;
-import com.vti.dto.BookingTourDTO;
-import com.vti.dto.BookingUpdateDTO;
-import com.vti.dto.CreatBookingDTO;
+import com.vti.dto.*;
 import com.vti.entity.Booking;
 import com.vti.entity.BookingStatus;
 import com.vti.entity.Tour;
+import com.vti.entity.User;
 import com.vti.repository.BookingRepository;
 import com.vti.repository.TourRepository;
+import com.vti.repository.UserRepository;
 import com.vti.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +36,9 @@ public class BookingController {
 
     @Autowired
     private TourRepository tourRepo ;
+
+    @Autowired
+    private UserRepository userRepo ;
 
     // GET ALL
     @GetMapping()
@@ -101,12 +103,16 @@ public class BookingController {
         booking.setSoChoTreNho(creatBookingDTO.getSoChoTreNho());
         booking.setSoChoEmBe(creatBookingDTO.getSoChoEmBe());
         booking.setTongGia(creatBookingDTO.getTongGia());
-
+        booking.setSoNguoiThamGia();
 
         // check nếu khác null sẽ đẩy dữ liệu lên db luôn còn ko sẽ đẩy thẳng DL lên DB
         if (creatBookingDTO.getTourId() != null) {
             Tour tour = tourRepo.findByMaTour(creatBookingDTO.getTourId());
             booking.setTour(tour);
+        }
+        if (creatBookingDTO.getUserId() > 0 ) {
+            User user = userRepo.findById(creatBookingDTO.getUserId());
+            booking.setUser(user);
         }
         bookingRepo.save(booking);
         return new ResponseEntity<>(booking.getMaBooking(), HttpStatus.OK) ;
@@ -148,6 +154,13 @@ public class BookingController {
         return new ResponseEntity<>(bookingDTO, HttpStatus.OK) ;
     }
 
+    // GET BY NAMEKH
+    @GetMapping("/name/{nameKH}")
+    public ResponseEntity<?> getBookingByNameKH ( @PathVariable String nameKH) {
+        List<BookingDTO> bookingDTOS = service.getBookingByNameKH(nameKH);
+        return new ResponseEntity<>(bookingDTOS , HttpStatus.OK);
+    }
+
     // DELETE BY ID
     @DeleteMapping("/{maBooking}")
     public ResponseEntity<?> delete (@PathVariable int maBooking) {
@@ -181,4 +194,24 @@ public class BookingController {
         return new ResponseEntity<>("Update successfully!" , HttpStatus.OK);
     }
 
+    // GET SỐ LƯỢNG BOOKING TRONG THANG
+    @GetMapping("/so-luong-booking-trong-thang")
+    public ResponseEntity<?> thongKeSLBookingTheoThang() {
+        List<ThongKeBookingDTO> bookingThongKe = service.thongKeLuongBookingTrongThang();
+        return new ResponseEntity<>(bookingThongKe, HttpStatus.OK);
+    }
+
+    // GET % SỐ CHỖ CÁC ĐỘ TUỔI
+    @GetMapping("/ty-le-phan-tram")
+    public ResponseEntity<?> ThongKeSoCho() {
+        List<PieChartDTO>  soChoCacDoTuoi = service.tinhPhanTramCacDoTuoi();
+        return new ResponseEntity<>(soChoCacDoTuoi, HttpStatus.OK);
+    }
+
+    // GET BOOKING BY USER ID
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity<?> getBookingByUserId ( @PathVariable int userId) {
+        List<BookingTourDTO> bookingDTOS = service.getListBookingByUserId(userId);
+        return new ResponseEntity<>(bookingDTOS , HttpStatus.OK);
+    }
 }

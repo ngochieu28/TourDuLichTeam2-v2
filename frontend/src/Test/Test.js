@@ -1,174 +1,76 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DialogContentText from '@mui/material/DialogContentText';
+import React, { useEffect, useState } from 'react'
 import {
-    Button, Container, Table, TableBody, TableCell, TableHead, TableRow,
-    TablePagination, Dialog, DialogTitle, DialogContent, DialogActions,
-    Grid,
-} from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import DoneIcon from '@mui/icons-material/Done';
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    BarChart, Bar,
+    AreaChart, Area,
+    PieChart, Pie, Cell,
+    RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
+} from 'recharts';
+import { Container, Typography } from '@mui/material';
 import bookingApi from '../api/bookingApi';
-import { DataGrid } from '@mui/x-data-grid';
 
 export default function Test() {
 
-    const [bookings, setBookings] = useState([]);
-    const [tourBooking, setTourBooking] = useState();
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [open, setOpen] = useState(false);
-    const [bookingClink, setBookingClink] = useState()
+    const [booking, setbooking] = useState();
+    const [bookingPT, setbookingPT] = useState([]);
 
-    // xem
-    const [openCheck, setOpenCheck] = useState(false);
-    const handleOpenCheck = () => setOpenCheck(true);
-    const handleCloseCheck = () => setOpenCheck(false);
-
-    // phân trang
-    const handleChangePage = (newPage) => {
-        setPage(newPage);
+    // api số lượn BK
+    const getBookingTrongThang = async () => {
+        let res = await bookingApi.getBookingTrongThang()
+        setbooking(res)
     };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    // call API
-    const getAllBooking = async (maBooking, nameKH) => {
-        let res = await bookingApi.getAll(maBooking, nameKH)
-        setBookings(res)
-    }
-
     useEffect(() => {
-        getAllBooking()
+        getBookingTrongThang();
+        getPhanTramBooking();
     }, [])
 
-
-    // xem
-    const handelCheck = async (maBooking) => {
-        try {
-            let res = await bookingApi.getTourBooking(maBooking)
-            setTourBooking(res)
-            handleOpenCheck()
-        } catch (error) {
-            console.log('Error:', error);
-        }
+    // api phàn trăm
+    const getPhanTramBooking = async () => {
+        let res = await bookingApi.getPhanTramBooking()
+        console.log(res);
+        setbookingPT(res)
     };
 
-    // update
-    const handelUpdate = async (maBooking, status) => {
-        try {
-            if (status == 1) {
-                await bookingApi.updateStatusBooking(maBooking, 1)
-            } else if (status === 2) {
-                await bookingApi.updateStatusBooking(maBooking, 2);
-            }
-            getAllBooking()
-        } catch (error) {
-            console.log('Error:', error);
-        };
-    }
-
-    // delete
-    const handleDelete = async (maBooking) => {
-        setBookingClink(maBooking)
-        setOpen(true);
-    }
-
-    const handelXacNhanDelete = async (maBooking) => {
-        try {
-            let res = await bookingApi.deleteBookingById(maBooking)
-            getAllBooking()
-            setOpen(false)
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    };
-
-    const columns = [
-        { field: 'maBooking', headerName: 'MaBooking', flex: 0.10 },
-        { field: 'nameKH', headerName: 'Họ và tên', flex: 0.20 },
-        {
-            field: 'number',
-            headerName: 'Số người tham gia',
-            valueGetter: (params) =>
-                `${params.row.soChoNL + params.row.soChoTreEm + params.row.soChoTreNho + params.row.soChoEmBe}`,
-            flex: 0.2,
-        },
-        { field: 'status', headerName: 'Trạng thái', flex: 0.2 },
-        {
-            field: 'action1',
-            headerName: 'Tính Năng',
-            flex: 0.2,
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
-            renderCell: (params) => (
-                <>
-                    <Button variant="outlined" startIcon={<VisibilityIcon />} onClick={() => handelCheck(params.row.maBooking)}>
-                        Xem
-                    </Button>
-                    &nbsp;
-                    <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleDelete(params.row.maBooking)}>
-                        Xóa
-                    </Button>
-                </>
-            ),
-        },
-        {
-            field: 'action2',
-            headerName: 'Yêu cầu update',
-            flex: 0.2,
-            renderCell: (params) => (
-                <>
-                    <Button variant="outlined" startIcon={<CloseIcon />} onClick={() => handelUpdate(params.row.maBooking, 1)}></Button>
-                    &nbsp;
-                    <Button variant="outlined" startIcon={<DoneIcon />} onClick={() => handelUpdate(params.row.maBooking, 2)}></Button>
-                </>
-            ),
-        },
-    ];
+    const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ffc658'];
     return (
-        <div>
-            <Container>
-                <DataGrid
-                    rows={bookings}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10, 20]}
-                />
+        <Container >
+            <Typography variant="h6" gutterBottom>
+                Biểu đồ thống kê số lượng booking trong tháng
+            </Typography>
+            <BarChart
+                width={500}
+                height={300}
+                data={booking}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="thoiGianDat" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="soLuongTheoThang" fill="#82ca9d" />
+            </BarChart>
 
-                <Dialog
-                    open={open}
-                    onClose={false}
-                    aria-labelledby="responsive-dialog-title"
+            <Typography variant="h6" gutterBottom>
+                Biểu đồ Tròn
+            </Typography>
+            <PieChart width={500} height={300}>
+                <Pie
+                    data={bookingPT}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
                 >
-                    <DialogTitle id="responsive-dialog-title">
-                        {"Xác nhận xóa tour"}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            <h4>
-                                Bạn chắc chắn muốn xóa tour này?
-                            </h4>
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handelXacNhanDelete} >
-                            Xác nhận
-                        </Button>
-                        <Button color="primary" onClick={() => setOpen(false)}>
-                            Hủy
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </Container>
-        </div>
+                    {bookingPT.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+            </PieChart>
+
+        </Container>
     )
 }

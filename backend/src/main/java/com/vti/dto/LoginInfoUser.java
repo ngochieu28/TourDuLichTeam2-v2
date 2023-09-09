@@ -19,10 +19,10 @@ public class LoginInfoUser {
 
 	private String status;
 
-	private Integer idUser ;
+	private Integer userId ;
 
 	public LoginInfoUser(String token, String userName, String email, String firstName, String lastName, String role,
-			String status , Integer idUser) {
+			String status , Integer userId) {
 		this.token = token;
 		this.userName = userName;
 		this.email = email;
@@ -30,7 +30,7 @@ public class LoginInfoUser {
 		this.lastName = lastName;
 		this.role = role;
 		this.status = status;
-		this.idUser = idUser;
+		this.userId = userId;
 	}
 
 

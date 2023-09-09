@@ -1,12 +1,10 @@
 package com.vti.service;
-import com.vti.dto.BookingDTO;
-import com.vti.dto.BookingTourDTO;
-import com.vti.dto.BookingUpdateDTO;
+import com.vti.dto.*;
 import com.vti.entity.Booking;
 
-public interface IBookingService  {
+import java.util.List;
 
-//    Page<Booking> getAllBooking(Pageable pageable, GroupFilter filter, String search);
+public interface IBookingService  {
 
     void createBooking(Booking booking);
 
@@ -16,7 +14,16 @@ public interface IBookingService  {
 
     BookingTourDTO getTourBooking(int maBooking);
 
+    List<BookingDTO> getBookingByNameKH(String nameKH);
+
     void approveBooking(int maBooking);
 
     void cancelBooking(int maBooking);
+
+    List<ThongKeBookingDTO>  thongKeLuongBookingTrongThang();
+
+    List<PieChartDTO> tinhPhanTramCacDoTuoi();
+
+    List<BookingTourDTO> getListBookingByUserId(int userId);
+
 }

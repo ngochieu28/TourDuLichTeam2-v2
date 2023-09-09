@@ -32,6 +32,6 @@ public class CreatBookingDTO {
 
     private String tourId ;
 
-
+    private int userId ;
 
 }

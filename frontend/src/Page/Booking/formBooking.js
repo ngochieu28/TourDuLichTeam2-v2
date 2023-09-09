@@ -68,7 +68,7 @@ const FormBooking = () => {
         setValue("soChoTreEM", state.data.soChoTreEM)
         setValue("soChoTreNho", state.data.soChoTreNho)
         setValue("soChoEmBe", state.data.soChoEmBe)
-
+        // setValue("userId", state.userInfo)
     }, [state.data])
 
     // avatar Tour
@@ -93,6 +93,7 @@ const FormBooking = () => {
             soChoTreNho: treNho,
             soChoEmBe: emBe,
             tongGia: tongGia1,
+            userId: state.userInfo.userId,
         }
 
         let res = await bookingApi.creatBooking(data2)

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Grid, Typography, Tab, Tabs, InputBase, Button, Container, Divider, Drawer, FormGroup, CardContent, Card, Input } from '@mui/material';
+import {
+    Box, Grid, Typography, Tab, Tabs, InputBase, Button,
+    Container, Divider, Drawer, FormGroup, CardContent, Card,
+    Input, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+} from '@mui/material';
 import { AppConsumer } from '../store';
 import { SET_SEARCHDIEMDEN, SET_SEARCHNOIKHOIHANH, SET_SEARCHTHOIGIAN } from '../store/action'
 import { RestartAlt, Search } from '@mui/icons-material';
@@ -8,7 +12,7 @@ import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
 import { Link, useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
+
 
 export default function ResponsiveTabs() {
     const [state, dispatch] = AppConsumer();
@@ -51,21 +55,40 @@ export default function ResponsiveTabs() {
 
     // Search Booking 
     const [showUpdateButton, setShowUpdateButton] = useState(false);
-    const [booking, setbooking] = React.useState();
-    const [selectedId, setSelectedId] = React.useState('');
+    const [booking, setbooking] = useState();
+    const [bookingName, setbookingName] = useState();
+    const [searchValue, setSearchValue] = useState('');
 
-    const handleInputChange = (e) => {
-        setSelectedId(e.target.value);
+
+    const handleInput = (e) => {
+        e.preventDefault();
+        if (searchValue) {
+            if (/^\d+$/.test(searchValue)) {
+                getBookingById(searchValue)
+            } else {
+                getBookingByNameKH(searchValue)
+            }
+        }
     };
 
-    const getBookingById = async () => {
-        const maBooking = selectedId
+
+    const getBookingById = async (maBooking) => {
+        // const maBooking = selectedId
         let res = await bookingApi.getBookingById(maBooking)
         setbooking(res);
 
         // Open button update
         setShowUpdateButton(true)
     };
+
+    const getBookingByNameKH = async (nameKH) => {
+        // const nameKH = selectedName
+        let res = await bookingApi.getBookingByNameKH(nameKH)
+        setbookingName(res)
+
+        // Open button update
+        setShowUpdateButton(true)
+    }
 
     const navigate = useNavigate()
 
@@ -205,38 +228,52 @@ export default function ResponsiveTabs() {
                     <Grid container >
                         <Grid item xs="6" display="flex">
                             <Typography variant="h5" component="h2">
-                                <InputBase type="text" value={selectedId} placeholder='Nhập mã Booking' onChange={handleInputChange} />
+                                <InputBase value={searchValue} placeholder='Nhập thông tin tìm kiếm:' onChange={(e) => setSearchValue(e.target.value)} />
                             </Typography>
                         </Grid>
                         <Grid item xs="6" >
-                            <Button onClick={getBookingById}> Tìm kiếm</Button>
+                            <Button onClick={handleInput}> Tìm kiếm</Button>
                         </Grid>
                     </Grid>
                     <Divider />
-                    <Grid container >
-                        <Grid item xs="6">
-                            <p>Tên người đặt : <b>{booking?.nameKH}</b></p>
-                            <p>Email : <b>{booking?.emailKH}</b></p>
-                            <p>Phone Number : <b>{booking?.phoneNumber}</b></p>
-                            <p>Địa chỉ : <b>{booking?.diaChi}</b></p>
-                        </Grid>
-                        <Grid item xs="6" >
-                            <p>Số ngời lớn : <b>{booking?.soChoNL}</b></p>
-                            <p>Số trẻ em : <b>{booking?.soChoTreEm}</b></p>
-                            <p>Số trẻ nhỏ : <b>{booking?.soChoTreNho}</b></p>
-                            <p>Số em bé : <b>{booking?.soChoEmBe}</b></p>
-                        </Grid>
-                        <Grid item xs="6" >
-                            <p>Trạng thái : <b>{booking?.status}</b></p>
-                        </Grid>
-                        <Grid item xs="6" >
-                            {showUpdateButton && (
-                                <Button variant="contained" onClick={updateBooking}>
-                                    Sửa lại thông tin
-                                </Button>
-                            )}
-                        </Grid>
-                    </Grid>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Tên người đặt</TableCell>
+                                    <TableCell>Email</TableCell>
+                                    <TableCell>Số điện thoại</TableCell>
+                                    <TableCell>Địa chỉ</TableCell>
+                                    <TableCell>Số lượng người lớn</TableCell>
+                                    <TableCell>Số lượng trẻ em</TableCell>
+                                    <TableCell>Số lượng trẻ nhỏ</TableCell>
+                                    <TableCell>Số lượng em bé</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell align='center'><b>{booking?.nameKH}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.emailKH}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.phoneNumber}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.diaChi}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.soChoNL}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.soChoTreEm}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.soChoTreNho}</b></TableCell>
+                                    <TableCell align='center'><b>{booking?.soChoEmBe}</b></TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell align='center'><b>{bookingName?.nameKH}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.emailKH}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.phoneNumber}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.diaChi}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.soChoNL}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.soChoTreEm}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.soChoTreNho}</b></TableCell>
+                                    <TableCell align='center'><b>{bookingName?.soChoEmBe}</b></TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Container>
             </CustomTabPanel>
         </Box>

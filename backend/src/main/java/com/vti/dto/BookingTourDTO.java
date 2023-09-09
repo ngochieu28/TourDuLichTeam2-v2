@@ -15,11 +15,11 @@ public class BookingTourDTO {
     private Integer soChoTreNho ;
     private Integer soChoEmBe ;
     private Integer tongGia ;
-
     private Integer giaTour ;
     private Integer giaTreEm;
     private Integer giaTreNho;
     private Integer giaEmBe;
+
     private String tourId ;
     private Integer soCho ;
     private String maTour ;
@@ -28,6 +28,8 @@ public class BookingTourDTO {
     private String noiKhoiHanh ;
     private String ngayKhoiHanh ;
     private String thoiGian ;
+    private int userId ;
+
 
     public Integer getGiaTreEm() {
         return giaTour - (giaTour * 50 / 100);

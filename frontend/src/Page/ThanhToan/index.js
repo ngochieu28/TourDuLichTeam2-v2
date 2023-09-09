@@ -49,7 +49,6 @@ export default function ThanhToan() {
 
     useEffect(() => {
         getTourDetail2()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [maTour]);
 
     // modal show id khi thành công

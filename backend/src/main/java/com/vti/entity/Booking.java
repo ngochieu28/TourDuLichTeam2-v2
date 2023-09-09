@@ -37,6 +37,8 @@ public class Booking {
 
     private Integer tongGia ;
 
+    private Integer soNguoiThamGia ;
+
     private LocalDate thoiGianDat = LocalDate.now();
 
     private int status = BookingStatus.BOOKING_DONE ;
@@ -55,5 +57,9 @@ public class Booking {
 
     public void setTour(Tour tour) {
         this.tour = tour;
+    }
+
+    public void setSoNguoiThamGia() {
+        this.soNguoiThamGia = this.soChoNL + this.soChoTreEm + this.soChoTreNho + this.soChoEmBe;
     }
 }

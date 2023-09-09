@@ -1,22 +1,29 @@
 package com.vti.service;
 
-import com.vti.dto.BookingDTO;
-import com.vti.dto.BookingTourDTO;
-import com.vti.dto.BookingUpdateDTO;
+import com.vti.dto.*;
 import com.vti.entity.Booking;
 import com.vti.entity.BookingStatus;
 import com.vti.entity.Tour;
 import com.vti.repository.BookingRepository;
 import com.vti.repository.TourRepository;
 import javassist.NotFoundException;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.sql.*;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class BookingService implements IBookingService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     private BookingRepository bookingRepo;
@@ -172,6 +179,40 @@ public class BookingService implements IBookingService {
         }
 
     @Override
+    public List<BookingDTO> getBookingByNameKH(String nameKH) {
+        List<Booking> booking = bookingRepo.findByNameKH(nameKH);
+        List<BookingDTO> bookingDTOS = new ArrayList<>();
+
+        for (Booking bookings : booking) {
+            BookingDTO bookingDTO = new BookingDTO();
+
+            bookingDTO.setMaBooking(bookings.getMaBooking());
+            bookingDTO.setNameKH(bookings.getNameKH());
+            bookingDTO.setEmailKH(bookings.getEmailKH());
+            bookingDTO.setPhoneNumber(bookings.getPhoneNumber());
+            bookingDTO.setDiaChi(bookings.getDiaChi());
+            bookingDTO.setSoChoNL(bookings.getSoChoNL());
+            bookingDTO.setSoChoTreEm(bookings.getSoChoTreEm());
+            bookingDTO.setSoChoTreNho(bookings.getSoChoTreNho());
+            bookingDTO.setSoChoEmBe(bookings.getSoChoEmBe());
+
+            if (bookings.getStatus() == BookingStatus.BOOKING_DRAFT) {
+                bookingDTO.setStatus("Booking chưa được duyệt");
+            } else if (bookings.getStatus() == BookingStatus.BOOKING_DONE) {
+                bookingDTO.setStatus("Booking đã được duyệt");
+            } else if (bookings.getStatus() == BookingStatus.BOOKING_CANCEL) {
+                bookingDTO.setStatus("Booking bị từ chối duyệt");
+            }
+            Tour tour = bookings.getTour();
+            if (tour != null) {
+                bookingDTO.setTourId(tour.getMaTour());
+            }
+            bookingDTOS.add(bookingDTO);
+        }
+        return bookingDTOS;
+    }
+
+    @Override
     public void approveBooking(int maBooking) {
         Booking booking = bookingRepo.findByMaBooking(maBooking);
         if (booking == null) {
@@ -201,5 +242,99 @@ public class BookingService implements IBookingService {
         bookingRepo.save(booking);
     }
 
+    @Override
+    public List<ThongKeBookingDTO> thongKeLuongBookingTrongThang() {
+        String query = "SELECT FUNCTION('MONTH' , b.thoiGianDat) AS thang, COUNT(b.thoiGianDat) AS so_luong_theo_thang\n" +
+                "FROM Booking b " +
+                "GROUP BY FUNCTION('MONTH' , b.thoiGianDat)" +
+                "ORDER BY FUNCTION('MONTH', b.thoiGianDat) ASC";
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+
+        List<ThongKeBookingDTO> thongKeBookingDTOList = new ArrayList<>();
+        for (Object[] result : results) {
+            Integer thoiGianDat = (Integer) result[0];
+            Long soLuongTheoThang = (Long) result[1];
+
+            ThongKeBookingDTO bookingDTO = new ThongKeBookingDTO();
+            bookingDTO.setThoiGianDat("tháng " + thoiGianDat);
+            bookingDTO.setSoLuongTheoThang(soLuongTheoThang.intValue());
+
+            thongKeBookingDTOList.add(bookingDTO);
+        }
+        return thongKeBookingDTOList;
+    }
+
+    @Override
+    public List<PieChartDTO> tinhPhanTramCacDoTuoi() {
+        String queryString = "SELECT " +
+                "SUM(b.soNguoiThamGia) AS tong_so_nguoi, " +
+                "SUM(b.soChoNL) AS tong_so_cho_nl, " +
+                "SUM(b.soChoTreEm) AS tong_so_cho_tre_em, " +
+                "SUM(b.soChoTreNho) AS tong_so_cho_tre_nho, " +
+                "SUM(b.soChoEmBe) AS tong_so_cho_em_be " +
+                "FROM Booking b";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(queryString, Object[].class);
+        Object[] result = typedQuery.getSingleResult();
+
+        List<PieChartDTO> thongKeSoCho = new ArrayList<>();
+
+        PieChartDTO soChoNLDaDatDTO = new PieChartDTO();
+        soChoNLDaDatDTO.setName("Số chỗ người lớn đã đặt: ");
+        soChoNLDaDatDTO.setValue(((Long) result[1]).intValue());
+        thongKeSoCho.add(soChoNLDaDatDTO);
+
+        PieChartDTO soChoTreEmDaDatDTO = new PieChartDTO();
+        soChoTreEmDaDatDTO.setName("Số chỗ trẻ em đã đặt: ");
+        soChoTreEmDaDatDTO.setValue(((Long) result[2]).intValue());
+        thongKeSoCho.add(soChoTreEmDaDatDTO);
+
+        PieChartDTO soChoTreNhoDaDatDTO = new PieChartDTO();
+        soChoTreNhoDaDatDTO.setName("Số chỗ trẻ nhỏ đã đặt: ");
+        soChoTreNhoDaDatDTO.setValue(((Long) result[3]).intValue());
+        thongKeSoCho.add(soChoTreNhoDaDatDTO);
+
+        PieChartDTO soChoEmBeDaDatDTO = new PieChartDTO();
+        soChoEmBeDaDatDTO.setName("Số chỗ em bé đã đặt: ");
+        soChoEmBeDaDatDTO.setValue(((Long) result[4]).intValue());
+        thongKeSoCho.add(soChoEmBeDaDatDTO);
+
+        return thongKeSoCho;
+    }
+
+    @Override
+    public List<BookingTourDTO> getListBookingByUserId(int userId) {
+        String queryString = "SELECT * " +
+                "FROM Tour AS t " +
+                "JOIN Booking AS b ON t.maTour = b.tour_id " +
+                "JOIN User AS u ON b.user_id = u.id " +
+                "WHERE u.id = " + userId;
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(queryString, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+        List<BookingTourDTO> bookingTourDTOS = new ArrayList<>();
+
+        for (Object[] result : results) {
+            String noiKhoiHanh = (String) result[0];
+            String ngayKhoiHanh = (String) result[1];
+            Long soChoNL = (Long) result[2];
+            Long soChoTreEm = (Long) result[3];
+            Long soChoTreNho = (Long) result[4];
+            Long soChoEmBe = (Long) result[5];
+
+
+            BookingTourDTO bookingDTO = new BookingTourDTO();
+            bookingDTO.setNoiKhoiHanh( noiKhoiHanh);
+            bookingDTO.setNgayKhoiHanh(ngayKhoiHanh);
+            bookingDTO.setSoChoNL(soChoNL.intValue());
+            bookingDTO.setSoChoTreEm(soChoTreEm.intValue());
+            bookingDTO.setSoChoTreNho(soChoTreNho.intValue());
+            bookingDTO.setSoChoEmBe(soChoEmBe.intValue());
+
+
+            bookingTourDTOS.add(bookingDTO);
+        }
+    return bookingTourDTOS;
+    }
 
 }
