@@ -11,11 +11,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import { AccountCircleOutlined } from "@mui/icons-material";
+import { AppConsumer } from '../store';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Du lịch', 'Vietravel MICE', 'Vận chuyển', 'Tin tức', 'Khuyến mãi ', 'Vietravel Plus', 'Liên hệ'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ResponsiveAppBar() {
+    const [state, dispatch] = AppConsumer();
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -34,6 +38,16 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
 
+    const showInfoUser = () => {
+        if (!state.userInfo.firstName || !state.userInfo.lastName) {
+            alert("Bạn chưa đăng nhập ! Hãy đăng nhập tài khoản");
+            navigate('/login');
+            return;
+        }
+        else {
+            alert("Xin chào " + state.userInfo.firstName + " " + state.userInfo.lastName);
+        }
+    }
     return (
         <AppBar position="static" sx={{ backgroundColor: '#fff' }}>
             <Toolbar >
@@ -124,7 +138,7 @@ function ResponsiveAppBar() {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Link to={'/login'} ><AccountCircleOutlined sx={{ ml: 2, fontSize: 32 }} /></Link>
+                            <AccountCircleOutlined sx={{ ml: 2, fontSize: 32 }} />
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -143,11 +157,22 @@ function ResponsiveAppBar() {
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
-                        {settings.map((setting) => (
+                        {/* {settings.map((setting) => (
                             <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                 <Typography textAlign="center">{setting}</Typography>
                             </MenuItem>
-                        ))}
+                        ))} */}
+                        <MenuItem onClick={showInfoUser}>
+                            <Typography textAlign="center">Profile</Typography>
+                        </MenuItem>
+                        <MenuItem>
+                            <Typography textAlign="center">Account</Typography>
+                        </MenuItem>
+                        <Link to={'/login'} >
+                            <MenuItem>
+                                <Typography textAlign="center">LogOut</Typography>
+                            </MenuItem>
+                        </Link>
                     </Menu>
                 </Box>
             </Toolbar>

@@ -6,12 +6,12 @@ import { initialState } from '../../store/reducer'
 import reducer from '../../store/reducer'
 import { SET_DATA, SET_LIST } from '../../store/action'
 import { AppConsumer } from '../../store'
-import { useCheckLogin } from '../../util/CheckAdmin'
+import { useCheckAdmin } from '../../util/CheckLogin'
 import { Link, Outlet } from 'react-router-dom'
 
 
 export default function Admin() {
-    useCheckLogin();
+    useCheckAdmin();
 
     // const [state, dispatch] = useReducer(reducer, initialState)
     // console.log(state);

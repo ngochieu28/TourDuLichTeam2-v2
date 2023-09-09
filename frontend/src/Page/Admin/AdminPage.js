@@ -1,8 +1,8 @@
 import React from 'react'
-import { useCheckLogin } from '../../util/CheckAdmin'
+import { useCheckAdmin } from '../../util/CheckLogin'
 
 export default function AdminPage() {
-    useCheckLogin();
+    useCheckAdmin();
     return (
         <h1 style={{ textAlign: 'center' }}>AdminPage</h1>
     )

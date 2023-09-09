@@ -9,7 +9,7 @@ import {
     TablePagination, Dialog, DialogTitle, DialogContent, DialogActions,
     Grid,
 } from '@mui/material'
-import { useCheckLogin } from '../../../util/CheckAdmin'
+import { useCheckAdmin } from '../../../util/CheckLogin'
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
 
@@ -89,7 +89,7 @@ export default function QuanLyBooking() {
         }
     };
 
-    useCheckLogin();
+    useCheckAdmin();
     return (
         <Container>
             <Table>

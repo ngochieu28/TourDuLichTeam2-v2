@@ -24,12 +24,15 @@ import { Link } from 'react-router-dom';
 import { srcImg } from '../../util/srcImg';
 import { Button, Grid, Card, useMediaQuery } from "@mui/material";
 import ThongTinLuuY from './ThongTinLuuY';
-
+import { useCheckLogin } from '../../util/CheckLogin'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function TourDetail() {
     const { maTour } = useParams();
     const [tours, setTours] = useState();
+    const navigate = useNavigate();
+    const checkLogin = useCheckLogin();
     const isMdScreen = useMediaQuery('(min-width: 960px)');
 
     const getTourDetail = async () => {
@@ -61,6 +64,11 @@ export default function TourDetail() {
                 </Breadcrumbs>
             </div>
         )
+    }
+
+    const handelClickDatNgay = (maTour) => {
+        navigate(`/booking/${maTour}`);
+        checkLogin();
     }
 
     return (
@@ -113,10 +121,14 @@ export default function TourDetail() {
                                         </Grid>
                                         <Grid item xs={12} sm={12} md={6}>
                                             <Grid container spacing={1}>
-                                                <Grid item xs={6} sm={12}><Button variant="contained" color="error" startIcon={<AddShoppingCartIcon />} style={{ width: '100%', margin: '5px' }}>
-                                                    <Link style={{ color: 'white' }} to={`/booking/${tours?.maTour}`}>Đặt ngay</Link>
-                                                </Button></Grid>
-                                                <Grid item xs={6} sm={12}><Button variant="outlined" color='inherit' style={{ width: '100%', margin: '5px' }}>Liên hệ tư vấn</Button></Grid>
+                                                <Grid item xs={6} sm={12}>
+                                                    <Button variant="contained" color="error" startIcon={<AddShoppingCartIcon />} onClick={() => handelClickDatNgay(tours?.maTour)} style={{ width: '100%', margin: '5px' }}>
+                                                        Đặt ngay
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item xs={6} sm={12}>
+                                                    <Button variant="outlined" color='inherit' style={{ width: '100%', margin: '5px' }}>Liên hệ tư vấn</Button>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
                                     </Grid>

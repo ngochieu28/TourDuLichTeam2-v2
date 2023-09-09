@@ -15,10 +15,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../store';
 import { TOGGLE_MENU } from '../store/action'
-import { useCheckLogin } from '../util/CheckAdmin';
+import { useCheckAdmin } from '../util/CheckLogin';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -64,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function AppBarAdmin({ setOpenLeftMenu }) {
-    useCheckLogin();
+    useCheckAdmin();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -168,18 +168,19 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+            <Link to={'/login'} >
+                <MenuItem onClick={handleProfileMenuOpen}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <p>LogOut</p>
+                </MenuItem>
+            </Link>
         </Menu>
     );
 
@@ -232,17 +233,18 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
+                        <Link to={'/login'} >
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -251,7 +253,7 @@ export default function AppBarAdmin({ setOpenLeftMenu }) {
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
                             onClick={handleMobileMenuOpen}
-                            color="inherit"
+                            color="white"
                         >
                             <MoreIcon />
                         </IconButton>

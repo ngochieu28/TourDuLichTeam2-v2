@@ -2,11 +2,11 @@ import React from 'react'
 import BasicTabs from '../../../conponents/Search';
 import { Container } from '@mui/material';
 import TableTour from './TableTour';
-import { useCheckLogin } from '../../../util/CheckAdmin';
+import { useCheckAdmin } from '../../../util/CheckLogin';
 import { useNavigate } from 'react-router-dom';
 
 export default function QuanLyTour() {
-    useCheckLogin();
+    useCheckAdmin();
     return (
         <Container>
             <BasicTabs />

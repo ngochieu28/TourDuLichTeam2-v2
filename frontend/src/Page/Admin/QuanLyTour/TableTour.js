@@ -15,12 +15,12 @@ import AddIcon from '@mui/icons-material/Add';
 import tourApi from '../../../api/tourApi';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppConsumer } from '../../../store';
-import { useCheckLogin } from '../../../util/CheckAdmin';
+import { useCheckAdmin } from '../../../util/CheckLogin';
 
 
 
 export default function DataTable() {
-    useCheckLogin();
+    useCheckAdmin();
     const [open, setOpen] = React.useState(false);
     const [maTourClick, setMaTourClick] = React.useState();
     const [tours, setTours] = React.useState([]);
