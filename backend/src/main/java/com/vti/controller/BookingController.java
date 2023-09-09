@@ -201,6 +201,13 @@ public class BookingController {
         return new ResponseEntity<>(bookingThongKe, HttpStatus.OK);
     }
 
+    // GET SỐ LƯỢNG BOOKING TRONG TUẦN
+    @GetMapping("/so-luong-booking-trong-tuan")
+    public ResponseEntity<?> thongKeSLBookingTrongTuan() {
+        List<ThongKeBookingDTO> bookingThongKe = service.thongKeLuongBookingTrongTuan();
+        return new ResponseEntity<>(bookingThongKe, HttpStatus.OK);
+    }
+
     // GET % SỐ CHỖ CÁC ĐỘ TUỔI
     @GetMapping("/ty-le-phan-tram")
     public ResponseEntity<?> ThongKeSoCho() {

@@ -22,6 +22,8 @@ public interface IBookingService  {
 
     List<ThongKeBookingDTO>  thongKeLuongBookingTrongThang();
 
+    List<ThongKeBookingDTO>  thongKeLuongBookingTrongTuan();
+
     List<PieChartDTO> tinhPhanTramCacDoTuoi();
 
     List<BookingUserDTO> getListBookingByUserId(int userId);

@@ -11,7 +11,8 @@ import bookingApi from '../api/bookingApi';
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export default function ResponsiveTabs() {
@@ -54,47 +55,30 @@ export default function ResponsiveTabs() {
     };
 
     // Search Booking 
-    const [showUpdateButton, setShowUpdateButton] = useState(false);
-    const [booking, setbooking] = useState();
-    const [bookingName, setbookingName] = useState();
-    const [searchValue, setSearchValue] = useState('');
+    const [booking, setBooking] = useState([]);
+    const [isFetching, setIsFetching] = useState(false);
 
-
-    const handleInput = (e) => {
-        e.preventDefault();
-        if (searchValue) {
-            if (/^\d+$/.test(searchValue)) {
-                getBookingById(searchValue)
-            } else {
-                getBookingByNameKH(searchValue)
-            }
+    const getBookingByUserId = async () => {
+        if (isFetching) {
+            // Nếu đang gọi API, không thực hiện lại
+            return;
+        }
+        try {
+            setIsFetching(true);
+            let res = await bookingApi.getBookingByUserId(state.userInfo.userId);
+            setBooking(res);
+        } catch (error) {
+            // Xử lý lỗi khi gọi API
+        } finally {
+            setIsFetching(false);
         }
     };
 
-
-    const getBookingById = async (maBooking) => {
-        // const maBooking = selectedId
-        let res = await bookingApi.getBookingById(maBooking)
-        setbooking(res);
-
-        // Open button update
-        setShowUpdateButton(true)
-    };
-
-    const getBookingByNameKH = async (nameKH) => {
-        // const nameKH = selectedName
-        let res = await bookingApi.getBookingByNameKH(nameKH)
-        setbookingName(res)
-
-        // Open button update
-        setShowUpdateButton(true)
-    }
-
-    const navigate = useNavigate()
-
-    const updateBooking = () => {
-        navigate(`/updateBooking/${booking?.maBooking}`)
-    }
+    useEffect(() => {
+        if (state.userInfo.userId) {
+            getBookingByUserId();
+        }
+    }, [state.userInfo.userId]);
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -224,56 +208,37 @@ export default function ResponsiveTabs() {
                 <h4>Có điều kiện sẽ phát triển sau</h4>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
-                <Container >
-                    <Grid container >
-                        <Grid item xs="6" display="flex">
-                            <Typography variant="h5" component="h2">
-                                <InputBase value={searchValue} placeholder='Nhập thông tin tìm kiếm:' onChange={(e) => setSearchValue(e.target.value)} />
-                            </Typography>
-                        </Grid>
-                        <Grid item xs="6" >
-                            <Button onClick={handleInput}> Tìm kiếm</Button>
-                        </Grid>
-                    </Grid>
-                    <Divider />
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Tên người đặt</TableCell>
-                                    <TableCell>Email</TableCell>
-                                    <TableCell>Số điện thoại</TableCell>
-                                    <TableCell>Địa chỉ</TableCell>
-                                    <TableCell>Số lượng người lớn</TableCell>
-                                    <TableCell>Số lượng trẻ em</TableCell>
-                                    <TableCell>Số lượng trẻ nhỏ</TableCell>
-                                    <TableCell>Số lượng em bé</TableCell>
+                <Container style={{ width: 2000 }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Tên người đặt</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Số điện thoại</TableCell>
+                                <TableCell>Địa chỉ</TableCell>
+                                <TableCell>Tổng lượng khách</TableCell>
+                                <TableCell>Thời gian đặt</TableCell>
+                                <TableCell>Nơi khởi hành</TableCell>
+                                <TableCell>Ngày khởi hành</TableCell>
+                                <TableCell>Tổng giá </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {booking && booking.map((item) => (
+                                <TableRow key={item.userId}>
+                                    <TableCell align='center' scope="row"><b>{item.nameKH}</b></TableCell>
+                                    <TableCell align='center'><b>{item.emailKH}</b></TableCell>
+                                    <TableCell align='center'><b>{item.phoneNumber}</b></TableCell>
+                                    <TableCell align='center'><b>{item.diaChi}</b></TableCell>
+                                    <TableCell align='center'><b>{item.soNguoiThamGia}</b></TableCell>
+                                    <TableCell align='center'><b>{item.thoiGianDat}</b></TableCell>
+                                    <TableCell align='center'><b>{item.noiKhoiHanh}</b></TableCell>
+                                    <TableCell align='center'><b>{item.ngayKhoiHanh}</b></TableCell>
+                                    <TableCell align='center'><b>{item.tongGia}</b></TableCell>
                                 </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell align='center'><b>{booking?.nameKH}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.emailKH}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.phoneNumber}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.diaChi}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.soChoNL}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.soChoTreEm}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.soChoTreNho}</b></TableCell>
-                                    <TableCell align='center'><b>{booking?.soChoEmBe}</b></TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell align='center'><b>{bookingName?.nameKH}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.emailKH}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.phoneNumber}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.diaChi}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.soChoNL}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.soChoTreEm}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.soChoTreNho}</b></TableCell>
-                                    <TableCell align='center'><b>{bookingName?.soChoEmBe}</b></TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </Container>
             </CustomTabPanel>
         </Box>

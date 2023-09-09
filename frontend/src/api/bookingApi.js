@@ -19,6 +19,12 @@ const bookingApi = {
         return axiosClient.get(url)
     },
 
+    // get by userID
+    getBookingByUserId(userid) {
+        const url = `/bookings/userId/${userid}`
+        return axiosClient.get(url)
+    },
+
     // tạo mới 
     creatBooking(data) {
         const url = `/bookings`

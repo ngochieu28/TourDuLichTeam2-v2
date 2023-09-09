@@ -10,9 +10,9 @@ public class BookingUserDTO {
     private Integer soChoTreEm ;
     private Integer soChoTreNho ;
     private Integer soChoEmBe ;
-    private Integer tongGia ;
+    private String tongGia ;
     private Integer soNguoiThamGia;
-    private Integer trangThai;
+    private String trangThai;
     private String thoiGianDat;
     private String nameKH ;
     private String emailKH ;

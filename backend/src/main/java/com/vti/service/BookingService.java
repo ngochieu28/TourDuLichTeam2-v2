@@ -15,9 +15,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class BookingService implements IBookingService {
@@ -266,6 +271,34 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public List<ThongKeBookingDTO> thongKeLuongBookingTrongTuan() {
+        String query = "SELECT MONTH(b.thoiGianDat) AS thang, COUNT(DISTINCT WEEK(b.thoiGianDat)) AS so_tuan_trong_thang\n" +
+                ", COUNT(b.thoiGianDat) AS so_luong_theo_tuan\n" +
+                "FROM Booking AS b\n" +
+                "WHERE MONTH(b.thoiGianDat) = MONTH(CURRENT_DATE())\n" +
+                "GROUP BY MONTH(b.thoiGianDat);";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+
+        List<ThongKeBookingDTO> thongKeBookingDTOList = new ArrayList<>();
+        for (Object[] result : results) {
+            Integer thoiGianDat = (Integer) result[0];
+            Long soTuanTrongThang = (Long) result[1];
+            Long soLuongTheoTuan = (Long) result[2];
+
+            ThongKeBookingDTO bookingDTO = new ThongKeBookingDTO();
+            bookingDTO.setThoiGianDat("tháng " + thoiGianDat);
+            bookingDTO.setSoTuanTrongThang(soTuanTrongThang.intValue());
+            bookingDTO.setSoLuongTheoThang(soLuongTheoTuan.intValue());
+
+            thongKeBookingDTOList.add(bookingDTO);
+        }
+
+        return thongKeBookingDTOList;
+    }
+
+    @Override
     public List<PieChartDTO> tinhPhanTramCacDoTuoi() {
         String queryString = "SELECT " +
                 "SUM(b.soNguoiThamGia) AS tong_so_nguoi, " +
@@ -317,9 +350,21 @@ public class BookingService implements IBookingService {
         List<Object[]> results = typedQuery.getResultList();
         List<BookingUserDTO> bookingDTOS = new ArrayList<>();
 
+        // Tạo đối tượng SimpleDateFormat với định dạng mong muốn
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Tạo đối tượng NumberFormat để định dạng số và sử dụng Locale để định dạng phù hợp với ngôn ngữ và quốc gia
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+
+        // Thay đổi cấu trúc của số để có dấu phân cách mỗi 3 số
+        DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+        DecimalFormatSymbols decimalFormatSymbols = decimalFormat.getDecimalFormatSymbols();
+        decimalFormatSymbols.setGroupingSeparator('.');
+        decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+
         for (Object[] result : results) {
             String noiKhoiHanh = (String) result[0];
-            String ngayKhoiHanh = result[1].toString();
+            Date ngayKhoiHanh = (Date) result[1];
             Integer soChoNL = (Integer) result[2];
             Integer soChoTreEm = (Integer) result[3];
             Integer soChoTreNho = (Integer) result[4];
@@ -335,19 +380,31 @@ public class BookingService implements IBookingService {
 
             BookingUserDTO bookingDTO = new BookingUserDTO();
             bookingDTO.setNoiKhoiHanh(noiKhoiHanh);
-            bookingDTO.setNgayKhoiHanh(ngayKhoiHanh);
             bookingDTO.setSoChoNL(soChoNL);
             bookingDTO.setSoChoTreEm(soChoTreEm);
             bookingDTO.setSoChoTreNho(soChoTreNho);
             bookingDTO.setSoChoEmBe(soChoEmBe);
             bookingDTO.setSoNguoiThamGia(soNguoiThamGia);
-            bookingDTO.setTrangThai(status);
             bookingDTO.setThoiGianDat(thoiGianDat);
-            bookingDTO.setTongGia(tongGia);
             bookingDTO.setNameKH(nameKH);
             bookingDTO.setEmailKH(emailKH);
             bookingDTO.setPhoneNumber(phoneNumber);
             bookingDTO.setDiaChi(diaChi);
+            if (status == BookingStatus.BOOKING_CANCEL) {
+                bookingDTO.setTrangThai("Booking đã hủy ");
+            }else if (status == BookingStatus.BOOKING_DONE) {
+                bookingDTO.setTrangThai("Booking đã được duyệt ");
+            }else if (status == BookingStatus.BOOKING_DRAFT) {
+                bookingDTO.setTrangThai("Booking chưa được duyệt ");
+            }
+            // Chuyển đổi ngày thành định dạng mong muốn
+            Date date = ngayKhoiHanh;
+            String formattedDate = dateFormat.format(date);
+            bookingDTO.setNgayKhoiHanh(formattedDate);
+
+            // Chuyển đổi giá thành định dạng mong muốn với dấu phân cách mỗi 3 số
+            String formattedGiaTour = decimalFormat.format(tongGia);
+            bookingDTO.setTongGia(formattedGiaTour + "đ");
 
             bookingDTOS.add(bookingDTO);
         }

@@ -19,6 +19,7 @@ public class BookingTourDTO {
     private Integer giaTreEm;
     private Integer giaTreNho;
     private Integer giaEmBe;
+    private String status;
 
     private String tourId ;
     private Integer soCho ;
