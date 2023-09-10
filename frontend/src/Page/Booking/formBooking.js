@@ -176,8 +176,8 @@ const FormBooking = () => {
                     </Grid>
 
                     {/* điền thông tin đăng ký  */}
-                    <Grid item xs='12' display='flex'>
-                        <Grid item xs='8' >
+                    <Grid container display='flex'>
+                        <Grid item xs='12' sm={12} md={8} >
                             <Grid container spacing={2} my={1} >
                                 <Grid item xs="6" >
                                     <Controller name="nameKH" control={control} render={({ field }) => (
@@ -244,7 +244,7 @@ const FormBooking = () => {
                                         </Box>
                                         <ButtonGroup>
                                             <Button onClick={decreaseAdultCount}>-</Button>
-                                            <Button disabled>{count}</Button>
+                                            <Button disabled><b>{count}</b></Button>
                                             <Button onClick={increaseAdultCount}>+</Button>
                                         </ButtonGroup>
                                     </Grid>
@@ -256,7 +256,7 @@ const FormBooking = () => {
                                             </Box>
                                             <ButtonGroup>
                                                 <Button onClick={decreaseChildCount}>-</Button>
-                                                <Button disabled>{childCount}</Button>
+                                                <Button disabled><b>{childCount}</b></Button>
                                                 <Button onClick={increaseChildCount}>+</Button>
                                             </ButtonGroup>
                                         </Box>
@@ -271,7 +271,7 @@ const FormBooking = () => {
                                             </Box>
                                             <ButtonGroup>
                                                 <Button onClick={decreaseTreNho}>-</Button>
-                                                <Button disabled>{treNho}</Button>
+                                                <Button disabled><b>{treNho}</b></Button>
                                                 <Button onClick={increaseTreNho}>+</Button>
                                             </ButtonGroup>
                                         </Box>
@@ -284,7 +284,7 @@ const FormBooking = () => {
                                             </Box>
                                             <ButtonGroup>
                                                 <Button onClick={decreaseEmbe}>-</Button>
-                                                <Button disabled>{emBe}</Button>
+                                                <Button disabled><b>{emBe}</b></Button>
                                                 <Button onClick={increaseEmbe}>+</Button>
                                             </ButtonGroup>
                                         </Box>
@@ -314,7 +314,7 @@ const FormBooking = () => {
                         </Grid>
 
                         {/* Thanh toán tóm tắt chuyến đi   */}
-                        <Grid item xs="4" pl={5}>
+                        <Grid item xs="12" sm={12} md={4} pl={5}>
                             <Grid item xs='12'>
                                 <h2>Tóm tắt chuyến đi</h2>
                                 <img

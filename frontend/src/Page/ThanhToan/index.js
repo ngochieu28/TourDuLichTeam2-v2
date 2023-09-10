@@ -98,7 +98,7 @@ export default function ThanhToan() {
                 border="1px solid #ccc"
                 borderRadius={4}
                 padding={2}
-                width={400}
+                width={300}
             >
                 <Typography variant="h6" gutterBottom>
                     Thanh toán chuyển kho
@@ -110,7 +110,7 @@ export default function ThanhToan() {
                 border="1px solid #ccc"
                 borderRadius={4}
                 padding={2}
-                width={400}
+                width={300}
             >
                 <Typography variant="h6" gutterBottom>
                     Thanh toán tiền mặt
@@ -126,7 +126,7 @@ export default function ThanhToan() {
                 border="1px solid #ccc"
                 borderRadius={4}
                 padding={2}
-                width={400}
+                width={300}
             >
                 <Typography variant="h6" gutterBottom>
                     Thanh toán Vnpay
@@ -149,8 +149,7 @@ export default function ThanhToan() {
                     margin="normal"
                     fullWidth
                 />
-            </Box>
-                ;
+            </Box>;
         }
         return;
     };
@@ -169,7 +168,7 @@ export default function ThanhToan() {
             <Container>
                 <Box display="flex" >
                     <Grid container spacing={3}>
-                        <Grid item xs='6'>
+                        <Grid item xs='12' sm={12} md={6}>
                             <Box spacing={5} item xs={8} >
                                 <Typography variant="h5" my={3}>Thanh toán</Typography>
                                 <Typography variant="h6" my={3}>Các hình thức thanh toán</Typography>
@@ -189,7 +188,7 @@ export default function ThanhToan() {
                                 </Box>
                             </Box>
                         </Grid>
-                        <Grid item xs='6'>
+                        <Grid item xs='12' sm={12} md={6}>
                             <Box
                                 border="1px solid #ccc"
                                 borderRadius={4}
