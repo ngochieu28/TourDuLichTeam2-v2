@@ -7,4 +7,6 @@ public class BookingStatus {
 
     public static final int BOOKING_DONE = 2 ;      // trạng thái booking đã đc duyệt
 
+    public static final int BOOKING_DELETE = 3 ;     // Booking đã bị xóa
+
 }

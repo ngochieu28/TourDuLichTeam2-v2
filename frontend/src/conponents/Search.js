@@ -13,7 +13,7 @@ import { TextField } from "formik-material-ui";
 import * as Yup from "yup";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function ResponsiveTabs() {
     const [state, dispatch] = AppConsumer();
@@ -79,6 +79,11 @@ export default function ResponsiveTabs() {
             getBookingByUserId();
         }
     }, [state.userInfo.userId]);
+
+    const navigate = useNavigate()
+    const updateBooking = (maBooking) => {
+        navigate(`/updateBooking/${maBooking}`)
+    }
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -208,33 +213,35 @@ export default function ResponsiveTabs() {
                 <h4>Có điều kiện sẽ phát triển sau</h4>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={5}>
-                <Container style={{ width: 2000 }}>
+                <Container >
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Tên người đặt</TableCell>
                                 <TableCell>Email</TableCell>
                                 <TableCell>Số điện thoại</TableCell>
-                                <TableCell>Địa chỉ</TableCell>
                                 <TableCell>Tổng lượng khách</TableCell>
                                 <TableCell>Thời gian đặt</TableCell>
                                 <TableCell>Nơi khởi hành</TableCell>
                                 <TableCell>Ngày khởi hành</TableCell>
                                 <TableCell>Tổng giá </TableCell>
+                                <TableCell>Trạng thái</TableCell>
+                                <TableCell>Update</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {booking && booking.map((item) => (
+                            {booking.map((item) => (
                                 <TableRow key={item.userId}>
                                     <TableCell align='center' scope="row"><b>{item.nameKH}</b></TableCell>
                                     <TableCell align='center'><b>{item.emailKH}</b></TableCell>
                                     <TableCell align='center'><b>{item.phoneNumber}</b></TableCell>
-                                    <TableCell align='center'><b>{item.diaChi}</b></TableCell>
                                     <TableCell align='center'><b>{item.soNguoiThamGia}</b></TableCell>
                                     <TableCell align='center'><b>{item.thoiGianDat}</b></TableCell>
                                     <TableCell align='center'><b>{item.noiKhoiHanh}</b></TableCell>
                                     <TableCell align='center'><b>{item.ngayKhoiHanh}</b></TableCell>
                                     <TableCell align='center'><b>{item.tongGia}</b></TableCell>
+                                    <TableCell align='center'><b>{item.trangThai}</b></TableCell>
+                                    <TableCell><Button startIcon={<EditIcon />} onClick={() => updateBooking(item.maBooking)} /></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

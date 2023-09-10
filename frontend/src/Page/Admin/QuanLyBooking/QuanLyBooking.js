@@ -18,20 +18,11 @@ export default function QuanLyBooking() {
     const [tourBooking, setTourBooking] = useState();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [open, setOpen] = useState(false);
 
     // xem
     const [openCheck, setOpenCheck] = useState(false);
     const handleOpenCheck = () => setOpenCheck(true);
     const handleCloseCheck = () => setOpenCheck(false);
-
-    // check xóa 
-    const [getMaBooking, setGetMaBooking] = useState();
-    const handleOpen = (maBooking) => {
-        setGetMaBooking(maBooking)
-        setOpen(true);
-    };
-    const handleClose = () => { setOpen(false); };
 
     // phân trang
     const handleChangePage = (newPage) => {
@@ -71,23 +62,14 @@ export default function QuanLyBooking() {
                 await bookingApi.updateStatusBooking(maBooking, 1)
             } else if (status === 2) {
                 await bookingApi.updateStatusBooking(maBooking, 2);
+            } else if (status === 3) {
+                await bookingApi.updateStatusBooking(maBooking, 3);
             }
             getAllBooking()
         } catch (error) {
             console.log('Error:', error);
         };
     }
-
-    // delete
-    const handelDelete = async () => {
-        try {
-            let res = await bookingApi.deleteBookingById(getMaBooking)
-            getAllBooking()
-            handleClose()
-        } catch (error) {
-            console.log('Error:', error);
-        }
-    };
 
     useCheckAdmin();
     return (
@@ -97,6 +79,8 @@ export default function QuanLyBooking() {
                     <TableRow>
                         <TableCell align="center" style={{ width: "100px" }}>Mã booking</TableCell >
                         <TableCell align="center" style={{ width: "170px" }}>Tên người đặt</TableCell >
+                        <TableCell align="center" >Email</TableCell >
+                        <TableCell align="center" >Số điện thoại</TableCell >
                         <TableCell align="center" >số lượng người tham gia</TableCell >
                         <TableCell align="center"> Trạng thái Booking</TableCell >
                         <TableCell align="center" >Tính năng</TableCell >
@@ -108,8 +92,17 @@ export default function QuanLyBooking() {
                         <TableRow key={item.maBooking}>
                             <TableCell align="center" scope="row">{item.maBooking}</TableCell >
                             <TableCell align="center">{item.nameKH}</TableCell >
+                            <TableCell align="center">{item.emailKH}</TableCell >
+                            <TableCell align="center">{item.phoneNumber}</TableCell >
                             <TableCell align="center">{item.soChoNL + item.soChoTreEm + item.soChoTreNho + item.soChoEmBe}</TableCell >
-                            <TableCell align="center">{item.status}</TableCell >
+                            <TableCell align="center" style={{
+                                color: (item.status === 'Booking chưa được duyệt') ? 'blue' :
+                                    (item.status === 'Booking đã được duyệt') ? 'green' :
+                                        (item.status === 'Booking bị từ chối duyệt') ? 'orange' :
+                                            (item.status === 'Booking đã bị hủy') ? 'red' : 'inherit'
+                            }}>
+                                {item.status}
+                            </TableCell>
                             <TableCell align="center">
                                 <Button variant="outlined" startIcon={<VisibilityIcon />} onClick={() => handelCheck(item.maBooking)} />
                                 <Dialog open={openCheck} onClose={handleCloseCheck}>
@@ -154,17 +147,7 @@ export default function QuanLyBooking() {
                                     </DialogContent>
                                 </Dialog>
 
-                                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handleOpen(item.maBooking)} />
-                                <Dialog open={open} onClose={handleClose}>
-                                    <DialogTitle>Xác nhận xóa</DialogTitle>
-                                    <DialogContent>Bạn có chắc chắn muốn xóa dữ liệu này?</DialogContent>
-                                    <DialogActions>
-                                        <Button onClick={handleClose}>Hủy</Button>
-                                        <Button onClick={handelDelete} color="secondary">
-                                            Xóa
-                                        </Button>
-                                    </DialogActions>
-                                </Dialog>
+                                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => handelUpdate(item.maBooking, 3)} />
                             </TableCell >
                             <TableCell align="center" scope="row">
                                 <Button variant="outlined" startIcon={<CloseIcon />} onClick={() => handelUpdate(item.maBooking, 1)} />

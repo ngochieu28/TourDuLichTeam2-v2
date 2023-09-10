@@ -20,6 +20,10 @@ public interface IBookingService  {
 
     void cancelBooking(int maBooking);
 
+    void draftBooking(int maBooking);
+
+    void deleteBooking(int maBooking);
+
     List<ThongKeBookingDTO>  thongKeLuongBookingTrongThang();
 
     List<ThongKeBookingDTO>  thongKeLuongBookingTrongTuan();

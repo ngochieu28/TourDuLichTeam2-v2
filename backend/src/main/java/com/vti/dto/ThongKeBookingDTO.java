@@ -2,12 +2,14 @@ package com.vti.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ThongKeBookingDTO {
 
     private String thoiGianDat;
     private Integer soLuongTheoThang ;
 
-    private Integer soTuanTrongThang ;
+    private Date ngayDat ;
     private Integer soLuongTheoTuan ;
 }

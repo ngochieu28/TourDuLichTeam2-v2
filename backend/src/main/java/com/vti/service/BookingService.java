@@ -218,6 +218,21 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public void draftBooking(int maBooking) {
+        Booking booking = bookingRepo.findByMaBooking(maBooking);
+        if (booking == null) {
+            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Booking not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        booking.setStatus(BookingStatus.BOOKING_DRAFT);
+        bookingRepo.save(booking);
+    }
+
+    @Override
     public void approveBooking(int maBooking) {
         Booking booking = bookingRepo.findByMaBooking(maBooking);
         if (booking == null) {
@@ -248,6 +263,21 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public void deleteBooking(int maBooking) {
+        Booking booking = bookingRepo.findByMaBooking(maBooking);
+        if (booking == null) {
+            // Nếu không tìm thấy booking, bạn có thể xử lý theo ý muốn, ví dụ: ném ra một Exception hoặc trả về giá trị mặc định.
+            try {
+                throw new NotFoundException("Booking not found");
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        booking.setStatus(BookingStatus.BOOKING_DELETE);
+        bookingRepo.save(booking);
+    }
+
+    @Override
     public List<ThongKeBookingDTO> thongKeLuongBookingTrongThang() {
         String query = "SELECT FUNCTION('MONTH' , b.thoiGianDat) AS thang, COUNT(b.thoiGianDat) AS so_luong_theo_thang\n" +
                 "FROM Booking b " +
@@ -272,25 +302,23 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<ThongKeBookingDTO> thongKeLuongBookingTrongTuan() {
-        String query = "SELECT MONTH(b.thoiGianDat) AS thang, COUNT(DISTINCT WEEK(b.thoiGianDat)) AS so_tuan_trong_thang\n" +
-                ", COUNT(b.thoiGianDat) AS so_luong_theo_tuan\n" +
-                "FROM Booking AS b\n" +
-                "WHERE MONTH(b.thoiGianDat) = MONTH(CURRENT_DATE())\n" +
-                "GROUP BY MONTH(b.thoiGianDat);";
+        String query = "SELECT DATE(b.thoiGianDat) AS ngay, COUNT(DATE(b.thoiGianDat)) AS so_luong_theo_ngay " +
+                "FROM Booking AS b " +
+                "WHERE DATE(b.thoiGianDat) >= CURDATE() - INTERVAL 7 DAY " +
+                "  AND DATE(b.thoiGianDat) <= CURDATE() " +
+                "GROUP BY DATE(b.thoiGianDat)";
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
         List<Object[]> results = typedQuery.getResultList();
 
         List<ThongKeBookingDTO> thongKeBookingDTOList = new ArrayList<>();
         for (Object[] result : results) {
-            Integer thoiGianDat = (Integer) result[0];
-            Long soTuanTrongThang = (Long) result[1];
-            Long soLuongTheoTuan = (Long) result[2];
+            Date ngay = (Date) result[0];
+            Long soLuongTheoNgay = (Long) result[1];
 
             ThongKeBookingDTO bookingDTO = new ThongKeBookingDTO();
-            bookingDTO.setThoiGianDat("tháng " + thoiGianDat);
-            bookingDTO.setSoTuanTrongThang(soTuanTrongThang.intValue());
-            bookingDTO.setSoLuongTheoThang(soLuongTheoTuan.intValue());
+            bookingDTO.setNgayDat(ngay);
+            bookingDTO.setSoLuongTheoTuan(soLuongTheoNgay.intValue());
 
             thongKeBookingDTOList.add(bookingDTO);
         }
@@ -338,8 +366,8 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<BookingUserDTO> getListBookingByUserId(int userId) {
-        String queryString = "SELECT t.noiKhoiHanh, t.ngayKhoiHanh, b.soChoNL, b.soChoTreEm, b.soChoTreNho, " +
-                "b.soChoEmBe, b.soNguoiThamGia, b.status, b.thoiGianDat, b.tongGia, b.nameKH, b.emailKH, b.phoneNumber, b.diaChi " +
+        String queryString = "SELECT t.noiKhoiHanh, t.ngayKhoiHanh, b.soChoNL, b.soChoTreEm, b.soChoTreNho,  " +
+                "b.soChoEmBe, b.soNguoiThamGia, b.status, b.thoiGianDat, b.tongGia, b.nameKH, b.emailKH, b.phoneNumber, b.diaChi , b.maBooking  " +
                 "FROM Booking AS b " +
                 "JOIN Tour AS t ON t.maTour = b.tour " +
                 "JOIN User AS u ON u.id = b.user  " +
@@ -377,6 +405,7 @@ public class BookingService implements IBookingService {
             String emailKH = (String) result[11];
             String phoneNumber = (String) result[12];
             String diaChi = (String) result[13];
+            Integer maBooking = (Integer) result[14];
 
             BookingUserDTO bookingDTO = new BookingUserDTO();
             bookingDTO.setNoiKhoiHanh(noiKhoiHanh);
@@ -390,12 +419,15 @@ public class BookingService implements IBookingService {
             bookingDTO.setEmailKH(emailKH);
             bookingDTO.setPhoneNumber(phoneNumber);
             bookingDTO.setDiaChi(diaChi);
+            bookingDTO.setMaBooking(maBooking);
             if (status == BookingStatus.BOOKING_CANCEL) {
-                bookingDTO.setTrangThai("Booking đã hủy ");
+                bookingDTO.setTrangThai("Booking bị từ chối duyệt ");
             }else if (status == BookingStatus.BOOKING_DONE) {
                 bookingDTO.setTrangThai("Booking đã được duyệt ");
             }else if (status == BookingStatus.BOOKING_DRAFT) {
                 bookingDTO.setTrangThai("Booking chưa được duyệt ");
+            }else if (status == BookingStatus.BOOKING_DELETE) {
+                bookingDTO.setTrangThai("Booking đã bị hủy ");
             }
             // Chuyển đổi ngày thành định dạng mong muốn
             Date date = ngayKhoiHanh;
@@ -408,8 +440,28 @@ public class BookingService implements IBookingService {
 
             bookingDTOS.add(bookingDTO);
         }
+        // Sắp xếp danh sách bookingDTOS
+        List<BookingUserDTO> sortedBookings = new ArrayList<>();
+        List<BookingUserDTO> deletedBookings = new ArrayList<>();
+        List<BookingUserDTO> canceledBookings = new ArrayList<>();
+        List<BookingUserDTO> draftBookings = new ArrayList<>();
 
-        return bookingDTOS;
+        for (BookingUserDTO bookingDTO : bookingDTOS) {
+            if (bookingDTO.getTrangThai().equals("Booking đã bị hủy")) {
+                deletedBookings.add(bookingDTO);
+            } else if (bookingDTO.getTrangThai().equals("Booking bị từ chối duyệt")) {
+                canceledBookings.add(bookingDTO);
+            } else if (bookingDTO.getTrangThai().equals("Booking chưa được duyệt")) {
+                draftBookings.add(bookingDTO);
+            }else {
+                sortedBookings.add(bookingDTO);
+            }
+        }
+        sortedBookings.addAll(draftBookings);
+        sortedBookings.addAll(canceledBookings);
+        sortedBookings.addAll(deletedBookings);
+
+        return sortedBookings;
     }
 
 }

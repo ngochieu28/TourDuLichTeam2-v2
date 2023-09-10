@@ -18,4 +18,5 @@ public class BookingUserDTO {
     private String emailKH ;
     private String phoneNumber ;
     private String diaChi ;
+    private Integer maBooking ;
 }

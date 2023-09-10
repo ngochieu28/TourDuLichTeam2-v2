@@ -74,6 +74,9 @@ public class BookingController {
             if (bookings.get(i).getStatus() == BookingStatus.BOOKING_CANCEL) {
                 bookingDTO.setStatus("Booking bị từ chối duyệt") ;
             }
+            if (bookings.get(i).getStatus() == BookingStatus.BOOKING_DELETE) {
+                bookingDTO.setStatus("Booking đã bị hủy") ;
+            }
 
             Tour tour = bookings.get(i).getTour();
             if (tour != null) {
@@ -81,9 +84,29 @@ public class BookingController {
                 bookingDTO.setTourId(a);
             }
             bookingDTOS.add(bookingDTO);
-
         }
-        return new ResponseEntity<>(bookingDTOS, HttpStatus.OK) ;
+
+        // Sắp xếp danh sách bookingDTOS
+        List<BookingDTO> sortedBookings = new ArrayList<>();
+        List<BookingDTO> deletedBookings = new ArrayList<>();
+        List<BookingDTO> canceledBookings = new ArrayList<>();
+        List<BookingDTO> draftBookings = new ArrayList<>();
+
+        for (BookingDTO bookingDTO : bookingDTOS) {
+            if (bookingDTO.getStatus().equals("Booking đã bị hủy")) {
+                deletedBookings.add(bookingDTO);
+            } else if (bookingDTO.getStatus().equals("Booking bị từ chối duyệt")) {
+                canceledBookings.add(bookingDTO);
+            } else if (bookingDTO.getStatus().equals("Booking chưa được duyệt")) {
+                draftBookings.add(bookingDTO);
+            }else {
+                sortedBookings.add(bookingDTO);
+            }
+        }
+        sortedBookings.addAll(draftBookings);
+        sortedBookings.addAll(canceledBookings);
+        sortedBookings.addAll(deletedBookings);
+        return new ResponseEntity<>(sortedBookings, HttpStatus.OK) ;
     }
 
     // CREAT NEW BOOKING
@@ -190,8 +213,12 @@ public class BookingController {
             service.cancelBooking(maBooking);
         }else if (status == BookingStatus.BOOKING_DONE) {
             service.approveBooking(maBooking);
-        }
-        return new ResponseEntity<>("Update successfully!" , HttpStatus.OK);
+        }else if (status == BookingStatus.BOOKING_DRAFT) {
+            service.draftBooking(maBooking);
+        }else if (status == BookingStatus.BOOKING_DELETE) {
+            service.deleteBooking(maBooking);
+            }
+        return new ResponseEntity<>("Update successfully!", HttpStatus.OK);
     }
 
     // GET SỐ LƯỢNG BOOKING TRONG THANG
