@@ -69,6 +69,7 @@ public class TourSevice implements ITourSevice{
             tourDTO.setNoiKhoiHanh(tour.getNoiKhoiHanh());
             tourDTO.setSoCho(tour.getSoCho());
             tourDTO.setGiaTour(tour.getGiaTour());
+            tourDTO.setNgayKhoiHanhDate(tour.getNgayKhoiHanh());
 
             // Chuyển đổi ngày thành định dạng mong muốn
             Date date = tour.getNgayKhoiHanh();

@@ -24,5 +24,5 @@ public class TourDTO {
     private String noiKhoiHanh ;
     private Integer soCho ;
     private String ngayKhoiHanh ;
-
+    private Date ngayKhoiHanhDate ;
 }

@@ -18,7 +18,6 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Grid, Card, TextField, InputAdornment } from "@mui/material";
 import tourApi from '../../../api/tourApi';
-import { srcImg } from '../../../util/srcImg';
 import EditableTextField from '../../../conponents/Dialog-TextField-Data';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -27,6 +26,7 @@ import { toast } from 'react-toastify';
 import htmlToDraft from 'html-to-draftjs';
 import { format } from 'date-fns';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { srcImg } from '../../../api/srcImg'
 
 export default function AddTour() {
     const { maTour } = useParams();

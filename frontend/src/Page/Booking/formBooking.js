@@ -7,12 +7,12 @@ import { AppConsumer } from '../../store';
 import bookingApi from '../../api/bookingApi'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import { useParams, Link } from 'react-router-dom';
-import { srcImg } from '../../util/srcImg';
 import {
     Grid, TextField, Box, Typography, Button, ButtonGroup, Divider,
 } from '@mui/material';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { srcImg } from '../../api/srcImg';
 
 const FormBooking = () => {
     const [state, dispatch] = AppConsumer();

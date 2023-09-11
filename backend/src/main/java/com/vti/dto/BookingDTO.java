@@ -22,5 +22,4 @@ public class BookingDTO {
     private Integer tongGia ;
     private String status ;
     private String tourId ;
-
 }

@@ -238,3 +238,22 @@ footer.footer ul li {
   font-size: 16px;
   color: #000;
 }
+
+.highlighted-cell {
+  background-color: yellow;
+}
+
+.tour-het-han {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.tour-dang-dien-ra {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.tour-sap-toi {
+  background-color: #3498db;
+  color: white;
+}

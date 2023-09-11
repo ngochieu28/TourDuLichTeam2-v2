@@ -38,7 +38,32 @@ export default function DataTable() {
         { field: 'tenTour', headerName: 'Tên Tour', flex: 0.25 },
         { field: 'giaTour', headerName: 'Giá Tour', flex: 0.10 },
         { field: 'thoiGian', headerName: 'Thời gian', flex: 0.10 },
-        { field: 'ngayKhoiHanh', headerName: 'Ngày bắt đầu', flex: 0.10 },
+        {
+            field: 'ngayKhoiHanhDate',
+            headerName: 'Ngày bắt đầu',
+            flex: 0.10,
+            cellClassName: (params) => {
+                const ngayKhoiHanh = new Date(params.value);
+                const now = new Date();
+                const ngayKhoiHanhDateOnly = new Date(
+                    ngayKhoiHanh.getFullYear(),
+                    ngayKhoiHanh.getMonth(),
+                    ngayKhoiHanh.getDate()
+                );
+                const nowDateOnly = new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    now.getDate()
+                );
+
+                if (ngayKhoiHanhDateOnly < nowDateOnly) {
+                    return 'tour-het-han'; // Lớp CSS để tô màu đỏ
+                } else if (ngayKhoiHanhDateOnly.getTime() === nowDateOnly.getTime()) {
+                    return 'tour-dang-dien-ra'; // Lớp CSS để tô màu xanh
+                }
+                return 'tour-sap-toi'; // Không thay đổi màu sắc
+            },
+        },
         { field: 'soCho', headerName: 'Số chỗ còn', flex: 0.10 },
         {
             field: 'action',

@@ -5,7 +5,7 @@ import tourApi from '../../api/tourApi'
 import { Card, CardContent, Typography, CardActions, Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
-import { srcImg } from '../../util/srcImg';
+import { srcImg } from '../../api/srcImg';
 
 export default function TourHot() {
     const [tourHots, setTourHots] = useState([]);

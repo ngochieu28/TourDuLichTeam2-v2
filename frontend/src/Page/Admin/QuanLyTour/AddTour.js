@@ -18,14 +18,12 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Grid, Card, TextField, InputAdornment } from "@mui/material";
 import tourApi from '../../../api/tourApi';
-import { srcImg } from '../../../util/srcImg';
 import EditableTextField from '../../../conponents/Dialog-TextField';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
 import fileApi from '../../../api/fileApi';
-import axios from 'axios';
 import UploadIcon from '@mui/icons-material/Upload';
 
 export default function AddTour() {

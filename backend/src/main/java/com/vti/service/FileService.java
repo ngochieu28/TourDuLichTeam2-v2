@@ -34,25 +34,25 @@ public class FileService implements IFileService {
 		return Files.readAllBytes(imagePath);
 	}
 
-// localhost
-	// private String linkFolder = "D:\\Documents\\Mook\\TourDuLichTeam2-v2\\image";
-	// @Override
-	// public String uploadImage(MultipartFile image) throws IOException {
+//// localhost
+//	 private String linkFolder = "D:\\Documents\\Mook\\TourDuLichTeam2-v2\\image";
+//	 @Override
+//	 public String uploadImage(MultipartFile image) throws IOException {
+//
+//	 	String nameImage = new Date().getTime() + "." + fileManager.getFormatFile(image.getOriginalFilename());
+//
+//	 	String path = linkFolder + "\\" + nameImage;
+//
+//	 	fileManager.createNewMultiPartFile(path, image);
+//
+//	 	return nameImage;
+//	 }
 
-	// 	String nameImage = new Date().getTime() + "." + fileManager.getFormatFile(image.getOriginalFilename());
-
-	// 	String path = linkFolder + "\\" + nameImage;
-
-	// 	fileManager.createNewMultiPartFile(path, image);
-
-	// 	return nameImage;
-	// }
-
-	// @Override
-	// public byte[] getImage(String fileName) throws IOException {
-	// 	String filePath = linkFolder + "\\" + fileName;
-	// 	// Đọc dữ liệu của file ảnh thành mảng byte[]
-	// 	Path imagePath = Paths.get(filePath);
-	// 	return Files.readAllBytes(imagePath);
-	// }
+//	 @Override
+//	 public byte[] getImage(String fileName) throws IOException {
+//	 	String filePath = linkFolder + "\\" + fileName;
+//	 	// Đọc dữ liệu của file ảnh thành mảng byte[]
+//	 	Path imagePath = Paths.get(filePath);
+//	 	return Files.readAllBytes(imagePath);
+//	 }
 }

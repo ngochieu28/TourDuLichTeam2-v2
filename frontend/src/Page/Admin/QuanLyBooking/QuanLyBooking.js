@@ -3,7 +3,6 @@ import bookingApi from '../../../api/bookingApi';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DialogContentText from '@mui/material/DialogContentText';
-import { srcImg } from '../../../util/srcImg'
 import {
     Button, Container, Table, TableBody, TableCell, TableHead, TableRow,
     TablePagination, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -12,6 +11,7 @@ import {
 import { useCheckAdmin } from '../../../util/CheckLogin'
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
+import { srcImg } from '../../../api/srcImg';
 
 export default function QuanLyBooking() {
     const [bookings, setBookings] = useState([]);

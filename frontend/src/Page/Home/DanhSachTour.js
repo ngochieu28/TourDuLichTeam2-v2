@@ -9,7 +9,7 @@ import { Card, CardContent, Typography, CardActions, Button, Grid, Pagination } 
 import { AppConsumer } from '../../store';
 import { Link } from 'react-router-dom';
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
-import { srcImg } from '../../util/srcImg';
+import { srcImg } from '../../api/srcImg';
 
 export default function DanhSachTour() {
     const [state, dispatch] = AppConsumer();

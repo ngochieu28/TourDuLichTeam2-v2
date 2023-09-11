@@ -21,11 +21,11 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import { Link } from 'react-router-dom';
-import { srcImg } from '../../util/srcImg';
 import { Button, Grid, Card, useMediaQuery } from "@mui/material";
 import ThongTinLuuY from './ThongTinLuuY';
 import { useCheckLogin } from '../../util/CheckLogin'
 import { useNavigate } from 'react-router-dom';
+import { srcImg } from '../../api/srcImg';
 
 
 export default function TourDetail() {

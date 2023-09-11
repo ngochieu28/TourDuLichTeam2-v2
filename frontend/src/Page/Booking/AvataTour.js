@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import tourApi from '../../api/tourApi';
 import { Grid, Box } from '@mui/material';
-import { srcImg } from '../../util/srcImg';
+import { srcImg } from '../../api/srcImg';
 
 export default function AvataTour() {
     const { maTour } = useParams();

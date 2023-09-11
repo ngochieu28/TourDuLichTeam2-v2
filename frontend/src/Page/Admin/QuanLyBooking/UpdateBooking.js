@@ -7,7 +7,6 @@ import HeaderBookingUpdate from '../../../conponents/Navbar'
 import Footer from '../../../conponents/Footer';
 import { useForm, Controller } from 'react-hook-form'
 import Diversity3Icon from '@mui/icons-material/Diversity3';
-import { srcImg } from '../../../util/srcImg';
 import {
     Grid, TextField, Box, Typography, Button, ButtonGroup, Divider, Container,
 } from '@mui/material';
@@ -19,6 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Snackbar from '@mui/material/Snackbar';
 import CircularProgress from '@mui/material/CircularProgress';
+import { srcImg } from '../../../api/srcImg';
 
 export default function UpdateBooking() {
     const { maBooking } = useParams();

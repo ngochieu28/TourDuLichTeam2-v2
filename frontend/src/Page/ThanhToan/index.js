@@ -7,12 +7,12 @@ import {
     Grid, Box, Typography, TextField, Radio, RadioGroup, FormControlLabel,
     Divider, Button, Alert, Stack, Snackbar
 } from '@mui/material';
-import { srcImg } from '../../util/srcImg';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import bookingApi from '../../api/bookingApi';
 import { Container } from '@mui/system';
 import { toast } from 'react-toastify';
 import Modal from '@mui/material/Modal';
+import { srcImg } from '../../api/srcImg';
 
 export default function ThanhToan() {
 
