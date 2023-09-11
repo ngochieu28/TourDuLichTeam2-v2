@@ -30,6 +30,8 @@ public interface IBookingService  {
 
     List<PieChartDTO> tinhPhanTramCacDoTuoi();
 
+    List<ThongKeDoanhThuBookingDTO> thongkeSoTienTrongThang();
+
     List<BookingUserDTO> getListBookingByUserId(int userId);
 
 }

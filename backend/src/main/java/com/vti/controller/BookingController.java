@@ -242,6 +242,13 @@ public class BookingController {
         return new ResponseEntity<>(soChoCacDoTuoi, HttpStatus.OK);
     }
 
+    // GET SỐ TIỀN KIẾM ĐC TRONG THÁNG
+    @GetMapping("/thong-ke-doanh-thu-trong-thang")
+    public ResponseEntity<?> ThongKeSoTienTrongThang() {
+        List<ThongKeDoanhThuBookingDTO>  bookingThongKe = service.thongkeSoTienTrongThang();
+        return new ResponseEntity<>(bookingThongKe, HttpStatus.OK);
+    }
+
     // GET BOOKING BY USER ID
     @GetMapping("/userId/{userId}")
     public ResponseEntity<?> getBookingByUserId ( @PathVariable int userId) {

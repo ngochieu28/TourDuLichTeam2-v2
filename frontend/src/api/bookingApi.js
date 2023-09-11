@@ -67,5 +67,11 @@ const bookingApi = {
         return axiosClient.get(url)
     },
 
+    // thống kê doanh thu trong tháng 
+    getDoanhThuBooking() {
+        const url = `/bookings/thong-ke-doanh-thu-trong-thang`
+        return axiosClient.get(url)
+    },
+
 }
 export default bookingApi;

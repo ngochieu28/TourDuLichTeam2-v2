@@ -365,6 +365,29 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public List<ThongKeDoanhThuBookingDTO> thongkeSoTienTrongThang() {
+        String query = "SELECT SUM(b.tongGia) AS tong_tien_thang, MONTH(b.thoiGianDat) AS thang\n" +
+                "FROM Booking AS b\n" +
+                "GROUP BY MONTH(b.thoiGianDat) " +
+                "ORDER BY MONTH(b.thoiGianDat) ASC";
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(query, Object[].class);
+        List<Object[]> results = typedQuery.getResultList();
+
+        List<ThongKeDoanhThuBookingDTO> thongKeBookingDTOList = new ArrayList<>();
+        for (Object[] result : results) {
+            Long tongTienTrongThang = (Long) result[0];
+            Integer thoiGianDat = (Integer) result[1];
+
+            ThongKeDoanhThuBookingDTO bookingDTO = new ThongKeDoanhThuBookingDTO();
+            bookingDTO.setThang("tháng " + thoiGianDat);
+            bookingDTO.setTongTienTrongThang(tongTienTrongThang.intValue());
+
+            thongKeBookingDTOList.add(bookingDTO);
+        }
+        return thongKeBookingDTOList;
+    }
+
+    @Override
     public List<BookingUserDTO> getListBookingByUserId(int userId) {
         String queryString = "SELECT t.noiKhoiHanh, t.ngayKhoiHanh, b.soChoNL, b.soChoTreEm, b.soChoTreNho,  " +
                 "b.soChoEmBe, b.soNguoiThamGia, b.status, b.thoiGianDat, b.tongGia, b.nameKH, b.emailKH, b.phoneNumber, b.diaChi , b.maBooking  " +
