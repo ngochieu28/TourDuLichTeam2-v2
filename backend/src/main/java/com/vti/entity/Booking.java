@@ -41,7 +41,7 @@ public class Booking {
 
     private LocalDate thoiGianDat = LocalDate.now();
 
-    private int status = BookingStatus.BOOKING_DONE ;
+    private int status = BookingStatus.BOOKING_DRAFT ;
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
